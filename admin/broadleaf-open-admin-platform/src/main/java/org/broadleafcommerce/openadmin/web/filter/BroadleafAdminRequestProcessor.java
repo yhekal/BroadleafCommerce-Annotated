@@ -166,9 +166,9 @@ public class BroadleafAdminRequestProcessor extends AbstractBroadleafWebRequestP
         }
 
         AdminUser adminUser = adminRemoteSecurityService.getPersistentAdminUser();
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); // &line[SessionManagement_getAuthentication_L]
         if (adminUser != null && authentication != null && !authentication.getName().equals(ANONYMOUS_USER_NAME)) {
-            AdminUserDetails principal = (AdminUserDetails) authentication.getPrincipal();
+            AdminUserDetails principal = (AdminUserDetails) authentication.getPrincipal(); // &line[Authentication_getPrincipal_L]
             if (principal.getId().equals(adminUser.getId())) {
                 brc.setAdminUserId(adminUser.getId());
             } else {
@@ -213,8 +213,9 @@ public class BroadleafAdminRequestProcessor extends AbstractBroadleafWebRequestP
                     throw new IllegalArgumentException(String.format("Unable to find the requested profile: %s", profileId));
                 }
                 String token = request.getParameter(staleStateProtectionService.getStateVersionTokenParameter());
-                staleStateProtectionService.compareToken(token);
-                staleStateProtectionService.invalidateState(true);
+
+                staleStateProtectionService.compareToken(token); // &line[compareToken]
+                staleStateProtectionService.invalidateState(true); // &line[invalidateState]
             }
 
             if (profile == null) {
@@ -270,8 +271,8 @@ public class BroadleafAdminRequestProcessor extends AbstractBroadleafWebRequestP
                     throw new IllegalArgumentException(String.format("Unable to find the requested catalog: %s", catalogId));
                 }
                 String token = request.getParameter(staleStateProtectionService.getStateVersionTokenParameter());
-                staleStateProtectionService.compareToken(token);
-                staleStateProtectionService.invalidateState(true);
+                staleStateProtectionService.compareToken(token);  // &line[compareToken]
+                staleStateProtectionService.invalidateState(true); // &line[invalidateState]
             } else if (StringUtils.isNotBlank(request.getParameter("catalogEntityCatalogDiscriminatorId"))) {
                 Long catalogId = Long.parseLong(request.getParameter("catalogEntityCatalogDiscriminatorId"));
                 catalog = siteService.findCatalogById(catalogId);
@@ -358,8 +359,8 @@ public class BroadleafAdminRequestProcessor extends AbstractBroadleafWebRequestP
                 }
                 if (BLCRequestUtils.isOKtoUseSession(request)) {
                     String token = request.getParameter(staleStateProtectionService.getStateVersionTokenParameter());
-                    staleStateProtectionService.compareToken(token);
-                    staleStateProtectionService.invalidateState(true);
+                    staleStateProtectionService.compareToken(token); // &line[compareToken]
+                    staleStateProtectionService.invalidateState(true); // &line[invalidateState]
                 }
             }
 

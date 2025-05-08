@@ -81,8 +81,8 @@ public class NotificationForgotPasswordEventListener extends AbstractBroadleafAp
     }
 
     protected Map<String, Object> createContext(Customer customer, ForgotPasswordEvent event) {
-        String resetPasswordUrl = event.getResetPasswordUrl();
-        String token = event.getToken();
+        String resetPasswordUrl = event.getResetPasswordUrl(); // &line[getResetPasswordUrl]
+        String token = event.getToken(); // &line[getToken]
         HashMap<String, Object> context = new HashMap<>();
         context.put(TOKEN_CONTEXT_KEY, token);
         context.put(RESET_PASSWORD_URL_CONTEXT_KEY, resetPasswordUrl);

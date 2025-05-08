@@ -49,24 +49,28 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
+            // &begin[loginCustomer]
     public Authentication loginCustomer(String username, String clearTextPassword) {
-        UserDetails principal = userDetailsService.loadUserByUsername(username);
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                principal, clearTextPassword, principal.getAuthorities()
+        UserDetails principal = userDetailsService.loadUserByUsername(username); // &line[SessionManagement_loadUserByUsername_L]
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken( // &line[Authentication_UsernamePasswordAuthenticationToken_L]
+                principal, clearTextPassword, principal.getAuthorities() // &line[SessionManagement_getAuthorities_L]
         );
-        Authentication authentication = authenticationManager.authenticate(token);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        Authentication authentication = authenticationManager.authenticate(token); // &line[Authentication_authenticate_L]
+        SecurityContextHolder.getContext().setAuthentication(authentication); // &line[SessionManagement_getContext_L, SessionManagement_setAuthentication_L]
         customerStateRequestProcessor.process(getWebRequest());
         cartStateRequestProcessor.process(getWebRequest());
         return authentication;
     }
+    // &end[loginCustomer]
 
     @Override
+            // &begin[logoutCustomer]
     public void logoutCustomer() {
-        SecurityContextHolder.getContext().setAuthentication(null);
+        SecurityContextHolder.getContext().setAuthentication(null); // &line[SessionManagement_getContext_L, SessionManagement_setAuthentication_L]
         customerStateRequestProcessor.process(getWebRequest());
         cartStateRequestProcessor.process(getWebRequest());
     }
+    //&end[logoutCustomer]
 
     protected WebRequest getWebRequest() {
         return BroadleafRequestContext.getBroadleafRequestContext().getWebRequest();

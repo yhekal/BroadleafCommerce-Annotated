@@ -90,6 +90,7 @@ public class AdminUserProvisioningServiceImpl implements AdminUserProvisioningSe
      * @param parsedRoles a List of AdminRole
      * @return a Set of unique authorities for the given roles
      */
+    // &begin[extractAdminUserAuthorities]
     protected Set<SimpleGrantedAuthority> extractAdminUserAuthorities(HashSet<AdminRole> parsedRoles) {
         List<SimpleGrantedAuthority> adminUserAuthorities = new ArrayList<>();
         addPermissions(parsedRoles, adminUserAuthorities);
@@ -97,19 +98,22 @@ public class AdminUserProvisioningServiceImpl implements AdminUserProvisioningSe
 
         return new HashSet<>(adminUserAuthorities);
     }
+    // &end[extractAdminUserAuthorities]
 
+    // &begin[addPermissions]
     protected void addPermissions(
             final HashSet<AdminRole> parsedRoles,
             final List<SimpleGrantedAuthority> adminUserAuthorities
     ) {
         for (final String perm : AdminSecurityService.DEFAULT_PERMISSIONS) {
-            adminUserAuthorities.add(new SimpleGrantedAuthority(perm));
+            adminUserAuthorities.add(new SimpleGrantedAuthority(perm)); // &line[Authorization_SimpleGrantedAuthority_L]
         }
 
         for (final AdminRole role : parsedRoles) {
             adminSecurityHelper.addAllPermissionsToAuthorities(adminUserAuthorities, role.getAllPermissions());
         }
     }
+    // &end[addPermissions]
 
     protected void convertPermissionPrefixToRole(
             final List<SimpleGrantedAuthority> adminUserAuthorities) {
@@ -124,11 +128,11 @@ public class AdminUserProvisioningServiceImpl implements AdminUserProvisioningSe
         while (it.hasNext()) {
             final SimpleGrantedAuthority auth = it.next();
 
-            if (auth.getAuthority().startsWith(AdminUserDetailsServiceImpl.LEGACY_ROLE_PREFIX)) {
-                it.add(new SimpleGrantedAuthority(
-                        AdminUserDetailsServiceImpl.DEFAULT_SPRING_SECURITY_ROLE_PREFIX + auth.getAuthority()
+            if (auth.getAuthority().startsWith(AdminUserDetailsServiceImpl.LEGACY_ROLE_PREFIX)) { // &line[Authorization_getAuthority_L]
+                it.add(new SimpleGrantedAuthority( // &line[Authorization_SimpleGrantedAuthority_L]
+                        AdminUserDetailsServiceImpl.DEFAULT_SPRING_SECURITY_ROLE_PREFIX + auth.getAuthority() // &line[Authorization_SimpleGrantedAuthority_L]
                 ));
-                it.add(new SimpleGrantedAuthority(auth.getAuthority()
+                it.add(new SimpleGrantedAuthority(auth.getAuthority() // &line[Authorization_getAuthority_L, Authorization_SimpleGrantedAuthority_L]
                         .replaceAll(AdminUserDetailsServiceImpl.LEGACY_ROLE_PREFIX,
                                 AdminUserDetailsServiceImpl.DEFAULT_SPRING_SECURITY_ROLE_PREFIX)
                 ));
@@ -140,10 +144,10 @@ public class AdminUserProvisioningServiceImpl implements AdminUserProvisioningSe
             final BroadleafExternalAuthenticationUserDetails details,
             final HashSet<AdminRole> parsedRoles
     ) {
-        AdminUser adminUser = securityService.readAdminUserByUserName(details.getUsername());
+        AdminUser adminUser = securityService.readAdminUserByUserName(details.getUsername()); // &line[SessionManagement_getUsername_L]
         if (adminUser == null) {
             adminUser = new AdminUserImpl();
-            adminUser.setLogin(details.getUsername());
+            adminUser.setLogin(details.getUsername()); // &line[SessionManagement_getUsername_L]
         }
 
         if (StringUtils.isNotBlank(details.getEmail())) {
@@ -162,7 +166,7 @@ public class AdminUserProvisioningServiceImpl implements AdminUserProvisioningSe
         if (StringUtils.isNotBlank(fullName)) {
             adminUser.setName(fullName);
         } else {
-            adminUser.setName(details.getUsername());
+            adminUser.setName(details.getUsername()); // &line[SessionManagement_getUsername_L]
         }
 
         // set the roles for the admin user to our new set of roles
@@ -183,7 +187,7 @@ public class AdminUserProvisioningServiceImpl implements AdminUserProvisioningSe
     ) {
         return new AdminUserDetails(
                 adminUser.getId(),
-                details.getUsername(),
+                details.getUsername(), // &line[SessionManagement_getUsername_L]
                 "",
                 true,
                 true,
@@ -203,19 +207,19 @@ public class AdminUserProvisioningServiceImpl implements AdminUserProvisioningSe
         HashSet<String> newRoles = new HashSet<>();
 
         if (roleNameSubstitutions != null && !roleNameSubstitutions.isEmpty()) {
-            for (GrantedAuthority authority : details.getAuthorities()) {
-                if (roleNameSubstitutions.containsKey(authority.getAuthority())) {
-                    String[] roles = roleNameSubstitutions.get(authority.getAuthority());
+            for (GrantedAuthority authority : details.getAuthorities()) { // &line[SessionManagement_getAuthorities_L]
+                if (roleNameSubstitutions.containsKey(authority.getAuthority())) { // &line[SessionManagement_getAuthorities_L]
+                    String[] roles = roleNameSubstitutions.get(authority.getAuthority()); // &line[SessionManagement_getAuthorities_L]
                     for (String role : roles) {
                         newRoles.add(role.trim());
                     }
                 } else {
-                    newRoles.add(authority.getAuthority());
+                    newRoles.add(authority.getAuthority()); // &line[SessionManagement_getAuthorities_L]
                 }
             }
         } else {
-            for (GrantedAuthority authority : details.getAuthorities()) {
-                newRoles.add(authority.getAuthority());
+            for (GrantedAuthority authority : details.getAuthorities()) { // &line[SessionManagement_getAuthorities_L]
+                newRoles.add(authority.getAuthority()); // &line[SessionManagement_getAuthorities_L]
             }
         }
         return newRoles;

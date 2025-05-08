@@ -78,7 +78,7 @@ public class CustomerPaymentDaoImpl implements CustomerPaymentDao {
     }
 
     @Override
-    public void deleteCustomerPaymentByToken(String token) {
+    public void deleteCustomerPaymentByToken(String token) {]
         CustomerPayment customerPayment = readCustomerPaymentByToken(token);
         if (customerPayment != null) {
             em.remove(customerPayment);

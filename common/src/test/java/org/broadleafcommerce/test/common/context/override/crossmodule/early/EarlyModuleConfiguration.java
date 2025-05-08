@@ -29,7 +29,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class EarlyModuleConfiguration {
 
     @Bean
+// &begin[blPasswordEncoder]
     public PasswordEncoder blPasswordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
+    // &end[blPasswordEncoder]
 }

@@ -31,10 +31,11 @@ public class PaymentInfoFormValidator extends BroadleafCommonAddressValidator im
     public boolean supports(Class clazz) {
         return clazz.equals(PaymentInfoForm.class);
     }
-
+    // &begin[validate]
     public void validate(Object obj, Errors errors) {
         PaymentInfoForm paymentInfoForm = (PaymentInfoForm) obj;
         super.validate(BroadleafFormType.PAYMENT_FORM, paymentInfoForm.getAddress(), errors);
     }
+    // &end[validate]
 
 }

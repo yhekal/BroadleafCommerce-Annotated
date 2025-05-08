@@ -182,7 +182,7 @@ public class DynamicEntityRemoteService implements DynamicEntityService {
                 currentProperty = property;
                 property.setRawValue(property.getValue());
                 property.setValue(exploitProtectionService.cleanStringWithResults(property.getValue()));
-                property.setUnHtmlEncodedValue(StringEscapeUtils.unescapeHtml4(property.getValue()));
+                property.setUnHtmlEncodedValue(StringEscapeUtils.unescapeHtml4(property.getValue())); // &line[unescapeHtml4]
             } catch (CleanStringException e) {
                 StringBuilder sb = new StringBuilder();
                 for (int j = 0; j < e.getCleanResults().getNumberOfErrors(); j++) {

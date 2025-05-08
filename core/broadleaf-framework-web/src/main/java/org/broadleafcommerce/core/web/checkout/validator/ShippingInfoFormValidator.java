@@ -32,7 +32,7 @@ public class ShippingInfoFormValidator extends BroadleafCommonAddressValidator i
     public boolean supports(Class clazz) {
         return clazz.equals(ShippingInfoForm.class);
     }
-
+    // &begin[validate]
     public void validate(Object obj, Errors errors) {
         ShippingInfoForm shippingInfoForm = (ShippingInfoForm) obj;
         super.validate(BroadleafFormType.SHIPPING_FORM, shippingInfoForm.getAddress(), errors);
@@ -40,5 +40,6 @@ public class ShippingInfoFormValidator extends BroadleafCommonAddressValidator i
                 errors, "fulfillmentOptionId", "fulfillmentOptionId.required"
         );
     }
+    // &end[validate]
 
 }

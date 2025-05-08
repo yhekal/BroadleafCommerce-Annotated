@@ -37,37 +37,37 @@ public class SLF4JSupportLoggerAdapter extends AbstractSupportLoggerAdapter impl
 
     @Override
     public void support(String message) {
-        mapSupportLevel(StringUtil.sanitize(message), null);
+        mapSupportLevel(StringUtil.sanitize(message), null); // &line[sanitize]
     }
 
     @Override
     public void support(String message, Throwable t) {
-        mapSupportLevel(StringUtil.sanitize(message), t);
+        mapSupportLevel(StringUtil.sanitize(message), t); // &line[sanitize]
     }
 
     @Override
     public void lifecycle(LifeCycleEvent lifeCycleEvent, String message) {
-        mapSupportLevel(StringUtil.sanitize(message), null);
+        mapSupportLevel(StringUtil.sanitize(message), null); // &line[sanitize]
     }
 
     @Override
     public void debug(String message) {
-        LOGGER.debug(StringUtil.sanitize(message));
+        LOGGER.debug(StringUtil.sanitize(message)); // &line[sanitize]
     }
 
     @Override
     public void debug(String message, Throwable t) {
-        LOGGER.debug(StringUtil.sanitize(message), t);
+        LOGGER.debug(StringUtil.sanitize(message), t); // &line[sanitize]
     }
 
     @Override
     public void error(String message) {
-        LOGGER.error(StringUtil.sanitize(message));
+        LOGGER.error(StringUtil.sanitize(message)); // &line[sanitize]
     }
 
     @Override
     public void error(String message, Throwable t) {
-        LOGGER.error(StringUtil.sanitize(message), t);
+        LOGGER.error(StringUtil.sanitize(message), t); // &line[sanitize]
     }
 
     /**
@@ -77,7 +77,7 @@ public class SLF4JSupportLoggerAdapter extends AbstractSupportLoggerAdapter impl
      */
     @Override
     public void fatal(String message) {
-        LOGGER.error(StringUtil.sanitize(message));
+        LOGGER.error(StringUtil.sanitize(message)); // &line[sanitize]
     }
 
     /**
@@ -88,27 +88,27 @@ public class SLF4JSupportLoggerAdapter extends AbstractSupportLoggerAdapter impl
      */
     @Override
     public void fatal(String message, Throwable t) {
-        LOGGER.error(StringUtil.sanitize(message), t);
+        LOGGER.error(StringUtil.sanitize(message), t); // &line[sanitize]
     }
 
     @Override
     public void info(String message) {
-        LOGGER.info(StringUtil.sanitize(message));
+        LOGGER.info(StringUtil.sanitize(message)); // &line[sanitize]
     }
 
     @Override
     public void info(String message, Throwable t) {
-        LOGGER.info(StringUtil.sanitize(message), t);
+        LOGGER.info(StringUtil.sanitize(message), t); // &line[sanitize]
     }
 
     @Override
     public void warn(String message) {
-        LOGGER.warn(StringUtil.sanitize(message));
+        LOGGER.warn(StringUtil.sanitize(message)); // &line[sanitize]
     }
 
     @Override
     public void warn(String message, Throwable t) {
-        LOGGER.warn(StringUtil.sanitize(message), t);
+        LOGGER.warn(StringUtil.sanitize(message), t); // &line[sanitize]
     }
 
     protected void mapSupportLevel(String message, Throwable t) {

@@ -137,7 +137,7 @@ public class EntityForm {
                 if (!fields.containsKey(dynamicField.getKey())) {
                     fields.put(dynamicField.getKey(), dynamicField.getValue());
                 } else if (LOG.isDebugEnabled()) {
-                    LOG.debug("Excluding dynamic field " + StringUtil.sanitize(dynamicField.getKey()) +
+                    LOG.debug("Excluding dynamic field " + StringUtil.sanitize(dynamicField.getKey()) + // &line[sanitize]
                             " as there is already an occurrence in this entityForm");
                 }
             }

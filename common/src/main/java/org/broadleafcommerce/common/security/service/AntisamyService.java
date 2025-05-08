@@ -22,12 +22,13 @@ import org.owasp.validator.html.Policy;
 
 public interface AntisamyService {
 
-    String getAntiSamyPolicyFileLocation();
+    String getAntiSamyPolicyFileLocation(); // &line[getAntiSamyPolicyFileLocation]
 
     void setAntiSamyPolicyFileLocation(String antiSamyPolicyFileLocation);
 
-    AntiSamy getAntiSamy();
+    AntiSamy getAntiSamy(); // &line[getAntiSamy]
 
-    Policy getAntiSamyPolicy();
+
+    Policy getAntiSamyPolicy(); // &line[getAntiSamyPolicy]
 
 }

@@ -24,13 +24,14 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 @Component("blPhoneValidator")
+// &begin[PhoneValidator]
 public class PhoneValidator implements Validator {
 
     @SuppressWarnings("unchecked")
     public boolean supports(Class clazz) {
         return clazz.equals(Phone.class);
     }
-
+    // &begin[PhoneValidator_validate]
     public void validate(Object obj, Errors errors) {
         //use regular phone
         Phone phone = (Phone) obj;
@@ -57,5 +58,7 @@ public class PhoneValidator implements Validator {
             }
         }
     }
+    // &begin[PhoneValidator_validate]
 
 }
+// &end[PhoneValidator]

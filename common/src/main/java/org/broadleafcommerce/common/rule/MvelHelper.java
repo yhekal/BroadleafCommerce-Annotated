@@ -208,7 +208,7 @@ public class MvelHelper {
                 //Unable to execute the MVEL expression for some reason
                 //Return false, but notify about the bad expression through logs
                 if (!TEST_MODE && LOG.isInfoEnabled()) {
-                    LOG.info("Unable to parse and/or execute the mvel expression (" + StringUtil.sanitize(rule)
+                    LOG.info("Unable to parse and/or execute the mvel expression (" + StringUtil.sanitize(rule) // &line[sanitize]
                             + "). Reporting to the logs and returning false for the match expression", e);
                 }
                 return false;

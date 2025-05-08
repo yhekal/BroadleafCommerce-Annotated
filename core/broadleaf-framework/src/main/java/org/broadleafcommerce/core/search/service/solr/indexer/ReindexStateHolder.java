@@ -39,7 +39,7 @@ public class ReindexStateHolder {
     private final AtomicLong unindexedItemCount = new AtomicLong();
     private final AtomicLong lastComitted = new AtomicLong(-1L);
     private final AtomicBoolean failed = new AtomicBoolean(false);
-    private final AtomicReference<Exception> throwable = new AtomicReference<>();
+    private final AtomicReference<Exception> throwable = new AtomicReference<>(); // &line[AtomicReference]
 
     private ReindexStateHolder(String collectionName, boolean incrementalCommits) {
         this.collectionName = collectionName;

@@ -34,6 +34,7 @@ public class CreditCardInfoFormValidator implements Validator {
         return clazz.equals(CreditCardInfoForm.class);
     }
 
+    // &begin[validate]
     public void validate(Object obj, Errors errors) {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "creditCardName", "creditCardName.required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "creditCardNumber", "creditCardNumber.required");
@@ -41,5 +42,6 @@ public class CreditCardInfoFormValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "creditCardExpMonth", "creditCardExpMonth.required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "creditCardExpYear", "creditCardExpYear.required");
     }
+    // &end[validate]
 
 }

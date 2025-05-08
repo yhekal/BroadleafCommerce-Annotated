@@ -53,8 +53,8 @@ public class BroadleafActiveDirectoryUserDetailsMapper extends LdapUserDetailsMa
 
         if (roleNameSubstitutions != null && !roleNameSubstitutions.isEmpty()) {
             for (GrantedAuthority authority : authorities) {
-                if (roleNameSubstitutions.containsKey(authority.getAuthority())) {
-                    String[] roles = roleNameSubstitutions.get(authority.getAuthority());
+                if (roleNameSubstitutions.containsKey(authority.getAuthority())) { // &line[Authentication_getAuthority_L]
+                    String[] roles = roleNameSubstitutions.get(authority.getAuthority()); // &line[Authentication_getAuthority_L]
                     for (String role : roles) {
                         newAuthorities.add(new SimpleGrantedAuthority(role.trim()));
                     }
@@ -81,13 +81,13 @@ public class BroadleafActiveDirectoryUserDetailsMapper extends LdapUserDetailsMa
             userDetails = super.mapUserFromContext(ctx, username, newAuthorities);
         }
 
-        String password = userDetails.getPassword();
+        String password = userDetails.getPassword(); // &line[SessionManagement_getPassword_L]
         if (password == null) {
-            password = userDetails.getUsername();
+            password = userDetails.getUsername(); // &line[SessionManagement_getUsername_L]
         }
 
         BroadleafExternalAuthenticationUserDetails broadleafUser = new BroadleafExternalAuthenticationUserDetails(
-                userDetails.getUsername(), password, userDetails.getAuthorities()
+                userDetails.getUsername(), password, userDetails.getAuthorities() // &line[SessionManagement_getUsername_L, SessionManagement_getAuthorities_L]
         );
         broadleafUser.setFirstName((String) ctx.getObjectAttribute("givenName"));
         broadleafUser.setLastName((String) ctx.getObjectAttribute("sn"));

@@ -65,24 +65,24 @@ public class BroadleafOauthRegisterController extends BroadleafRegisterControlle
     ) {
         try {
             assert (authorizedClientService != null);
-            OAuth2AuthorizedClient authorizedClient = authorizedClientService.loadAuthorizedClient(
+            OAuth2AuthorizedClient authorizedClient = authorizedClientService.loadAuthorizedClient( // &line[OAuth2_loadAuthorizedClient_L]
                     registerCustomerForm.getProviderId(),
-                    registerCustomerForm.getOAuth2UserRequest().getClientRegistration().getRegistrationId()
+                    registerCustomerForm.getOAuth2UserRequest().getClientRegistration().getRegistrationId()   // &line[OAuth2_getClientRegistration_L, OAuth2_getRegistrationId_L]
             );
 
             if (authorizedClient != null) {
                 OAuth2AuthenticationToken authenticationToken = (OAuth2AuthenticationToken) SecurityContextHolder
-                        .getContext()
-                        .getAuthentication();
+                        .getContext() // &line[SessionManagement_getContext_L]
+                        .getAuthentication(); // &line[SessionManagement_getAuthentication_L]
                 Customer customer = registerCustomerForm.getCustomer();
-                OAuth2User oauth2User = authenticationToken.getPrincipal();
-                customer.setFirstName(oauth2User.getAttribute("firstName"));
-                customer.setLastName(oauth2User.getAttribute("lastName"));
-                customer.setEmailAddress(oauth2User.getAttribute("email"));
+                OAuth2User oauth2User = authenticationToken.getPrincipal(); // &line[OAuth2_getPrincipal_L]
+                customer.setFirstName(oauth2User.getAttribute("firstName")); // &line[OAuth2_getAttribute_L]
+                customer.setLastName(oauth2User.getAttribute("lastName")); // &line[OAuth2_getAttribute_L]
+                customer.setEmailAddress(oauth2User.getAttribute("email")); // &line[OAuth2_getAttribute_L]
                 if (isUseEmailForLogin()) {
-                    customer.setUsername(oauth2User.getAttribute("email"));
+                    customer.setUsername(oauth2User.getAttribute("email")); // &line[OAuth2_getAttribute_L]
                 } else {
-                    customer.setUsername(oauth2User.getAttribute("username"));
+                    customer.setUsername(oauth2User.getAttribute("username")); // &line[OAuth2_getAttribute_L]
                 }
             }
         } catch (NullPointerException e) {
@@ -117,11 +117,11 @@ public class BroadleafOauthRegisterController extends BroadleafRegisterControlle
             assert (newCustomer != null);
 
             assert (authorizedClientService != null);
-            OAuth2AuthorizedClient authorizedClient = authorizedClientService.loadAuthorizedClient(
+            OAuth2AuthorizedClient authorizedClient = authorizedClientService.loadAuthorizedClient( // &line[OAuth2_loadAuthorizedClient_L]
                     registerCustomerForm.getProviderId(),
-                    registerCustomerForm.getOAuth2UserRequest().getClientRegistration().getRegistrationId()
+                    registerCustomerForm.getOAuth2UserRequest().getClientRegistration().getRegistrationId() // &line[OAuth2_getClientRegistration_L, OAuth2_getRegistrationId_L]
             );
-            authorizedClientService.saveAuthorizedClient(
+            authorizedClientService.saveAuthorizedClient( // &line[OAuth2_saveAuthorizedClient_L]
                     authorizedClient,
                     (Authentication) registerCustomerForm.getOAuth2UserRequest()
             );

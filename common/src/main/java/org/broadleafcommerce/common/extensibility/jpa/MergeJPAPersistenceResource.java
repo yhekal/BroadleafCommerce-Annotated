@@ -82,7 +82,7 @@ public class MergeJPAPersistenceResource extends MergeXmlConfigResource {
             configResource = new ByteArrayResource(baos.toByteArray());
 
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Merged config: \n" + StringUtil.sanitize(serialize(configResource)));
+                LOG.debug("Merged config: \n" + StringUtil.sanitize(serialize(configResource))); // &line[sanitize]
             }
         } catch (MergeException e) {
             throw new FatalBeanException("Unable to merge source and patch locations", e);

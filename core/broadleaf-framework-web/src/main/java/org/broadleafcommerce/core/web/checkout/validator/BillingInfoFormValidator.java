@@ -32,9 +32,11 @@ public class BillingInfoFormValidator extends BroadleafCommonAddressValidator im
         return clazz.equals(BillingInfoForm.class);
     }
 
+    // &begin[validate]
     public void validate(Object obj, Errors errors) {
         BillingInfoForm billingInfoForm = (BillingInfoForm) obj;
         super.validate(BroadleafFormType.BILLING_FORM, billingInfoForm.getAddress(), errors);
     }
+    // &end[validate]
 
 }

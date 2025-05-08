@@ -161,7 +161,7 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
         }
 
         try {
-            return ESAPI.validator().getValidInput("Value: " + value, value, esapiInputType, MAX_INPUT_LENGTH, true, true);
+            return ESAPI.validator().getValidInput("Value: " + value, value, esapiInputType, MAX_INPUT_LENGTH, true, true); // &line[DataValidation_getValidInput_L]
         } catch (ValidationException e) {
             return stripXssAsHTML(value);
         }
@@ -169,7 +169,7 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
 
     protected String stripXssAsHTML(String value) {
         try {
-            return ESAPI.validator().getValidSafeHTML("Value: " + value, value, MAX_INPUT_LENGTH, true);
+            return ESAPI.validator().getValidSafeHTML("Value: " + value, value, MAX_INPUT_LENGTH, true); // &line[DataValidation_getValidSafeHTML_L]
         } catch (ValidationException e2) {
             return ESAPI.encoder().encodeForHTML(value);
         }

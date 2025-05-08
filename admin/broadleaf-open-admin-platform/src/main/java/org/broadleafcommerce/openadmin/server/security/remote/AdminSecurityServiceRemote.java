@@ -117,21 +117,24 @@ public class AdminSecurityServiceRemote implements AdminSecurityService, Securit
     }
 
     @Override
+            // &begin[getPersistentAdminUser]
     public AdminUser getPersistentAdminUser() {
-        SecurityContext ctx = SecurityContextHolder.getContext();
+        SecurityContext ctx = SecurityContextHolder.getContext(); // &line[SessionManagement_getContext_L]
         if (ctx != null) {
-            Authentication auth = ctx.getAuthentication();
+            Authentication auth = ctx.getAuthentication(); // &line[SessionManagement_getAuthentication_L]
             if (auth != null && !auth.getName().equals(ANONYMOUS_USER_NAME)) {
-                UserDetails temp = (UserDetails) auth.getPrincipal();
+                UserDetails temp = (UserDetails) auth.getPrincipal();  // &line[Authentication_getPrincipal_L]
 
-                return securityService.readAdminUserByUserName(temp.getUsername());
+                return securityService.readAdminUserByUserName(temp.getUsername()); // &line[SessionManagement_getUsername_L]
             }
         }
 
         return null;
     }
+    // &end[getPersistentAdminUser]
 
     @Override
+            // &begin[securityCheck]
     public void securityCheck(PersistencePackage persistencePackage, EntityOperationType operationType) throws ServiceException {
         Set<String> ceilingNames = new HashSet<>();
         ceilingNames.add(persistencePackage.getSecurityCeilingEntityFullyQualifiedClassname());
@@ -188,12 +191,16 @@ public class AdminSecurityServiceRemote implements AdminSecurityService, Securit
 
         securityCheck(ceilingNames.toArray(new String[ceilingNames.size()]), operationType);
     }
+    // &end[securityCheck]
 
     @Override
+            // &begin[securityCheck]
     public void securityCheck(String ceilingEntityFullyQualifiedName, EntityOperationType operationType) throws ServiceException {
         securityCheck(new String[]{ceilingEntityFullyQualifiedName}, operationType);
     }
+    // &end[securityCheck]
 
+    // &begin[securityCheck]
     protected void securityCheck(String[] ceilingNames, EntityOperationType operationType) throws ServiceException {
         if (ArrayUtils.isEmpty(ceilingNames)) {
             throw new SecurityServiceException("Security Check Failed: ceilingNames not specified");
@@ -246,7 +253,7 @@ public class AdminSecurityServiceRemote implements AdminSecurityService, Securit
             //check if the requested entity is not configured and warn
             if (!securityService.doesOperationExistForCeilingEntity(permissionType, ceilingNames[0])) {
                 if (LOG.isWarnEnabled()) {
-                    LOG.warn("Detected security request for an unregistered ceiling entity (" + StringUtil.sanitize(ceilingNames[0]) + "). " +
+                    LOG.warn("Detected security request for an unregistered ceiling entity (" + StringUtil.sanitize(ceilingNames[0]) + "). " + // &line[sanitize]
                             "As a result, the request failed. Please make sure to configure security for any ceiling entities " +
                             "referenced via the admin. This is usually accomplished by adding records in the " +
                             "BLC_ADMIN_PERMISSION_ENTITY table. Note, depending on how the entity in question is used, you " +
@@ -256,5 +263,7 @@ public class AdminSecurityServiceRemote implements AdminSecurityService, Securit
             throw primaryException;
         }
     }
+// &end[securityCheck]
+
 
 }

@@ -61,7 +61,7 @@ public class RepeatSubmitProtectionFilter implements Filter {
             String sessionId;
             String requestURI;
             synchronized (requests) {
-                sessionId = ((HttpServletRequest) request).getSession().getId();
+                sessionId = ((HttpServletRequest) request).getSession().getId(); // &line[getSession]
                 requestURI = ((HttpServletRequest) request).getRequestURI();
                 if (requests.containsKey(sessionId) && requests.get(sessionId).contains(requestURI)) {
                     //we are currently already processing this request

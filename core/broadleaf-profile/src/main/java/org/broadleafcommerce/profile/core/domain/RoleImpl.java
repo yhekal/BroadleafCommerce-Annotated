@@ -84,13 +84,14 @@ public class RoleImpl implements Role {
     }
 
     @Override
+            // &begin[hashCode]
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((roleName == null) ? 0 : roleName.hashCode());
         return result;
     }
-
+    // &end[hashCode]
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

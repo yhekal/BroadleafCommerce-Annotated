@@ -73,13 +73,13 @@ public class AdminExternalLoginStateFilter extends GenericFilterBean {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        if (request.getSession(true).getAttribute(BLC_ADMIN_PROVISION_USER_CHECK) == null) {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            if (authentication != null && authentication.isAuthenticated()) {
-                if (authentication.getPrincipal() instanceof UserDetails) {
-                    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-                    if (userDetails != null && userDetails.getUsername() != null) {
-                        AdminUser user = adminSecurityService.readAdminUserByUserName(userDetails.getUsername());
+        if (request.getSession(true).getAttribute(BLC_ADMIN_PROVISION_USER_CHECK) == null) { // &line[getSession]
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); // &line[SessionManagement_getAuthentication_L]
+            if (authentication != null && authentication.isAuthenticated()) { // &line[Authentication_isAuthenticated_L]
+                if (authentication.getPrincipal() instanceof UserDetails) { // &line[Authentication_getPrincipal_L]
+                    UserDetails userDetails = (UserDetails) authentication.getPrincipal(); // &line[Authentication_getPrincipal_L]
+                    if (userDetails != null && userDetails.getUsername() != null) { // &line[SessionManagement_getUsername_L]
+                        AdminUser user = adminSecurityService.readAdminUserByUserName(userDetails.getUsername()); // &line[SessionManagement_getUsername_L]
                         if (userDetails instanceof BroadleafExternalAuthenticationUserDetails) {
                             BroadleafExternalAuthenticationUserDetails broadleafUser =
                                     (BroadleafExternalAuthenticationUserDetails) userDetails;
@@ -88,7 +88,7 @@ public class AdminExternalLoginStateFilter extends GenericFilterBean {
                                 user = (AdminUser) entityConfiguration.createEntityInstance(AdminUser.class.getName());
                             }
                             saveAdminUser(broadleafUser, user);
-                            request.getSession().setAttribute(BLC_ADMIN_PROVISION_USER_CHECK, Boolean.TRUE);
+                            request.getSession().setAttribute(BLC_ADMIN_PROVISION_USER_CHECK, Boolean.TRUE); // &line[getSession]
                         }
 
                     }
@@ -101,8 +101,8 @@ public class AdminExternalLoginStateFilter extends GenericFilterBean {
 
     protected void saveAdminUser(BroadleafExternalAuthenticationUserDetails broadleafUser, AdminUser user) {
         //Name, login, password, email are required.
-        user.setLogin(broadleafUser.getUsername());
-        user.setUnencodedPassword(broadleafUser.getPassword());
+        user.setLogin(broadleafUser.getUsername()); // &line[SessionManagement_getUsername_L]
+        user.setUnencodedPassword(broadleafUser.getPassword()); // &line[SessionManagement_getPassword_L]
 
         if (user.getUnencodedPassword() == null) {
             //If Spring is configured to erase credentials, then this will always be null
@@ -139,10 +139,10 @@ public class AdminExternalLoginStateFilter extends GenericFilterBean {
             for (AdminRole role : availableRoles) {
                 roleMap.put(role.getName(), role);
             }
-            Collection<GrantedAuthority> authorities = broadleafUser.getAuthorities();
+            Collection<GrantedAuthority> authorities = broadleafUser.getAuthorities(); // &line[SessionManagement_getAuthorities_L]
             for (GrantedAuthority authority : authorities) {
-                if (roleMap.get(authority.getAuthority()) != null) {
-                    roleSet.add(roleMap.get(authority.getAuthority()));
+                if (roleMap.get(authority.getAuthority()) != null) { // &line[Authentication_getAuthority_L]
+                    roleSet.add(roleMap.get(authority.getAuthority())); // &line[Authentication_getAuthority_L]
                 }
             }
         }

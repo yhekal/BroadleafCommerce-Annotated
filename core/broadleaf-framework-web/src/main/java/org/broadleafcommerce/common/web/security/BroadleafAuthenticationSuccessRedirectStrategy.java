@@ -47,7 +47,7 @@ public class BroadleafAuthenticationSuccessRedirectStrategy implements RedirectS
     public void sendRedirect(HttpServletRequest request, HttpServletResponse response, String url) throws IOException {
         if (BroadleafControllerUtility.isAjaxRequest(request)) {
             if (BLCRequestUtils.isOKtoUseSession(new ServletWebRequest(request))) {
-                request.getSession().setAttribute("BLC_REDIRECT_URL", url);
+                request.getSession().setAttribute("BLC_REDIRECT_URL", url); // &line[getSession]
             }
             url = getRedirectPath();
         }

@@ -86,8 +86,8 @@ public class AdminNotificationForgotPasswordEventListener extends AbstractBroadl
 
     protected Map<String, Object> createContext(AdminForgotPasswordEvent event, AdminUser adminUser) {
         HashMap<String, Object> context = new HashMap<>();
-        String resetPasswordUrl = event.getResetPasswordUrl();
-        String token = event.getToken();
+        String resetPasswordUrl = event.getResetPasswordUrl(); // &line[getResetPasswordUrl]
+        String token = event.getToken(); // &line[getToken]
         context.put(TOKEN_CONTEXT_KEY, token);
         context.put(RESET_PASSWORD_URL_CONTEXT_KEY, resetPasswordUrl);
         context.put(ADMIN_USER_CONTEXT_KEY, adminUser);

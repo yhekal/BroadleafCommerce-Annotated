@@ -52,7 +52,7 @@ public class AdminUserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
         AdminUser adminUser = adminUserDao.readAdminUserByUserName(username);
         if (adminUser == null || adminUser.getActiveStatusFlag() == null || !adminUser.getActiveStatusFlag()) {
-            throw new UsernameNotFoundException("The user was not found");
+            throw new UsernameNotFoundException("The user was not found"); // &line[SessionManagement_UsernameNotFoundException_L]
         }
 
         return buildDetails(username, adminUser);
@@ -70,7 +70,7 @@ public class AdminUserDetailsServiceImpl implements UserDetailsService {
 
     protected void addRoles(final AdminUser adminUser, final List<SimpleGrantedAuthority> authorities) {
         for (final AdminRole role : adminUser.getAllRoles()) {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
+            authorities.add(new SimpleGrantedAuthority(role.getName())); // &line[Authorization_SimpleGrantedAuthority_L]
             adminSecurityHelper.addAllPermissionsToAuthorities(authorities, role.getAllPermissions());
         }
     }
@@ -79,7 +79,7 @@ public class AdminUserDetailsServiceImpl implements UserDetailsService {
         adminSecurityHelper.addAllPermissionsToAuthorities(authorities, adminUser.getAllPermissions());
 
         for (final String perm : AdminSecurityService.DEFAULT_PERMISSIONS) {
-            authorities.add(new SimpleGrantedAuthority(perm));
+            authorities.add(new SimpleGrantedAuthority(perm)); // &line[Authorization_SimpleGrantedAuthority_L]
         }
     }
 
@@ -95,10 +95,10 @@ public class AdminUserDetailsServiceImpl implements UserDetailsService {
         while (it.hasNext()) {
             final SimpleGrantedAuthority auth = it.next();
 
-            if (auth.getAuthority().startsWith(LEGACY_ROLE_PREFIX)) {
-                it.add(new SimpleGrantedAuthority(DEFAULT_SPRING_SECURITY_ROLE_PREFIX + auth.getAuthority()));
-                it.add(new SimpleGrantedAuthority(
-                        auth.getAuthority()
+            if (auth.getAuthority().startsWith(LEGACY_ROLE_PREFIX)) { // &line[Authorization_getAuthority_L]
+                it.add(new SimpleGrantedAuthority(DEFAULT_SPRING_SECURITY_ROLE_PREFIX + auth.getAuthority())); // &line[Authorization_SimpleGrantedAuthority_L, Authorization_getAuthority_L]
+                it.add(new SimpleGrantedAuthority( // &line[Authorization_SimpleGrantedAuthority_L]
+                        auth.getAuthority() // &line[Authorization_getAuthority_L]
                                 .replaceAll(LEGACY_ROLE_PREFIX, DEFAULT_SPRING_SECURITY_ROLE_PREFIX)
                 ));
             }

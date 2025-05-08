@@ -23,6 +23,8 @@ import java.util.Date;
 /**
  * @author bpolster
  */
+
+// &begin[ForgotPasswordSecurityToken]
 public interface ForgotPasswordSecurityToken extends Serializable {
 
     /**
@@ -30,14 +32,14 @@ public interface ForgotPasswordSecurityToken extends Serializable {
      *
      * @return
      */
-    String getToken();
+    String getToken();   // &line[getToken]
 
     /**
      * Sets the security token.
      *
      * @return
      */
-    void setToken(String token);
+    void setToken(String token); // &line[setToken]
 
     /**
      * Date the token was created
@@ -72,12 +74,12 @@ public interface ForgotPasswordSecurityToken extends Serializable {
      *
      * @return
      */
-    Long getAdminUserId();
+    Long getAdminUserId(); // &line[getAdminUserId]
 
     /**
      * Store the userId that this token is associated with.
      */
-    void setAdminUserId(Long adminUserId);
+    void setAdminUserId(Long adminUserId); // &line[setAdminUserId]
 
     /**
      * Returns true if the token has already been used.
@@ -87,6 +89,7 @@ public interface ForgotPasswordSecurityToken extends Serializable {
     /**
      * Sets the token used flag.
      */
-    void setTokenUsedFlag(boolean tokenUsed);
+    void setTokenUsedFlag(boolean tokenUsed); // &line[setTokenUsedFlag]
 
 }
+// &end[ForgotPasswordSecurityToken]

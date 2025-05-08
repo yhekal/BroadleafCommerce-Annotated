@@ -36,10 +36,10 @@ public class AdminSecurityHelperImpl implements AdminSecurityHelper {
             Collection<AdminPermission> adminPermissions
     ) {
         for (AdminPermission permission : adminPermissions) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(permission.getName()));
+            grantedAuthorities.add(new SimpleGrantedAuthority(permission.getName())); // &line[Authorization_SimpleGrantedAuthority_L]
             if (permission.isFriendly()) {
                 for (AdminPermission childPermission : permission.getAllChildPermissions()) {
-                    grantedAuthorities.add(new SimpleGrantedAuthority(childPermission.getName()));
+                    grantedAuthorities.add(new SimpleGrantedAuthority(childPermission.getName())); // &line[Authorization_SimpleGrantedAuthority_L]
                 }
             }
         }

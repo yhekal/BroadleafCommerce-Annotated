@@ -42,36 +42,52 @@ public class ResetPasswordForm implements Serializable {
         this.username = username;
     }
 
+    // &begin[getToken]
     public String getToken() {
         return token;
     }
+    // &end[getToken]
 
+// &begin[setToken]
     public void setToken(String token) {
         this.token = token;
     }
+    // &end[setToken]
 
+    // &begin[getPassword]
     public String getPassword() {
         return password;
     }
+    // &end[getPassword]
 
+    // &begin[setPassword]
     public void setPassword(String password) {
         this.password = password;
     }
+    // &end[setPassword]
 
+    // &begin[getConfirmPassword]
     public String getConfirmPassword() {
         return confirmPassword;
     }
+    // &end[getConfirmPassword]
 
+    // &begin[setConfirmPassword]
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
     }
+    // &end[setConfirmPassword]
 
+    // &begin[getOldPassword]
     public String getOldPassword() {
         return oldPassword;
     }
+    // &end[getOldPassword]
 
+    // &begin[setOldPassword]
     public void setOldPassword(String oldPassword) {
         this.oldPassword = oldPassword;
     }
+    // &end[setOldPassword]
 
 }

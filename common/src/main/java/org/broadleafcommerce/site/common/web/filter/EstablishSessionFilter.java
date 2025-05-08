@@ -38,7 +38,7 @@ public class EstablishSessionFilter extends AbstractIgnorableFilter {
     @Override
     public void doFilterUnlessIgnored(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         if (HttpServletRequest.class.isAssignableFrom(request.getClass())) {
-            ((HttpServletRequest) request).getSession();
+            ((HttpServletRequest) request).getSession(); // &line[getSession]
         }
         filterChain.doFilter(request, response);
     }

@@ -53,7 +53,7 @@ public class BroadleafRedirectController {
     public String redirect(HttpServletRequest request, HttpServletResponse response, Model model) {
         String path = null;
         if (BLCRequestUtils.isOKtoUseSession(new ServletWebRequest(request))) {
-            path = (String) request.getSession().getAttribute("BLC_REDIRECT_URL");
+            path = (String) request.getSession().getAttribute("BLC_REDIRECT_URL"); // &line[getSession]
         }
 
         if (path == null) {

@@ -95,8 +95,8 @@ public class RegexPropertyValidator extends ValidationConfigurationBasedProperty
                     validationConfiguration.get(ConfigurationItem.ERROR_MESSAGE)
             );
         } catch (PatternSyntaxException e) {
-            String message = "Invalid regular expression pattern '" + StringUtil.sanitize(expression) + "' for "
-                    + StringUtil.sanitize(propertyName);
+            String message = "Invalid regular expression pattern '" + StringUtil.sanitize(expression) + "' for " // &line[sanitize]
+                    + StringUtil.sanitize(propertyName); // &line[sanitize]
             LOG.error(message, e);
             return new PropertyValidationResult(!succeedForInvalidRegex, "Invalid regular expression pattern for " + propertyName);
         }

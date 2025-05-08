@@ -89,7 +89,7 @@ public class JSCompatibilityRequestWrapper extends FirewalledRequest {
             names.add(JSCompatibilityHelper.unencode((String) enumeration.nextElement()));
         }
 
-        return new Enumerator<String>(names);
+        return new Enumerator<String>(names); // &line[Authentication_Enumerator_L]
     }
 
     @Override

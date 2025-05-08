@@ -351,7 +351,7 @@ public class BasicPersistenceModule implements PersistenceModule, RecordHelper, 
                 if (!property.getName().contains(FieldManager.MAPFIELDSEPARATOR) && !property.getName().startsWith("__")) {
                     Field field = fieldManager.getField(instance.getClass(), property.getName());
                     if (field == null) {
-                        LOG.debug("Unable to find a bean property for the reported property: " + StringUtil.sanitize(property.getName()) + ". Ignoring property.");
+                        LOG.debug("Unable to find a bean property for the reported property: " + StringUtil.sanitize(property.getName()) + ". Ignoring property."); // &line[sanitize]
                         continue;
                     }
                     returnType = field.getType();
@@ -765,7 +765,7 @@ public class BasicPersistenceModule implements PersistenceModule, RecordHelper, 
                             }
                             propertyItem.setValue(strVal);
                         } catch (NoSuchMethodException e) {
-                            LOG.debug("Unable to find a specified property in the entity: " + StringUtil.sanitize(property));
+                            LOG.debug("Unable to find a specified property in the entity: " + StringUtil.sanitize(property)); // &line[sanitize]
                             //do nothing - this property is simply not in the bean
                         }
                     }
@@ -1584,8 +1584,8 @@ public class BasicPersistenceModule implements PersistenceModule, RecordHelper, 
                         }
                     }
                     LOG.warn(String.format("Unable to filter the embedded collection (%s) on an additional property (%s)",
-                            StringUtil.sanitize(expression),
-                            StringUtil.sanitize(mappingProperty)));
+                            StringUtil.sanitize(expression), // &line[sanitize]
+                            StringUtil.sanitize(mappingProperty))); // &line[sanitize]
                 }
             }
         }

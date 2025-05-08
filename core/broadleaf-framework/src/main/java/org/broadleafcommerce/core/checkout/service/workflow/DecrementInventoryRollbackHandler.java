@@ -97,7 +97,7 @@ public class DecrementInventoryRollbackHandler implements RollbackHandler<Proces
                     throw rfe;
                 } catch (RuntimeException ex) {
                     LOG.error("An unexpected error occured in the error handler of the checkout workflow trying to compensate for inventory. This happend for order ID: " +
-                            StringUtil.sanitize(orderId) + ". This should be corrected manually!", ex);
+                            StringUtil.sanitize(orderId) + ". This should be corrected manually!", ex); // &line[sanitize]
                     RollbackFailureException rfe = new RollbackFailureException("An unexpected error occured in the error handler of the checkout workflow " +
                             "trying to compensate for inventory. This happend for order ID: " +
                             orderId + ". This should be corrected manually!", ex);

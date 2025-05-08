@@ -23,8 +23,10 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component("blResetPasswordValidator")
+// &begin[ResetPasswordValidator]
 public class ResetPasswordValidator implements Validator {
 
+    // &begin[ResetPasswordValidator_validate]
     public void validate(String username, String password, String confirmPassword, Errors errors) {
         if (StringUtils.isEmpty(password)) {
             errors.reject("password", "password.required");
@@ -44,6 +46,7 @@ public class ResetPasswordValidator implements Validator {
             }
         }
     }
+    // &end[ResetPasswordValidator_validate]
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -55,3 +58,4 @@ public class ResetPasswordValidator implements Validator {
     }
 
 }
+// &end[ResetPasswordValidator]

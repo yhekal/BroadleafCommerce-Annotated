@@ -84,10 +84,10 @@ public class AdminSecurityFilter extends SecurityFilter {
                 baseResponse.getWriter().write(e.getMessage() + "\n");
             } else if (e.getCause() instanceof ServiceException) {
                 //if authentication is null and CSRF token is invalid, must be session time out
-                if (SecurityContextHolder.getContext().getAuthentication() == null && failureHandler != null) {
+                if (SecurityContextHolder.getContext().getAuthentication() == null && failureHandler != null) { // &line[SessionManagement_getAuthentication_L]
                     baseRequest.setAttribute("sessionTimeout", true);
-                    failureHandler.onAuthenticationFailure(
-                            baseRequest, baseResponse, new SessionAuthenticationException("Session Time Out")
+                    failureHandler.onAuthenticationFailure( // &line[Authentication_onAuthenticationFailure_L]
+                            baseRequest, baseResponse, new SessionAuthenticationException("Session Time Out") // &line[Authentication_SessionAuthenticationException_L]
                     );
                 } else {
                     throw e;

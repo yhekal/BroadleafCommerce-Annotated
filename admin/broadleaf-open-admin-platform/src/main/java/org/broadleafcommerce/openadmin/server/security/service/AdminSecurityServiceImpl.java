@@ -121,119 +121,141 @@ public class AdminSecurityServiceImpl implements AdminSecurityService {
     protected int getTokenExpiredMinutes() {
         return BLCSystemProperty.resolveIntSystemProperty("tokenExpiredMinutes");
     }
-
+    // &begin[getResetPasswordURL]
     protected String getResetPasswordURL() {
         return BLCSystemProperty.resolveSystemProperty("resetPasswordURL");
     }
+    // &end[getResetPasswordURL]
 
     @Override
     @Transactional("blTransactionManager")
+       // &begin[deleteAdminPermission]
     public void deleteAdminPermission(AdminPermission permission) {
 
         adminPermissionDao.deleteAdminPermission(permission);
         clearAdminSecurityCache();
     }
+    // &end[deleteAdminPermission]
 
     @Override
     @Transactional("blTransactionManager")
+     // &begin[deleteAdminRole]
     public void deleteAdminRole(AdminRole role) {
         adminRoleDao.deleteAdminRole(role);
         clearAdminSecurityCache();
     }
+    // &end[deleteAdminRole]
 
     @Override
     @Transactional("blTransactionManager")
+     // &begin[deleteAdminUser]
     public void deleteAdminUser(AdminUser user) {
         adminUserDao.deleteAdminUser(user);
         clearAdminSecurityCache();
     }
-
+    // &end[deleteAdminUser]
     @Override
+            // &begin[readAdminPermissionById]
     public AdminPermission readAdminPermissionById(Long id) {
         return adminPermissionDao.readAdminPermissionById(id);
     }
+    // &end[readAdminPermissionById]
 
     @Override
+            // &begin[readAdminRoleById]
     public AdminRole readAdminRoleById(Long id) {
         return adminRoleDao.readAdminRoleById(id);
     }
+    // &end[readAdminRoleById]
 
     @Override
+            // &begin[readAdminUserById]
     public AdminUser readAdminUserById(Long id) {
         return adminUserDao.readAdminUserById(id);
     }
+    // &end[readAdminUserById]
 
     @Override
     @Transactional("blTransactionManager")
+            // &begin[saveAdminPermission]
     public AdminPermission saveAdminPermission(AdminPermission permission) {
         permission = adminPermissionDao.saveAdminPermission(permission);
         clearAdminSecurityCache();
         return permission;
     }
+    // &end[saveAdminPermission]
 
     @Override
     @Transactional("blTransactionManager")
+            // &begin[saveAdminRole]
     public AdminRole saveAdminRole(AdminRole role) {
         role = adminRoleDao.saveAdminRole(role);
         clearAdminSecurityCache();
         return role;
     }
+    // &end[saveAdminRole]
 
     @Override
     @Transactional("blTransactionManager")
+            // &begin[saveAdminUser]
     public AdminUser saveAdminUser(AdminUser user) {
         boolean encodePasswordNeeded = false;
-        String unencodedPassword = user.getUnencodedPassword();
+        String unencodedPassword = user.getUnencodedPassword(); // &line[getUnencodedPassword]
 
-        if (user.getUnencodedPassword() != null) {
+        if (user.getUnencodedPassword() != null) { // &line[getUnencodedPassword]
             encodePasswordNeeded = true;
-            user.setPassword(unencodedPassword);
+            user.setPassword(unencodedPassword); // &line[setPassword]
         }
 
         // If no password is set, default to a secure password.
-        if (user.getPassword() == null) {
-            user.setPassword(generateSecurePassword());
+        if (user.getPassword() == null) { // &line[getPassword]
+            user.setPassword(generateSecurePassword()); // &line[setPassword]
         }
 
-        AdminUser returnUser = adminUserDao.saveAdminUser(user);
+        AdminUser returnUser = adminUserDao.saveAdminUser(user); // &line[saveAdminUser]
 
         if (encodePasswordNeeded) {
-            returnUser.setPassword(encodePassword(unencodedPassword));
+            returnUser.setPassword(encodePassword(unencodedPassword)); // &line[setPassword]
         }
 
-        returnUser = adminUserDao.saveAdminUser(returnUser);
+        returnUser = adminUserDao.saveAdminUser(returnUser); // &line[saveAdminUser]
         clearAdminSecurityCache();
         return returnUser;
     }
+    // &end[saveAdminUser]
 
     @Override
+            // &begin[clearAdminSecurityCache]
     public void clearAdminSecurityCache() {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Admin Security Cache DELETE");
         }
         getCache().removeAll();
     }
-
+    // &end[clearAdminSecurityCache]
+    // &begin[generateSecurePassword]
     protected String generateSecurePassword() {
         return PasswordUtils.generateSecurePassword(FULL_PASSWORD_LENGTH);
     }
-
+    // &end[generateSecurePassword]
     @Override
     @Transactional("blTransactionManager")
+            // &begin[changePassword]
     public AdminUser changePassword(PasswordChange passwordChange) {
-        AdminUser user = readAdminUserByUserName(passwordChange.getUsername());
-        user.setUnencodedPassword(passwordChange.getNewPassword());
-        user = saveAdminUser(user);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(
-                passwordChange.getUsername(), passwordChange.getNewPassword(), auth.getAuthorities()
+        AdminUser user = readAdminUserByUserName(passwordChange.getUsername()); // &line[readAdminUserByUserName]
+        user.setUnencodedPassword(passwordChange.getNewPassword()); // &line[setUnencodedPassword, getNewPassword]
+        user = saveAdminUser(user); // &line[saveAdminUser]
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication(); // &line[SessionManagement_getContext_L, SessionManagement_getAuthentication_L]
+        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken( // &line[Authentication_UsernamePasswordAuthenticationToken_L]
+                passwordChange.getUsername(), passwordChange.getNewPassword(), auth.getAuthorities() // &line[Authentication_getAuthorities_L]
         );
-        SecurityContextHolder.getContext().setAuthentication(authRequest);
-        auth.setAuthenticated(false);
+        SecurityContextHolder.getContext().setAuthentication(authRequest);// &line[SessionManagement_getContext_L, SessionManagement_setAuthentication_L]
+        auth.setAuthenticated(false); // &line[Authentication_setAuthenticated_L]
         return user;
     }
-
+    // &end[changePassword]
     @Override
+            // &begin[isUserQualifiedForOperationOnCeilingEntity]
     public boolean isUserQualifiedForOperationOnCeilingEntity(
             AdminUser adminUser,
             PermissionType permissionType,
@@ -282,6 +304,7 @@ public class AdminSecurityServiceImpl implements AdminSecurityService {
 
         return response;
     }
+    // &end[isUserQualifiedForOperationOnCeilingEntity]
 
     protected String buildCacheKey(
             AdminUser adminUser,
@@ -303,37 +326,48 @@ public class AdminSecurityServiceImpl implements AdminSecurityService {
     }
 
     @Override
+            // &begin[readAdminUserByUserName]
     public AdminUser readAdminUserByUserName(String userName) {
         return adminUserDao.readAdminUserByUserName(userName);
     }
+    // &end[readAdminUserByUserName]
 
     @Override
+            // &begin[readAdminUsersByEmail]
     public List<AdminUser> readAdminUsersByEmail(String email) {
         return adminUserDao.readAdminUserByEmail(email);
     }
+    // &end[readAdminUsersByEmail]
 
     @Override
+            // &begin[readAllAdminUsers]
     public List<AdminUser> readAllAdminUsers() {
         return adminUserDao.readAllAdminUsers();
     }
+    // &end[readAllAdminUsers]
 
     @Override
+            // &begin[readAllAdminRoles]
     public List<AdminRole> readAllAdminRoles() {
         return adminRoleDao.readAllAdminRoles();
     }
+    // &end[readAllAdminRoles]
 
     @Override
+            // &begin[readAllAdminPermissions]
     public List<AdminPermission> readAllAdminPermissions() {
         return adminPermissionDao.readAllAdminPermissions();
     }
+    // &end[readAllAdminPermissions]
 
     @Override
     @Transactional("blTransactionManager")
+            // &begin[sendForgotUsernameNotification]
     public GenericResponse sendForgotUsernameNotification(String emailAddress) {
         GenericResponse response = new GenericResponse();
         List<AdminUser> users = null;
         if (emailAddress != null) {
-            users = adminUserDao.readAdminUserByEmail(emailAddress);
+            users = adminUserDao.readAdminUserByEmail(emailAddress);  // &line[readAdminUserByEmail]
         }
         if (CollectionUtils.isEmpty(users)) {
             response.addErrorCode("notFound");
@@ -356,9 +390,11 @@ public class AdminSecurityServiceImpl implements AdminSecurityService {
         }
         return response;
     }
+    // &end[sendForgotUsernameNotification]
 
     @Override
     @Transactional("blTransactionManager")
+            // &begin[sendResetPasswordNotification]
     public GenericResponse sendResetPasswordNotification(String username) {
         GenericResponse response = new GenericResponse();
         AdminUser user = null;
@@ -370,16 +406,16 @@ public class AdminSecurityServiceImpl implements AdminSecurityService {
         checkUser(user, response);
 
         if (!response.getHasErrors()) {
-            String token = PasswordUtils.generateSecurePassword(TEMP_PASSWORD_LENGTH);
+            String token = PasswordUtils.generateSecurePassword(TEMP_PASSWORD_LENGTH); // &line[generateSecurePassword]
             token = token.toLowerCase();
 
             ForgotPasswordSecurityToken fpst = new ForgotPasswordSecurityTokenImpl();
-            fpst.setAdminUserId(user.getId());
-            fpst.setToken(encodePassword(token));
+            fpst.setAdminUserId(user.getId()); // &line[setAdminUserId]
+            fpst.setToken(encodePassword(token)); // &line[setToken]
             fpst.setCreateDate(SystemTime.asDate());
-            forgotPasswordSecurityTokenDao.saveToken(fpst);
+            forgotPasswordSecurityTokenDao.saveToken(fpst); // &line[setToken]
 
-            String resetPasswordUrl = getResetPasswordURL();
+            String resetPasswordUrl = getResetPasswordURL(); // &line[getResetPasswordURL]
             if (!StringUtils.isEmpty(resetPasswordUrl)) {
                 if (resetPasswordUrl.contains("?")) {
                     resetPasswordUrl = resetPasswordUrl + "&token=" + token;
@@ -394,9 +430,10 @@ public class AdminSecurityServiceImpl implements AdminSecurityService {
         }
         return response;
     }
-
+    // &end[sendResetPasswordNotification]
     @Override
     @Transactional("blTransactionManager")
+            // &begin[resetPasswordUsingToken]
     public GenericResponse resetPasswordUsingToken(
             String username,
             String token,
@@ -406,10 +443,10 @@ public class AdminSecurityServiceImpl implements AdminSecurityService {
         GenericResponse response = new GenericResponse();
         AdminUser user = null;
         if (username != null) {
-            user = adminUserDao.readAdminUserByUserName(username);
+            user = adminUserDao.readAdminUserByUserName(username); // &line[readAdminUserByUserName]
         }
-        checkUser(user, response);
-        checkPassword(password, confirmPassword, response);
+        checkUser(user, response); // &line[checkUser]
+        checkPassword(password, confirmPassword, response); // &line[checkPassword]
         if (StringUtils.isBlank(token)) {
             response.addErrorCode("invalidToken");
         }
@@ -421,7 +458,7 @@ public class AdminSecurityServiceImpl implements AdminSecurityService {
                     user.getId()
             );
             for (ForgotPasswordSecurityToken fpstok : fpstoks) {
-                if (isPasswordValid(fpstok.getToken(), token)) {
+                if (isPasswordValid(fpstok.getToken(), token)) { // &line[isPasswordValid, getToken]
                     fpst = fpstok;
                     break;
                 }
@@ -439,31 +476,35 @@ public class AdminSecurityServiceImpl implements AdminSecurityService {
             if (!user.getId().equals(fpst.getAdminUserId())) {
                 if (LOG.isWarnEnabled()) {
                     LOG.warn("Password reset attempt tried with mismatched user and token " + user.getId() + ", "
-                            + StringUtil.sanitize(token));
+                            + StringUtil.sanitize(token)); // &line[sanitize]
                 }
                 response.addErrorCode("invalidToken");
             }
         }
 
         if (!response.getHasErrors()) {
-            user.setUnencodedPassword(password);
-            saveAdminUser(user);
-            invalidateAllTokensForAdminUser(user);
+            user.setUnencodedPassword(password); // &line[setUnencodedPassword]
+            saveAdminUser(user); // &line[saveAdminUser]
+            invalidateAllTokensForAdminUser(user); // &line[invalidateAllTokensForAdminUser]
         }
 
         return response;
     }
+    // &end[resetPasswordUsingToken]
 
+    // &begin[invalidateAllTokensForAdminUser]
     protected void invalidateAllTokensForAdminUser(AdminUser user) {
-        List<ForgotPasswordSecurityToken> tokens = forgotPasswordSecurityTokenDao.readUnusedTokensByAdminUserId(
+        List<ForgotPasswordSecurityToken> tokens = forgotPasswordSecurityTokenDao.readUnusedTokensByAdminUserId( // &line[readUnusedTokensByAdminUserId]
                 user.getId()
         );
         for (ForgotPasswordSecurityToken token : tokens) {
             token.setTokenUsedFlag(true);
-            forgotPasswordSecurityTokenDao.saveToken(token);
+            forgotPasswordSecurityTokenDao.saveToken(token); // &line[saveToken]
         }
     }
+    // &end[invalidateAllTokensForAdminUser]
 
+    // &begin[checkUser]
     protected void checkUser(AdminUser user, GenericResponse response) {
         if (user == null) {
             response.addErrorCode("invalidUser");
@@ -473,7 +514,8 @@ public class AdminSecurityServiceImpl implements AdminSecurityService {
             response.addErrorCode("inactiveUser");
         }
     }
-
+    // &end[checkUser]
+// &begin[checkPassword]
     protected void checkPassword(String password, String confirmPassword, GenericResponse response) {
         if (StringUtils.isBlank(password) || StringUtils.isBlank(confirmPassword)) {
             response.addErrorCode("invalidPassword");
@@ -481,13 +523,15 @@ public class AdminSecurityServiceImpl implements AdminSecurityService {
             response.addErrorCode("passwordMismatch");
         }
     }
-
+    // &end[checkPassword]
+    // &begin[checkExistingPassword]
     protected void checkExistingPassword(String unencodedPassword, AdminUser user, GenericResponse response) {
         if (!isPasswordValid(user.getPassword(), unencodedPassword)) {
             response.addErrorCode("invalidPassword");
         }
     }
-
+    // &end[checkExistingPassword]
+    // &begin[isTokenExpired]
     protected boolean isTokenExpired(ForgotPasswordSecurityToken fpst) {
         Date now = SystemTime.asDate();
         long currentTimeInMillis = now.getTime();
@@ -495,6 +539,7 @@ public class AdminSecurityServiceImpl implements AdminSecurityService {
         long minutesSinceSave = (currentTimeInMillis - tokenSaveTimeInMillis) / 60000;
         return minutesSinceSave > getTokenExpiredMinutes();
     }
+    // &end[isTokenExpired]
 
     public EmailInfo getSendUsernameEmailInfo() {
         return sendUsernameEmailInfo;
@@ -514,28 +559,30 @@ public class AdminSecurityServiceImpl implements AdminSecurityService {
 
     @Override
     @Transactional("blTransactionManager")
+            // &begin[changePassword]
     public GenericResponse changePassword(String username, String oldPassword, String password, String confirmPassword) {
         GenericResponse response = new GenericResponse();
         AdminUser user = null;
         if (username != null) {
-            user = adminUserDao.readAdminUserByUserName(username);
+            user = adminUserDao.readAdminUserByUserName(username); // &line[readAdminUserByUserName]
         }
-        checkUser(user, response);
-        checkPassword(password, confirmPassword, response);
+        checkUser(user, response); // &line[checkUser]
+        checkPassword(password, confirmPassword, response); // &line[checkPassword]
 
         if (!response.getHasErrors()) {
-            checkExistingPassword(oldPassword, user, response);
+            checkExistingPassword(oldPassword, user, response); // &line[checkExistingPassword]
         }
 
         if (!response.getHasErrors()) {
-            user.setUnencodedPassword(password);
-            saveAdminUser(user);
+            user.setUnencodedPassword(password);  // &line[setUnencodedPassword]
+            saveAdminUser(user); // &line[saveAdminUser]
 
         }
 
         return response;
 
     }
+    // &end[changePassword]
 
     /**
      * Determines if a password is valid by comparing it to the encoded string, salting is handled internally to the {@link PasswordEncoder}.
@@ -547,10 +594,11 @@ public class AdminSecurityServiceImpl implements AdminSecurityService {
      * @param rawPassword     the raw password to check against the encoded password
      * @return true if rawPassword matches the encodedPassword, false otherwise
      */
+    // &begin[isPasswordValid]
     protected boolean isPasswordValid(String encodedPassword, String rawPassword) {
-        return passwordEncoderBean.matches(rawPassword, encodedPassword);
+        return passwordEncoderBean.matches(rawPassword, encodedPassword);  // &line[CryptographicHashing_matches_L]
     }
-
+// &end[isPasswordValid]
     /**
      * Generate an encoded password from a raw password
      * <p>
@@ -562,9 +610,11 @@ public class AdminSecurityServiceImpl implements AdminSecurityService {
      * @param rawPassword the unencoded password to encode
      * @return the encoded password
      */
+    // &begin[encodePassword]
     protected String encodePassword(String rawPassword) {
-        return passwordEncoderBean.encode(rawPassword);
+        return passwordEncoderBean.encode(rawPassword);  // &line[CryptographicHashing_encode_L]
     }
+    // &end[encodePassword]
 
     protected Cache<String, Boolean> getCache() {
         if (cache == null) {
@@ -578,3 +628,4 @@ public class AdminSecurityServiceImpl implements AdminSecurityService {
     }
 
 }
+

@@ -42,15 +42,16 @@ import jakarta.servlet.http.HttpServletResponse;
 public class BroadleafAdminLogoutSuccessHandler extends AbstractAuthenticationTargetUrlRequestHandler implements LogoutSuccessHandler {
 
     @Override
+            // &begin[onLogoutSuccess]
     public void onLogoutSuccess(
             HttpServletRequest request,
             HttpServletResponse response,
             Authentication authentication
     ) throws IOException, ServletException {
-        String targetUrl = determineTargetUrl(request, response);
+        String targetUrl = determineTargetUrl(request, response); // &line[Authentication_determineTargetUrl_L]
 
         if (response.isCommitted()) {
-            logger.debug("Response has already been committed. Unable to redirect to " + StringUtil.sanitize(targetUrl));
+            logger.debug("Response has already been committed. Unable to redirect to " + StringUtil.sanitize(targetUrl)); // &line[sanitize]
             return;
         }
 
@@ -59,17 +60,18 @@ public class BroadleafAdminLogoutSuccessHandler extends AbstractAuthenticationTa
             targetUrl += "?" + queryString;
         }
 
-        request.getSession().invalidate();
+        request.getSession().invalidate(); // &line[getSession]
 
         try {
             UrlUtil.validateUrl(targetUrl, request);
         } catch (IOException e) {
-            logger.error("SECURITY FAILURE Bad redirect location: " + StringUtil.sanitize(targetUrl), e);
+            logger.error("SECURITY FAILURE Bad redirect location: " + StringUtil.sanitize(targetUrl), e); // &line[sanitize]
             response.sendError(403);
             return;
         }
 
-        getRedirectStrategy().sendRedirect(request, response, targetUrl);
+        getRedirectStrategy().sendRedirect(request, response, targetUrl); // &line[Authentication_getRedirectStrategy_L]
     }
+    // &end[onLogoutSuccess]
 
 }

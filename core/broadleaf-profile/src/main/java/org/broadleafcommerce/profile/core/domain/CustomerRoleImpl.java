@@ -91,14 +91,18 @@ public class CustomerRoleImpl implements CustomerRole {
     }
 
     @Override
+// &begin[getRole]
     public Role getRole() {
         return role;
     }
+    // &end[getRole]
 
     @Override
+// &begin[setRole]
     public void setRole(Role role) {
         this.role = role;
     }
+    // &end[setRole]
 
     @Override
     public String getRoleName() {
@@ -106,6 +110,7 @@ public class CustomerRoleImpl implements CustomerRole {
     }
 
     @Override
+            // &begin[hashCode]
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -113,6 +118,7 @@ public class CustomerRoleImpl implements CustomerRole {
         result = prime * result + ((role == null) ? 0 : role.hashCode());
         return result;
     }
+    // &end[hashCode]
 
     @Override
     public boolean equals(Object obj) {

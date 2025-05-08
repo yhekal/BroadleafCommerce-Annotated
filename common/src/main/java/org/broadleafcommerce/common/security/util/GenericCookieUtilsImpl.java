@@ -42,11 +42,13 @@ public class GenericCookieUtilsImpl implements CookieUtils {
     protected Pattern cookieValuePattern = Pattern.compile("^[a-zA-Z0-9()\\-=\\*\\.\\?;,+\\/:&_ \"]*$");
 
     @Override
+            // &begin[shouldUseSecureCookieIfApplicable]
     public Boolean shouldUseSecureCookieIfApplicable() {
         return systemPropertiesService.resolveBooleanSystemProperty("cookies.use.secure", false);
     }
-
+    // &end[shouldUseSecureCookieIfApplicable]
     @Override
+            // &begin[getCookieValue]
     public String getCookieValue(HttpServletRequest request, String cookieName) {
         Cookie[] cookies = request.getCookies();
 
@@ -60,8 +62,10 @@ public class GenericCookieUtilsImpl implements CookieUtils {
 
         return null;
     }
+    // &end[getCookieValue]
 
     @Override
+            // &begin[setCookieValue]
     public void setCookieValue(
             HttpServletResponse response,
             String cookieName,
@@ -115,15 +119,20 @@ public class GenericCookieUtilsImpl implements CookieUtils {
             LOG.warn("Attempt to set Cookie name:" + cookieName + " cookie length exceeds 4096");
         }
     }
+    // &end[setCookieValue]
 
     @Override
+            // &begin[setCookieValue]
     public void setCookieValue(HttpServletResponse response, String cookieName, String cookieValue) {
         setCookieValue(response, cookieName, cookieValue, "/", null, false);
     }
+    // &end[setCookieValue]
 
     @Override
+            // &begin[invalidateCookie]
     public void invalidateCookie(HttpServletResponse response, String cookieName) {
         setCookieValue(response, cookieName, "", "/", 0, false);
     }
+    // &end[invalidateCookie]
 
 }

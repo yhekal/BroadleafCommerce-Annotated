@@ -34,8 +34,10 @@ public class XMLImportOverrideConfiguration {
     public static class InnerConfiguration {
 
         @Bean
+// &begin[blPasswordEncoder]
         public PasswordEncoder blPasswordEncoder() {
             return NoOpPasswordEncoder.getInstance();
         }
+        // &end[blPasswordEncoder]
     }
 }

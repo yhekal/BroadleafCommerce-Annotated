@@ -732,7 +732,7 @@ public class DynamicEntityDaoImpl implements DynamicEntityDao, ApplicationContex
             }
         }
     }
-
+    // &begin[pad]
     protected String pad(String s, int length, char pad) {
         StringBuilder buffer = new StringBuilder(s);
         while (buffer.length() < length) {
@@ -740,6 +740,7 @@ public class DynamicEntityDaoImpl implements DynamicEntityDao, ApplicationContex
         }
         return buffer.toString();
     }
+    // &end[pad]
 
     protected String getCacheKey(
             String ceilingEntityFullyQualifiedClassname,
@@ -773,8 +774,8 @@ public class DynamicEntityDaoImpl implements DynamicEntityDao, ApplicationContex
 
         String digest;
         try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] messageDigest = md.digest(sb.toString().getBytes());
+            MessageDigest md = MessageDigest.getInstance("MD5"); // &line[CryptographicHashing_getInstance_L]
+            byte[] messageDigest = md.digest(sb.toString().getBytes());  // &line[CryptographicHashing_digest_L]
             BigInteger number = new BigInteger(1, messageDigest);
             digest = number.toString(16);
         } catch (NoSuchAlgorithmException e) {

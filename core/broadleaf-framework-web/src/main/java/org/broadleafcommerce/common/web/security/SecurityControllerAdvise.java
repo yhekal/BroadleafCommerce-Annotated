@@ -29,7 +29,7 @@ public class SecurityControllerAdvise {
     @ModelAttribute("session")
     HttpSession session() {
         BroadleafRequestContext context = BroadleafRequestContext.getBroadleafRequestContext();
-        return context.getRequest() != null ? context.getRequest().getSession() : null;
+        return context.getRequest() != null ? context.getRequest().getSession() : null; // &line[getSession]
     }
 
 }

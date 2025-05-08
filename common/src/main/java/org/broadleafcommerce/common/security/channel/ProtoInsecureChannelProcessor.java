@@ -53,20 +53,20 @@ public class ProtoInsecureChannelProcessor extends InsecureChannelProcessor {
         }
 
         for (ConfigAttribute attribute : config) {
-            if (supports(attribute)) {
+            if (supports(attribute)) {  // &line[Authorization_supports_L]
                 if (invocation.getHttpRequest().getHeader("X-Forwarded-Proto") != null
                         && "https".equalsIgnoreCase(invocation.getHttpRequest().getHeader("X-Forwarded-Proto"))) {
                     //We can't rely entirely on "!invocation.getHttpRequest().isSecure()" because many times, 
                     //when SSL terminates somewhere else, the proxied request will not be secure.
                     //In this case, someone may have gone to a secured page, and then tried to go back to an unsecured page.
-                    getEntryPoint().commence(invocation.getRequest(), invocation.getResponse());
+                    getEntryPoint().commence(invocation.getRequest(), invocation.getResponse()); // &line[Authorization_getEntryPoint_L, Authorization_commence_L]
                 } else if (invocation.getHttpRequest().getHeader("X-Forwarded-Proto") != null
                         && "http".equalsIgnoreCase(invocation.getHttpRequest().getHeader("X-Forwarded-Proto"))) {
                     return;
                 } else if (!invocation.getHttpRequest().isSecure()) {
                     return;
                 } else {
-                    getEntryPoint().commence(invocation.getRequest(), invocation.getResponse());
+                    getEntryPoint().commence(invocation.getRequest(), invocation.getResponse()); // &line[Authorization_getEntryPoint_L, Authorization_commence_L]
                 }
             }
         }

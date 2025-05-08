@@ -33,16 +33,20 @@ public class SessionlessHttpServletRequestWrapper extends HttpServletRequestWrap
     }
 
     @Override
+// &begin[getSession]
     public HttpSession getSession(boolean create) {
         if (!create) {
             return null;
         }
+
         throw new UnsupportedOperationException("You are in a sessionless environment and cannot get/create a HttpSession.");
     }
+    // &end[getSession]
 
     @Override
+            // &begin[getSession]
     public HttpSession getSession() {
         throw new UnsupportedOperationException("You are in a sessionless environment and cannot get/create a HttpSession.");
     }
-
+    // &end[getSession]
 }

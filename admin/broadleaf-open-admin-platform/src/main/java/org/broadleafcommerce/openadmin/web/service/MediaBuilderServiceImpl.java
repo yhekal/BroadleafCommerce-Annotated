@@ -50,7 +50,7 @@ public class MediaBuilderServiceImpl implements MediaBuilderService {
                 om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                 return (Media) om.readValue(json, type);
             } catch (Exception e) {
-                LOG.warn("Error parsing json to media " + StringUtil.sanitize(json), e);
+                LOG.warn("Error parsing json to media " + StringUtil.sanitize(json), e); // &line[sanitize]
             }
         }
         return entityConfiguration.createEntityInstance(Media.class.getName(), Media.class);
@@ -66,7 +66,7 @@ public class MediaBuilderServiceImpl implements MediaBuilderService {
                     Media mediaField = entityConfiguration.createEntityInstance(Media.class.getName(), Media.class);
                     field.set(media, mediaField);
                 } catch (IllegalAccessException e) {
-                    LOG.warn("Error initializing media field " + StringUtil.sanitize(field.getName())
+                    LOG.warn("Error initializing media field " + StringUtil.sanitize(field.getName()) // &line[sanitize]
                             + " on " + media.getClass().getName(), e);
                 }
             }

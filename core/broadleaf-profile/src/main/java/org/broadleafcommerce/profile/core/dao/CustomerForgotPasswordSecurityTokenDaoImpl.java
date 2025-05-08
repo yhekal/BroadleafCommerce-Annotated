@@ -43,6 +43,7 @@ public class CustomerForgotPasswordSecurityTokenDaoImpl implements CustomerForgo
     protected EntityConfiguration entityConfiguration;
 
     @Override
+// &begin[readToken]
     public CustomerForgotPasswordSecurityToken readToken(String token) {
         return (CustomerForgotPasswordSecurityToken) em.find(
                 entityConfiguration.lookupEntityClass(
@@ -51,6 +52,7 @@ public class CustomerForgotPasswordSecurityTokenDaoImpl implements CustomerForgo
                 token
         );
     }
+    // &end[readToken]
 
     @Override
     public List<CustomerForgotPasswordSecurityToken> readUnusedTokensByCustomerId(Long customerId) {
@@ -66,8 +68,10 @@ public class CustomerForgotPasswordSecurityTokenDaoImpl implements CustomerForgo
     }
 
     @Override
+// &begin[saveToken]
     public CustomerForgotPasswordSecurityToken saveToken(CustomerForgotPasswordSecurityToken token) {
         return em.merge(token);
     }
+    // &end[saveToken]
 
 }

@@ -71,6 +71,6 @@ public class DuplicateImportConfigurationTest {
     @Test
     public void testDuplicateImport() {
         Assert.assertEquals(ObjectMapper.class, objectMapper.getClass());
-        Assert.assertEquals(BCryptPasswordEncoder.class, passwordEncoder.getClass());
+        Assert.assertEquals(BCryptPasswordEncoder.class, passwordEncoder.getClass()); // &line[BCryptPasswordEncoder]
     }
 }

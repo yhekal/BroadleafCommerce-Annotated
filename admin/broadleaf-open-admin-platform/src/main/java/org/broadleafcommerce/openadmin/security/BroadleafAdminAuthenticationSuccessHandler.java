@@ -45,9 +45,10 @@ public class BroadleafAdminAuthenticationSuccessHandler extends SimpleUrlAuthent
     protected String loginUri = "/login"; // default login uri but can be overridden in admin security config
     @Resource(name = "blAdminSecurityRemoteService")
     protected SecurityVerifier adminRemoteSecurityService;
-    private RequestCache requestCache = new HttpSessionRequestCache();
+    private RequestCache requestCache = new HttpSessionRequestCache(); // &line[Authentication_HttpSessionRequestCache_L]
 
     @Override
+            // &begin[onAuthenticationSuccess]
     public void onAuthenticationSuccess(
             HttpServletRequest request,
             HttpServletResponse response,
@@ -55,31 +56,31 @@ public class BroadleafAdminAuthenticationSuccessHandler extends SimpleUrlAuthent
     ) throws ServletException, IOException {
         AdminUser user = adminRemoteSecurityService.getPersistentAdminUser();
         if (user != null && user.getLastUsedSandBoxId() != null) {
-            request.getSession(false).setAttribute(BroadleafSandBoxResolver.SANDBOX_ID_VAR, user.getLastUsedSandBoxId());
+            request.getSession(false).setAttribute(BroadleafSandBoxResolver.SANDBOX_ID_VAR, user.getLastUsedSandBoxId()); // &line[getSession]
         }
 
-        SavedRequest savedRequest = requestCache.getRequest(request, response);
+        SavedRequest savedRequest = requestCache.getRequest(request, response);  // &line[Authentication_getRequest_L]
         if (savedRequest == null) {
             super.onAuthenticationSuccess(request, response, authentication);
             return;
         }
 
-        String targetUrlParameter = getTargetUrlParameter();
-        if (isAlwaysUseDefaultTargetUrl() || (targetUrlParameter != null
+        String targetUrlParameter = getTargetUrlParameter();  // &line[Authentication_getTargetUrlParameter_L]
+        if (isAlwaysUseDefaultTargetUrl() || (targetUrlParameter != null // &line[Authentication_isAlwaysUseDefaultTargetUrl_L]
                 && StringUtils.hasText(request.getParameter(targetUrlParameter)))) {
-            requestCache.removeRequest(request, response);
+            requestCache.removeRequest(request, response); // &line[Authentication_removeRequest_L]
             super.onAuthenticationSuccess(request, response, authentication);
             return;
         }
 
-        clearAuthenticationAttributes(request);
+        clearAuthenticationAttributes(request); // &line[Authentication_clearAuthenticationAttributes_L]
         // Use the DefaultSavedRequest URL
-        String targetUrl = savedRequest.getRedirectUrl();
+        String targetUrl = savedRequest.getRedirectUrl();  // &line[Authentication_getRedirectUrl_L]
 
         try {
             UrlUtil.validateUrl(targetUrl, request);
         } catch (IOException e) {
-            logger.error("SECURITY FAILURE Bad redirect location: " + StringUtil.sanitize(targetUrl), e);
+            logger.error("SECURITY FAILURE Bad redirect location: " + StringUtil.sanitize(targetUrl), e); // &line[sanitize]
             response.sendError(403);
             return;
         }
@@ -103,10 +104,11 @@ public class BroadleafAdminAuthenticationSuccessHandler extends SimpleUrlAuthent
         // Remove the login URI so we don't continuously redirect to the login page
         targetUrl = removeLoginSegment(targetUrl);
 
-        logger.debug("Redirecting to DefaultSavedRequest Url: " + StringUtil.sanitize(targetUrl));
+        logger.debug("Redirecting to DefaultSavedRequest Url: " + StringUtil.sanitize(targetUrl));  // &line[sanitize]
 
-        getRedirectStrategy().sendRedirect(request, response, targetUrl);
+        getRedirectStrategy().sendRedirect(request, response, targetUrl);  // &line[Authentication_getRedirectStrategy_L]
     }
+    // &end[onAuthenticationSuccess]
 
     /**
      * Given the instance attribute loginUri, removes the loginUri from the passed url when present

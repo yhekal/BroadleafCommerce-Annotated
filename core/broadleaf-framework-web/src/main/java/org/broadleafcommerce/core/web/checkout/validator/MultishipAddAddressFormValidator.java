@@ -32,9 +32,11 @@ public class MultishipAddAddressFormValidator extends BroadleafCommonAddressVali
         return clazz.equals(ShippingInfoForm.class);
     }
 
+    // &begin[validate]
     public void validate(Object obj, Errors errors) {
         ShippingInfoForm shippingInfoForm = (ShippingInfoForm) obj;
         super.validate(BroadleafFormType.SHIPPING_FORM, shippingInfoForm.getAddress(), errors);
     }
+    // &end[validate]
 
 }

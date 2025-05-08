@@ -106,7 +106,7 @@ public class RestApiCustomerStateFilter extends OncePerRequestFilter implements 
                         setupCustomerForRuleProcessing(customer, request);
                     }
                 } else {
-                    LOG.warn(String.format("The customer id passed in '%s' was not a number", StringUtil.sanitize(customerId)));
+                    LOG.warn(String.format("The customer id passed in '%s' was not a number", StringUtil.sanitize(customerId))); // &line[sanitize]
                 }
             }
 

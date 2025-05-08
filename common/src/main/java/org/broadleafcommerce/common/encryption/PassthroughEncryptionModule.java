@@ -49,14 +49,18 @@ public class PassthroughEncryptionModule implements EncryptionModule {
     }
 
     @Override
+            // &begin[decrypt]
     public String decrypt(String cipherText) {
         return cipherText;
     }
+    // &end[decrypt]
 
     @Override
+            // &begin[encrypt]
     public String encrypt(String plainText) {
         return plainText;
     }
+    // &end[encrypt]
 
     @Override
     public Boolean matches(String raw, String encrypted) {

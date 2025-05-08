@@ -24,6 +24,7 @@ import org.testng.annotations.DataProvider;
 
 public class AdminPermissionDataProvider {
     @DataProvider(name = "setupAdminPermission")
+            // &begin[createAdminUser]
     public static Object[][] createAdminUser() {
         AdminPermission adminPermission = new AdminPermissionImpl();
         adminPermission.setName("TestAdminPermissionName");
@@ -32,4 +33,5 @@ public class AdminPermissionDataProvider {
 
         return new Object[][] { new Object[] { adminPermission } };
     }
+    // &end[createAdminUser]
 }

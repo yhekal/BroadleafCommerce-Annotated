@@ -56,13 +56,13 @@ public class PageDefaultRuleProcessor extends AbstractRuleProcessor<PageDTO> {
         if (ruleExpression != null) {
             if (LOG.isTraceEnabled()) {
                 LOG.trace("Processing content rule for page with id " + page.getId() + ".   Value = "
-                        + StringUtil.sanitize(ruleExpression));
+                        + StringUtil.sanitize(ruleExpression)); // &line[sanitize]
             }
             boolean result = executeExpression(ruleExpression, vars);
             if (!result) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Page failed to pass rule and will not be included for Page with id " + page.getId()
-                            + ".   Value = " + StringUtil.sanitize(ruleExpression));
+                            + ".   Value = " + StringUtil.sanitize(ruleExpression)); // &line[sanitize]
                 }
             }
 

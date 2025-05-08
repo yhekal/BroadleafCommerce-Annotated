@@ -29,9 +29,9 @@ public interface CustomerRole extends Serializable {
 
     void setCustomer(Customer customer);
 
-    Role getRole();
+    Role getRole(); // &line[getRole]
 
-    void setRole(Role role);
+    void setRole(Role role); // &line[setRole]
 
     String getRoleName();
 

@@ -142,7 +142,7 @@ public interface CustomerService {
      * @param password new password
      * @return Response can contain errors including (invalidUsername, inactiveUser, invalidToken, invalidPassword, tokenExpired)
      */
-    GenericResponse resetPasswordUsingToken(String username, String token, String password, String confirmPassword);
+    GenericResponse resetPasswordUsingToken(String username, String token, String password, String confirmPassword); // &line[resetPasswordUsingToken]
 
     /**
      * Verifies that a customer has a valid token.
@@ -151,7 +151,7 @@ public interface CustomerService {
      * @param customer {@link Customer} who owns the token
      * @return Response can contain errors including (invalidToken, tokenUsed, and tokenExpired)
      */
-    GenericResponse checkPasswordResetToken(String token, Customer customer);
+    GenericResponse checkPasswordResetToken(String token, Customer customer); // &line[checkPasswordResetToken]
 
     /**
      * Allow customers to call from subclassed service.
@@ -172,7 +172,7 @@ public interface CustomerService {
      * @param rawPassword the unencoded password
      * @return the encoded password
      */
-    String encodePassword(String rawPassword);
+    String encodePassword(String rawPassword);  // &line[encodePassword]
 
     /**
      * Determines if a password is valid by comparing it to the encoded string, salting is handled internally to the {@link org.springframework.security.crypto.password.PasswordEncoder PasswordEncoder}.
@@ -184,7 +184,7 @@ public interface CustomerService {
      * @param encodedPassword the encoded password to compare against
      * @return true if the unencoded password matches the encoded password, false otherwise
      */
-    boolean isPasswordValid(String rawPassword, String encodedPassword);
+    boolean isPasswordValid(String rawPassword, String encodedPassword); // &line[isPasswordValid]
 
     /**
      * Determines if the given customer passes the MVEL customer rule

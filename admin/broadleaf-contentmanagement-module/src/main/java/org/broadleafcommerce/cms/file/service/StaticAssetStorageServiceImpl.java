@@ -396,7 +396,7 @@ public class StaticAssetStorageServiceImpl implements StaticAssetStorageService 
 
         String digest;
         try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
+            MessageDigest md = MessageDigest.getInstance("MD5"); // &line[MD5]
             byte[] messageDigest = md.digest(sb2.toString().getBytes());
             BigInteger number = new BigInteger(1, messageDigest);
             digest = number.toString(16);

@@ -143,7 +143,7 @@ public class StaticAssetServiceImpl implements StaticAssetService {
         if (pos > 0) {
             return fileName.substring(pos + 1).toLowerCase();
         } else {
-            LOG.warn("No extension provided for asset : " + StringUtil.sanitize(fileName));
+            LOG.warn("No extension provided for asset : " + StringUtil.sanitize(fileName)); // &line[sanitize]
             return null;
         }
     }
@@ -193,7 +193,7 @@ public class StaticAssetServiceImpl implements StaticAssetService {
             int pos = fileName.indexOf(":");
             if (pos > 0) {
                 if (LOG.isTraceEnabled()) {
-                    LOG.trace("Removing protocol from URL name" + StringUtil.sanitize(fileName));
+                    LOG.trace("Removing protocol from URL name" + StringUtil.sanitize(fileName)); // &line[sanitize]
                 }
                 fileName = fileName.substring(pos + 1);
             }

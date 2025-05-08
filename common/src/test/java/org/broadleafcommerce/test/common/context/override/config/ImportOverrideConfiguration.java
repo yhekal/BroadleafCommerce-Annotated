@@ -31,7 +31,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class ImportOverrideConfiguration {
 
     @Bean
+// &begin[blPasswordEncoder]
     public PasswordEncoder blPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
+    // &end[blPasswordEncoder]
 }

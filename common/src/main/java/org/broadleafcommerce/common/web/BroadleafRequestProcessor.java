@@ -155,7 +155,7 @@ public class BroadleafRequestProcessor extends AbstractBroadleafWebRequestProces
 
                 try {
                     if (!isUrlValid(url.toString())) {
-                        LOG.error("SECURITY FAILURE Bad redirect location: " + StringUtil.sanitize(url.toString()));
+                        LOG.error("SECURITY FAILURE Bad redirect location: " + StringUtil.sanitize(url.toString())); // &line[sanitize]
                         response.sendError(403);
                         return;
                     }

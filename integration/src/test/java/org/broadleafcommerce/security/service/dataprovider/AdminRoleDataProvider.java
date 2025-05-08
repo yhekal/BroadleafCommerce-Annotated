@@ -23,6 +23,7 @@ import org.testng.annotations.DataProvider;
 
 public class AdminRoleDataProvider {
     @DataProvider(name = "setupAdminRole")
+            // &begin[createAdminRole]
     public static Object[][] createAdminRole() {
         AdminRole adminRole = new AdminRoleImpl();
         adminRole.setName("TestAdminUserRole");
@@ -30,4 +31,5 @@ public class AdminRoleDataProvider {
 
         return new Object[][] { new Object[] { adminRole } };
     }
+    // &end[createAdminRole]
 }

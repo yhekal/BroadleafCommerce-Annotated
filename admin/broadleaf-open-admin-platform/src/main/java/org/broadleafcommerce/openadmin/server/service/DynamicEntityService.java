@@ -42,16 +42,16 @@ public interface DynamicEntityService {
      * metadata of the built properties for this particular entity
      * @throws ServiceException wraps whatever internal exception that might have occurred as a result of the inspect
      */
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()") // &line[Authorization_PreAuthorize_L]
     PersistenceResponse inspect(PersistencePackage persistencePackage) throws ServiceException;
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()") // &line[Authorization_PreAuthorize_L]
     PersistenceResponse nonTransactionalInspect(final PersistencePackage persistencePackage) throws ServiceException;
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()") // &line[Authorization_PreAuthorize_L]
     PersistenceResponse fetch(PersistencePackage persistencePackage, CriteriaTransferObject cto) throws ServiceException;
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()") // &line[Authorization_PreAuthorize_L]
     PersistenceResponse nonTransactionalFetch(final PersistencePackage persistencePackage, final CriteriaTransferObject cto) throws ServiceException;
 
     /**
@@ -63,7 +63,7 @@ public interface DynamicEntityService {
      * @throws ServiceException
      * @see {@link AdminEntityService#add(org.broadleafcommerce.openadmin.server.domain.PersistencePackageRequest)}
      */
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()") // &line[Authorization_PreAuthorize_L]
     PersistenceResponse add(PersistencePackage persistencePackage) throws ServiceException;
 
     /**
@@ -74,10 +74,10 @@ public interface DynamicEntityService {
      * @return
      * @throws ServiceException
      */
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()") // &line[Authorization_PreAuthorize_L]
     PersistenceResponse nonTransactionalAdd(PersistencePackage persistencePackage) throws ServiceException;
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()") // &line[Authorization_PreAuthorize_L]
     PersistenceResponse update(PersistencePackage persistencePackage) throws ServiceException;
 
     /**
@@ -88,10 +88,10 @@ public interface DynamicEntityService {
      * @return
      * @throws ServiceException
      */
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()") // &line[Authorization_PreAuthorize_L]
     PersistenceResponse nonTransactionalUpdate(PersistencePackage persistencePackage) throws ServiceException;
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()") // &line[Authorization_PreAuthorize_L]
     PersistenceResponse remove(PersistencePackage persistencePackage) throws ServiceException;
 
     /**
@@ -102,7 +102,7 @@ public interface DynamicEntityService {
      * @return
      * @throws ServiceException
      */
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()") // &line[Authorization_PreAuthorize_L]
     PersistenceResponse nonTransactionalRemove(PersistencePackage persistencePackage) throws ServiceException;
 
 }

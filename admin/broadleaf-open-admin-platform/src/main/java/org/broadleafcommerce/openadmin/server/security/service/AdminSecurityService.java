@@ -97,7 +97,7 @@ public interface AdminSecurityService {
      * @param confirmPassword the password confirmation to match password
      * @return Response can contain errors including (invalidUsername, inactiveUser, invalidToken, invalidPassword, tokenExpired, passwordMismatch)
      */
-    GenericResponse resetPasswordUsingToken(String username, String token, String password, String confirmPassword);
+    GenericResponse resetPasswordUsingToken(String username, String token, String password, String confirmPassword); // &line[resetPasswordUsingToken]
 
     /**
      * Change a user's password only if oldPassword matches what's stored for that user
@@ -108,7 +108,7 @@ public interface AdminSecurityService {
      * @param confirmPassword the confirm password to ensure it matches password
      * @return Response can contain errors including (invalidUser, emailNotFound, inactiveUser, invalidPassword, passwordMismatch)
      */
-    GenericResponse changePassword(String username, String oldPassword, String password, String confirmPassword);
+    GenericResponse changePassword(String username, String oldPassword, String password, String confirmPassword); // &line[changePassword]
 
     /**
      * Returns a list of admin users that match the given email. This could potentially return more than one user if the
@@ -117,6 +117,6 @@ public interface AdminSecurityService {
      * @param email the email address to search for
      * @return a {@link List} of {@link AdminUser} matching the provided email address
      */
-    List<AdminUser> readAdminUsersByEmail(String email);
+    List<AdminUser> readAdminUsersByEmail(String email); // &line[readAdminUsersByEmail]
 
 }

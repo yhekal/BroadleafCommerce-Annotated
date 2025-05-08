@@ -330,8 +330,8 @@ public class SolrIndexServiceImpl implements SolrIndexService, InitializingBean 
     @Override
     public void deleteAllNamespaceDocuments(String collection, SolrClient server) throws ServiceException {
         try {
-            String deleteQuery = StringUtil.sanitize(shs.getNamespaceFieldName()) + ":(\""
-                    + StringUtil.sanitize(solrConfiguration.getNamespace()) + "\")";
+            String deleteQuery = StringUtil.sanitize(shs.getNamespaceFieldName()) + ":(\"" // &line[sanitize]
+                    + StringUtil.sanitize(solrConfiguration.getNamespace()) + "\")"; // &line[sanitize]
             LOG.debug("Deleting by query: " + deleteQuery);
             server.deleteByQuery(collection, deleteQuery);
 

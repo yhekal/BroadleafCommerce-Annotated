@@ -67,8 +67,10 @@ public class UpdateAccountValidator implements Validator {
     }
 
     @Override
+            // &begin[validate]
     public void validate(Object target, Errors errors) {
 
     }
+    // &end[validate]
 
 }

@@ -34,8 +34,10 @@ public class InnerStaticImportConfiguration {
     public static class InnerStaticConfiguration {
 
         @Bean
+// &begin[blPasswordEncoder]
         public PasswordEncoder blPasswordEncoder() {
             return NoOpPasswordEncoder.getInstance();
         }
+        // &end[blPasswordEncoder]
     }
 }

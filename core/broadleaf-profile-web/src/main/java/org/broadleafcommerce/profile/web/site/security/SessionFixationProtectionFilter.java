@@ -73,10 +73,10 @@ public class SessionFixationProtectionFilter extends GenericFilterBean {
     public void doFilter(ServletRequest sRequest, ServletResponse sResponse, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) sRequest;
         HttpServletResponse response = (HttpServletResponse) sResponse;
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession(false); // &line[getSession]
 
         if (enabled) {
-            if (SecurityContextHolder.getContext() == null) {
+            if (SecurityContextHolder.getContext() == null) { // &line[SessionManagement_getContext_L]
                 chain.doFilter(request, response);
             }
 
@@ -101,15 +101,15 @@ public class SessionFixationProtectionFilter extends GenericFilterBean {
                 // The request is secure, but we haven't set a session fixation protection cookie yet
                 String token;
                 try {
-                    token = RandomGenerator.generateRandomId("SHA1PRNG", 32);
+                    token = RandomGenerator.generateRandomId("SHA1PRNG", 32); // &line[generateRandomId_SHA1PRNG]
                 } catch (NoSuchAlgorithmException e) {
                     throw new ServletException(e);
                 }
 
-                String encryptedActiveIdValue = encryptionModule.encrypt(token);
+                String encryptedActiveIdValue = encryptionModule.encrypt(token); // &line[encrypt]
 
                 session.setAttribute(SESSION_ATTR, token);
-                cookieUtils.setCookieValue(
+                cookieUtils.setCookieValue( // &line[setCookieValue]
                         response,
                         SessionFixationProtectionCookie.COOKIE_NAME,
                         encryptedActiveIdValue,
@@ -124,10 +124,10 @@ public class SessionFixationProtectionFilter extends GenericFilterBean {
     }
 
     protected void abortUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        SecurityContextHolder.clearContext();
+        SecurityContextHolder.clearContext(); // &line[SessionManagement_clearContext_L]
         cookieUtils.invalidateCookie(response, SessionFixationProtectionCookie.COOKIE_NAME);
         if (BLCRequestUtils.isOKtoUseSession(new ServletWebRequest(request))) {
-            request.getSession().invalidate();
+            request.getSession().invalidate(); // &line[getSession]
         }
         response.sendRedirect("/");
     }

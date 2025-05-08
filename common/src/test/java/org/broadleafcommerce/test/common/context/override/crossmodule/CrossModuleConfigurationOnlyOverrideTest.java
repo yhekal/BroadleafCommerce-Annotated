@@ -42,10 +42,11 @@ public class CrossModuleConfigurationOnlyOverrideTest {
     static class CrossModuleConfiguration {}
 
     @Autowired
+
     protected PasswordEncoder passwordEncoder;
 
     @Test
     public void testCrossModuleConfigurationBeanOverride() {
-        Assert.assertEquals(BCryptPasswordEncoder.class, passwordEncoder.getClass());
+        Assert.assertEquals(BCryptPasswordEncoder.class, passwordEncoder.getClass()); // &line[BCryptPasswordEncoder]
     }
 }

@@ -152,9 +152,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void createRegisteredCustomerRoles(Customer customer) {
-        Role role = roleDao.readRoleByName("ROLE_USER");
+        Role role = roleDao.readRoleByName("ROLE_USER");  // &line[readRoleByName]
         CustomerRole customerRole = new CustomerRoleImpl();
-        customerRole.setRole(role);
+        customerRole.setRole(role);  // &line[setRole]
         customerRole.setCustomer(customer);
         roleDao.addRoleToCustomer(customerRole);
     }
@@ -166,9 +166,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional(TransactionUtils.DEFAULT_TRANSACTION_MANAGER)
+            // &begin[changePassword]
     public Customer changePassword(PasswordChange passwordChange) {
         Customer customer = readCustomerByUsername(passwordChange.getUsername());
-        customer.setUnencodedPassword(passwordChange.getNewPassword());
+        customer.setUnencodedPassword(passwordChange.getNewPassword()); // &line[setUnencodedPassword]
         customer.setPasswordChangeRequired(passwordChange.getPasswordChangeRequired());
         customer = saveCustomer(customer);
 
@@ -178,13 +179,15 @@ public class CustomerServiceImpl implements CustomerService {
 
         return customer;
     }
+    // &end[changePassword]
 
     @Override
     @Transactional(TransactionUtils.DEFAULT_TRANSACTION_MANAGER)
+            // &begin[resetPassword]
     public Customer resetPassword(PasswordReset passwordReset) {
         Customer customer = readCustomerByUsername(passwordReset.getUsername());
-        String newPassword = PasswordUtils.generateSecurePassword(passwordReset.getPasswordLength());
-        customer.setUnencodedPassword(newPassword);
+        String newPassword = PasswordUtils.generateSecurePassword(passwordReset.getPasswordLength()); // &line[generateSecurePassword]
+        customer.setUnencodedPassword(newPassword); // &line[setUnencodedPassword]
         customer.setPasswordChangeRequired(passwordReset.getPasswordChangeRequired());
         customer = saveCustomer(customer);
 
@@ -194,7 +197,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         return customer;
     }
-
+    // &end[resetPassword]
     @Override
     public void addPostRegisterListener(PostRegistrationObserver postRegisterListeners) {
         this.postRegisterListeners.add(postRegisterListeners);
@@ -286,14 +289,18 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+            // &begin[encodePassword]
     public String encodePassword(String rawPassword) {
-        return passwordEncoderBean.encode(rawPassword);
+        return passwordEncoderBean.encode(rawPassword);  // &line[CryptographicHashing_encode_L]
     }
+    // &end[encodePassword]
 
     @Override
+            // &begin[isPasswordValid]
     public boolean isPasswordValid(String rawPassword, String encodedPassword) {
-        return passwordEncoderBean.matches(rawPassword, encodedPassword);
+        return passwordEncoderBean.matches(rawPassword, encodedPassword); // &line[CryptographicHashing_matches_L]
     }
+    // &end[isPasswordValid]
 
     @Override
     public boolean customerPassesCustomerRule(Customer customer, CustomerRuleHolder customerRuleHolder) {
@@ -330,6 +337,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional(TransactionUtils.DEFAULT_TRANSACTION_MANAGER)
+            // &begin[sendForgotUsernameNotification]
     public GenericResponse sendForgotUsernameNotification(String emailAddress) {
         GenericResponse response = new GenericResponse();
         List<Customer> customers = null;
@@ -356,9 +364,11 @@ public class CustomerServiceImpl implements CustomerService {
         }
         return response;
     }
+    // &end[sendForgotUsernameNotification]
 
     @Override
     @Transactional(TransactionUtils.DEFAULT_TRANSACTION_MANAGER)
+            // &begin[sendForgotPasswordNotification]
     public GenericResponse sendForgotPasswordNotification(String username, String resetPasswordUrl) {
         GenericResponse response = new GenericResponse();
         Customer customer = null;
@@ -370,12 +380,12 @@ public class CustomerServiceImpl implements CustomerService {
         checkCustomer(customer, response);
 
         if (!response.getHasErrors()) {
-            String token = PasswordUtils.generateSecurePassword(getPasswordTokenLength());
+            String token = PasswordUtils.generateSecurePassword(getPasswordTokenLength()); // &line[generateSecurePassword]
             token = token.toLowerCase();
 
             CustomerForgotPasswordSecurityToken fpst = new CustomerForgotPasswordSecurityTokenImpl();
             fpst.setCustomerId(customer.getId());
-            fpst.setToken(encodePassword(token));
+            fpst.setToken(encodePassword(token)); // &line[setToken]
             fpst.setCreateDate(SystemTime.asDate());
             customerForgotPasswordSecurityTokenDao.saveToken(fpst);
 
@@ -391,14 +401,18 @@ public class CustomerServiceImpl implements CustomerService {
         }
         return response;
     }
+    // &end[sendForgotPasswordNotification]
 
     @Override
     @Transactional(TransactionUtils.DEFAULT_TRANSACTION_MANAGER)
+            // &begin[sendForcedPasswordChangeNotification]
     public GenericResponse sendForcedPasswordChangeNotification(String username, String resetPasswordUrl) {
         return sendForgotPasswordNotification(username, resetPasswordUrl);
     }
+    // &end[sendForcedPasswordChangeNotification]
 
     @Override
+// &begin[checkPasswordResetToken]
     public GenericResponse checkPasswordResetToken(String token, Customer customer) {
         GenericResponse response = new GenericResponse();
         checkPasswordResetToken(token, customer, response);
@@ -420,7 +434,7 @@ public class CustomerServiceImpl implements CustomerService {
                 List<CustomerForgotPasswordSecurityToken> fpstoks = customerForgotPasswordSecurityTokenDao
                         .readUnusedTokensByCustomerId(customer.getId());
                 for (CustomerForgotPasswordSecurityToken fpstok : fpstoks) {
-                    if (isPasswordValid(rawToken, fpstok.getToken())) {
+                    if (isPasswordValid(rawToken, fpstok.getToken())) { // &line[getToken]
                         fpst = fpstok;
                         break;
                     }
@@ -436,9 +450,11 @@ public class CustomerServiceImpl implements CustomerService {
         }
         return fpst;
     }
+    // &end[checkPasswordResetToken]
 
     @Override
     @Transactional(TransactionUtils.DEFAULT_TRANSACTION_MANAGER)
+// &begin[resetPasswordUsingToken]
     public GenericResponse resetPasswordUsingToken(String username, String token, String password, String confirmPassword) {
         GenericResponse response = new GenericResponse();
         Customer customer = null;
@@ -447,20 +463,20 @@ public class CustomerServiceImpl implements CustomerService {
         }
         checkCustomer(customer, response);
         checkPassword(password, confirmPassword, response);
-        CustomerForgotPasswordSecurityToken fpst = checkPasswordResetToken(token, customer, response);
+        CustomerForgotPasswordSecurityToken fpst = checkPasswordResetToken(token, customer, response);  // &line[checkPasswordResetToken]
 
         if (!response.getHasErrors()) {
             if (!customer.getId().equals(fpst.getCustomerId())) {
                 if (LOG.isWarnEnabled()) {
                     LOG.warn("Password reset attempt tried with mismatched customer and token " + customer.getId()
-                            + ", " + StringUtil.sanitize(token));
+                            + ", " + StringUtil.sanitize(token)); // &line[sanitize]
                 }
                 response.addErrorCode("invalidToken");
             }
         }
 
         if (!response.getHasErrors()) {
-            customer.setUnencodedPassword(password);
+            customer.setUnencodedPassword(password); // &line[setUnencodedPassword]
             customer.setPasswordChangeRequired(false);
             saveCustomer(customer);
             invalidateAllTokensForCustomer(customer);
@@ -468,16 +484,20 @@ public class CustomerServiceImpl implements CustomerService {
 
         return response;
     }
+    // &end[resetPasswordUsingToken]
 
+    // &begin[invalidateAllTokensForCustomer]
     protected void invalidateAllTokensForCustomer(Customer customer) {
         List<CustomerForgotPasswordSecurityToken> tokens = customerForgotPasswordSecurityTokenDao
                 .readUnusedTokensByCustomerId(customer.getId());
         for (CustomerForgotPasswordSecurityToken token : tokens) {
             token.setTokenUsedFlag(true);
-            customerForgotPasswordSecurityTokenDao.saveToken(token);
+            customerForgotPasswordSecurityTokenDao.saveToken(token); // &line[saveToken]
         }
     }
+    // &end[invalidateAllTokensForCustomer]
 
+    // &begin[checkCustomer]
     protected void checkCustomer(Customer customer, GenericResponse response) {
         if (customer == null) {
             response.addErrorCode("invalidCustomer");
@@ -487,7 +507,9 @@ public class CustomerServiceImpl implements CustomerService {
             response.addErrorCode("inactiveUser");
         }
     }
+    // &end[checkCustomer]
 
+    // &begin[checkPassword]
     protected void checkPassword(String password, String confirmPassword, GenericResponse response) {
         if (StringUtils.isBlank(password) || StringUtils.isBlank(confirmPassword)) {
             response.addErrorCode("invalidPassword");
@@ -495,7 +517,9 @@ public class CustomerServiceImpl implements CustomerService {
             response.addErrorCode("passwordMismatch");
         }
     }
+    // &end[checkPassword]
 
+    // &begin[isTokenExpired]
     protected boolean isTokenExpired(CustomerForgotPasswordSecurityToken fpst) {
         Date now = SystemTime.asDate();
         long currentTimeInMillis = now.getTime();
@@ -503,6 +527,7 @@ public class CustomerServiceImpl implements CustomerService {
         long minutesSinceSave = (currentTimeInMillis - tokenSaveTimeInMillis) / 60000;
         return minutesSinceSave > tokenExpiredMinutes;
     }
+    // &end[isTokenExpired]
 
     public int getTokenExpiredMinutes() {
         return tokenExpiredMinutes;

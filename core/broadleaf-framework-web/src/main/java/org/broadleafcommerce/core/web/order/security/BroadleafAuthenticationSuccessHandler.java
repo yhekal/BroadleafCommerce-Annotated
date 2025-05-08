@@ -39,21 +39,23 @@ public class BroadleafAuthenticationSuccessHandler extends SavedRequestAwareAuth
     protected static final String SESSION_ATTR = "SFP-ActiveID";
 
     @Override
+     // &begin[onAuthenticationSuccess]
     public void onAuthenticationSuccess(
             HttpServletRequest request,
             HttpServletResponse response,
             Authentication authentication
     ) throws ServletException, IOException {
 
-        String targetUrl = request.getParameter(getTargetUrlParameter());
+        String targetUrl = request.getParameter(getTargetUrlParameter()); // &line[Authentication_getTargetUrlParameter_L]
         if (BLCRequestUtils.isOKtoUseSession(new ServletWebRequest(request))) {
-            request.getSession().removeAttribute(SESSION_ATTR);
+            request.getSession().removeAttribute(SESSION_ATTR);  // &line[getSession]
         }
         if (StringUtils.isNotBlank(targetUrl) && targetUrl.contains(":")) {
-            getRedirectStrategy().sendRedirect(request, response, getDefaultTargetUrl());
+            getRedirectStrategy().sendRedirect(request, response, getDefaultTargetUrl()); // &line[Authentication_getRedirectStrategy_L , Authentication_getDefaultTargetUrl_L]
         } else {
             super.onAuthenticationSuccess(request, response, authentication);
         }
     }
+    // &end[onAuthenticationSuccess]
 
 }

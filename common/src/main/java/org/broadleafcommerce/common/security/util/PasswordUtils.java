@@ -24,9 +24,10 @@ import java.util.Random;
 
 public class PasswordUtils {
 
-    private static final Random RANDOM = new SecureRandom();
+    private static final Random RANDOM = new SecureRandom(); // &line[SourceOfRandomness_SecureRandom_L]
     private static final String CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789";
 
+    // &begin[generateSecurePassword]
     public static String generateSecurePassword(int requiredLength) {
 
         int start = 0;
@@ -40,5 +41,6 @@ public class PasswordUtils {
 
         return password;
     }
+    // &end[generateSecurePassword]
 
 }

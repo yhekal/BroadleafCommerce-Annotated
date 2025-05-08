@@ -86,7 +86,7 @@ public class ProtoChannelBeanPostProcessor implements BeanPostProcessor, Ordered
                 channelProcessors.setAccessible(true);
                 List<ChannelProcessor> list = (List<ChannelProcessor>) channelProcessors.get(manager);
                 list.clear();
-                manager.setChannelProcessors(channelProcessorOverrides);
+                manager.setChannelProcessors(channelProcessorOverrides); // &line[Authorization_setChannelProcessors_L]
                 LOG.info("Replacing the standard Spring Security channel processors with custom processors that look for a " +
                         "'X-Forwarded-Proto' request header. This allows Spring Security to sit behind a load balancer with SSL termination.");
             } catch (Exception e) {

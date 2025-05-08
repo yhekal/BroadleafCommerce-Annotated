@@ -52,14 +52,14 @@ public class ProtoSecureChannelProcessor extends SecureChannelProcessor {
         Assert.isTrue((invocation != null) && (config != null), "Nulls cannot be provided");
 
         for (ConfigAttribute attribute : config) {
-            if (supports(attribute)) {
+            if (supports(attribute)) { // &line[Authorization_supports_L]
                 if (invocation.getHttpRequest().getHeader("X-Forwarded-Proto") != null
                         && "https".equalsIgnoreCase(invocation.getHttpRequest().getHeader("X-Forwarded-Proto"))) {
                     return;
                 } else if (invocation.getHttpRequest().isSecure()) {
                     return;
                 } else {
-                    getEntryPoint().commence(invocation.getRequest(), invocation.getResponse());
+                    getEntryPoint().commence(invocation.getRequest(), invocation.getResponse()); // &line[Authorization_getEntryPoint_L, Authorization_commence_L]
                 }
             }
         }

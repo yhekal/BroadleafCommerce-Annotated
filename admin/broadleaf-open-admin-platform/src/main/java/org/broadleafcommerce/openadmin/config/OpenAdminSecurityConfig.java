@@ -36,6 +36,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @since 5.2
  */
 @Configuration
+
+// &begin[OpenAdminSecurityConfig]
 public class OpenAdminSecurityConfig {
 
     @Autowired
@@ -44,14 +46,16 @@ public class OpenAdminSecurityConfig {
 
     @Autowired
     @Qualifier("blAdminPasswordEncoder")
+
     protected PasswordEncoder adminPasswordEncoder;
 
     @Bean
     public AuthenticationProvider blAdminAuthenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService);
-        provider.setPasswordEncoder(adminPasswordEncoder);
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();// &line[Authentication_DaoAuthenticationProvider_L]
+        provider.setUserDetailsService(userDetailsService); // &line[Authentication_setUserDetailsService_L]
+        provider.setPasswordEncoder(adminPasswordEncoder); // &line[Authentication_setPasswordEncoder_L]
         return provider;
     }
 
 }
+// &end[OpenAdminSecurityConfig]

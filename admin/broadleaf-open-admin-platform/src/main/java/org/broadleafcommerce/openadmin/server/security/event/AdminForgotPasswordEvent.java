@@ -22,6 +22,7 @@ import org.broadleafcommerce.common.event.BroadleafApplicationEvent;
 /**
  * @author Nick Crum ncrum
  */
+// &begin[AdminForgotPasswordEvent]
 public class AdminForgotPasswordEvent extends BroadleafApplicationEvent {
 
     protected Long adminUserId;
@@ -34,29 +35,36 @@ public class AdminForgotPasswordEvent extends BroadleafApplicationEvent {
         this.token = token;
         this.resetPasswordUrl = resetPasswordUrl;
     }
-
+    // &begin[getAdminUserId]
     public Long getAdminUserId() {
         return adminUserId;
     }
-
+    // &end[getAdminUserId]
+    // &begin[setAdminUserId]
     public void setAdminUserId(Long adminUserId) {
         this.adminUserId = adminUserId;
     }
-
+    // &end[setAdminUserId]
+    // &begin[getToken]
     public String getToken() {
         return token;
     }
+    // &end[getToken]
 
+// &begin[setToken]
     public void setToken(String token) {
         this.token = token;
     }
-
+    // &end[setToken]
+// &begin[getResetPasswordUrl]
     public String getResetPasswordUrl() {
         return resetPasswordUrl;
     }
-
+    // &end[getResetPasswordUrl]
+    // &begin[setResetPasswordUrl]
     public void setResetPasswordUrl(String resetPasswordUrl) {
         this.resetPasswordUrl = resetPasswordUrl;
     }
-
+// &end[setResetPasswordUrl]
 }
+// &end[AdminForgotPasswordEvent]

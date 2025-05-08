@@ -132,7 +132,7 @@ public class BLCFieldUtils {
             }
             if (myClass == null) {
                 String message = String.format("Unable to find the field (%s) anywhere in the inheritance hierarchy for (%s)",
-                        StringUtil.sanitize(propertyName), StringUtil.sanitize(clazz.getName()));
+                        StringUtil.sanitize(propertyName), StringUtil.sanitize(clazz.getName())); // &line[sanitize]
                 LOG.debug(message);
                 return null;
             }
@@ -174,10 +174,10 @@ public class BLCFieldUtils {
             }
         }
         if (matchedClasses.size() > 1) {
-            String message = "Found the property (" + StringUtil.sanitize(token) + ") in more than one class of an inheritance hierarchy. " +
+            String message = "Found the property (" + StringUtil.sanitize(token) + ") in more than one class of an inheritance hierarchy. " + // &line[sanitize]
                     "This may lead to unwanted behavior, as the system does not know which class was intended. Do not " +
                     "use the same property name in different levels of the inheritance hierarchy. Defaulting to the " +
-                    "first class found (" + StringUtil.sanitize(matchedClasses.get(0).getName()) + ")";
+                    "first class found (" + StringUtil.sanitize(matchedClasses.get(0).getName()) + ")";   // &line[sanitize]
             LOG.warn(message);
         }
         if (matchedClasses.isEmpty()) {

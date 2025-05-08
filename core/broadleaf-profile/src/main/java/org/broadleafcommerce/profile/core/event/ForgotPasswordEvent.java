@@ -28,12 +28,14 @@ public class ForgotPasswordEvent extends BroadleafApplicationEvent {
     protected String token;
     protected String resetPasswordUrl;
 
+// &begin[ForgotPasswordEvent]
     public ForgotPasswordEvent(Object source, Long customerId, String token, String resetPasswordUrl) {
         super(source);
         this.customerId = customerId;
         this.token = token;
         this.resetPasswordUrl = resetPasswordUrl;
     }
+    // &end[ForgotPasswordEvent]
 
     public Long getCustomerId() {
         return customerId;
@@ -43,20 +45,28 @@ public class ForgotPasswordEvent extends BroadleafApplicationEvent {
         this.customerId = customerId;
     }
 
+    // &begin[getToken]
     public String getToken() {
         return token;
     }
+    // &end[getToken]
 
+// &begin[setToken]
     public void setToken(String token) {
         this.token = token;
     }
+    // &end[setToken]
 
+    // &begin[getResetPasswordUrl]
     public String getResetPasswordUrl() {
         return resetPasswordUrl;
     }
+    // &end[getResetPasswordUrl]
 
+    // &begin[setResetPasswordUrl]
     public void setResetPasswordUrl(String resetPasswordUrl) {
         this.resetPasswordUrl = resetPasswordUrl;
     }
+    // &end[setResetPasswordUrl]
 
 }

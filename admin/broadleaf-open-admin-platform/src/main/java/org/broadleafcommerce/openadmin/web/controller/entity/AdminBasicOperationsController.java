@@ -157,8 +157,8 @@ public class AdminBasicOperationsController extends AdminAbstractController {
             }
 
             //To "escape" characters like single quote
-            listGrid.setFriendlyName(StringEscapeUtils.escapeEcmaScript(listGrid.getFriendlyName()));
-            listGrid.setJsonFieldName(StringEscapeUtils.escapeEcmaScript(listGrid.getJsonFieldName()));
+            listGrid.setFriendlyName(StringEscapeUtils.escapeEcmaScript(listGrid.getFriendlyName())); // &line[escapeEcmaScript]
+            listGrid.setJsonFieldName(StringEscapeUtils.escapeEcmaScript(listGrid.getJsonFieldName()));// &line[escapeEcmaScript]
 
             model.addAttribute("listGrid", listGrid);
         }
@@ -236,7 +236,7 @@ public class AdminBasicOperationsController extends AdminAbstractController {
             HttpServletRequest request,
             HttpServletResponse response
     ) throws Exception {
-        long serverSessionTimeoutInterval = request.getSession().getMaxInactiveInterval() * 1000;
+        long serverSessionTimeoutInterval = request.getSession().getMaxInactiveInterval() * 1000; // &line[getSession]
         return (new JsonResponse(response))
                 .with("serverSessionTimeoutInterval", serverSessionTimeoutInterval)
                 .done();
@@ -254,8 +254,8 @@ public class AdminBasicOperationsController extends AdminAbstractController {
         String message = requestParams.getFirst("message");
 
         // Log the error
-        LOG.error("[JS] - (" + StringUtil.sanitize(url) + ":" + StringUtil.sanitize(lineNumber) + ") - "
-                + StringUtil.sanitize(message));
+        LOG.error("[JS] - (" + StringUtil.sanitize(url) + ":" + StringUtil.sanitize(lineNumber) + ") - " // &line[sanitize]
+                + StringUtil.sanitize(message)); // &line[sanitize]
 
         // Return an errorLogged message to the client
         return (new JsonResponse(response))

@@ -72,9 +72,9 @@ public class BroadleafUpdateAccountController extends BroadleafAbstractControlle
             return getUpdateAccountView();
         }
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth == null || !auth.isAuthenticated()) {
-            throw new AuthenticationCredentialsNotFoundException("Authentication was null, not authenticated, or not logged in.");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();  // &line[SessionManagement_getContext_L, SessionManagement_getAuthentication_L]
+        if (auth == null || !auth.isAuthenticated()) { // &line[Authentication_isAuthenticated_L]
+            throw new AuthenticationCredentialsNotFoundException("Authentication was null, not authenticated, or not logged in."); // &line[Authentication_AuthenticationCredentialsNotFoundException_L]
         }
 
         Customer customer = CustomerState.getCustomer();
@@ -89,12 +89,11 @@ public class BroadleafUpdateAccountController extends BroadleafAbstractControlle
         customer = customerService.saveCustomer(customer);
 
         if (useEmailForLogin) {
-            UserDetails principal = userDetailsService.loadUserByUsername(customer.getUsername());
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                    principal, principal.getPassword(), auth.getAuthorities()
+            UserDetails principal = userDetailsService.loadUserByUsername(customer.getUsername()); // &line[SessionManagement_loadUserByUsername_L]
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken( // &line[Authentication_UsernamePasswordAuthenticationToken_L]
+                    principal, principal.getPassword(), auth.getAuthorities() // &line[SessionManagement_getPassword_L, Authentication_getAuthorities_L]
             );
-
-            SecurityContextHolder.getContext().setAuthentication(token);
+            SecurityContextHolder.getContext().setAuthentication(token);  // &line[SessionManagement_getContext_L, SessionManagement_setAuthentication_L]
         }
 
         redirectAttributes.addFlashAttribute("successMessage", getAccountUpdatedMessage());

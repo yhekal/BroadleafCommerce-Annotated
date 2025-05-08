@@ -32,7 +32,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class XMLImportOverrideConfiguration2 {
 
     @Bean
+// &begin[blPasswordEncoder]
     public PasswordEncoder blPasswordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
+    // &end[blPasswordEncoder]
 }

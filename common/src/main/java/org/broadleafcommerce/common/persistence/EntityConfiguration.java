@@ -75,7 +75,7 @@ public class EntityConfiguration implements ApplicationContextAware {
             entityMap.put(beanId, clazz);
         }
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Returning class (" + clazz.getName() + ") configured with bean id (" + StringUtil.sanitize(beanId) + ')');
+            LOG.debug("Returning class (" + clazz.getName() + ") configured with bean id (" + StringUtil.sanitize(beanId) + ')'); // &line[sanitize]
         }
         return clazz;
     }

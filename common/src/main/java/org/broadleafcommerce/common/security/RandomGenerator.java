@@ -61,10 +61,13 @@ public final class RandomGenerator {
          */
     }
 
+    // &begin[generateRandomId]
     public static String generateRandomId(String prng, int len) throws NoSuchAlgorithmException {
-        return generateRandomId(SecureRandom.getInstance(prng), len);
+        return generateRandomId(SecureRandom.getInstance(prng), len); // &line[SourceOfRandomness_getInstance_L]
     }
+    // &end[generateRandomId]
 
+// &begin[generateRandomId]
     public static String generateRandomId(SecureRandom sr, int len) {
         StringBuilder sb = new StringBuilder();
 
@@ -80,6 +83,7 @@ public final class RandomGenerator {
 
         return sb.toString();
     }
+    // &end[generateRandomId]
 
     @Override
     public Object clone() throws CloneNotSupportedException {

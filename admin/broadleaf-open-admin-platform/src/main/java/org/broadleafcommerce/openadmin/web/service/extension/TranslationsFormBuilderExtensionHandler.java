@@ -59,11 +59,11 @@ public class TranslationsFormBuilderExtensionHandler extends AbstractFormBuilder
                     if (displayValue.length() > 30) {
                         displayValue = displayValue.substring(0, 30) + "...";
                     }
-                    translatedValue.setDisplayValue(StringEscapeUtils.escapeHtml4(displayValue));
+                    translatedValue.setDisplayValue(StringEscapeUtils.escapeHtml4(displayValue)); // &line[escapeHtml4]
                     if (value.length() > 30) {
                         value = value.substring(0, 30) + "...";
                     }
-                    translatedValue.setValue(StringEscapeUtils.escapeHtml4(value));
+                    translatedValue.setValue(StringEscapeUtils.escapeHtml4(value)); // &line[escapeHtml4]
                 }
                 return ExtensionResultStatusType.HANDLED;
             }

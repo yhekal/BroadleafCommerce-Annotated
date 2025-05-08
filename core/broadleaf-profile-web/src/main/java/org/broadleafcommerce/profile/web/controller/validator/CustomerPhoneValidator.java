@@ -29,6 +29,7 @@ import java.util.List;
 import jakarta.annotation.Resource;
 
 @Component("blCustomerPhoneValidator")
+// &begin[CustomerPhoneValidator]
 public class CustomerPhoneValidator implements Validator {
 
     @Resource(name = "blCustomerPhoneService")
@@ -43,6 +44,7 @@ public class CustomerPhoneValidator implements Validator {
         return clazz.equals(Phone.class);
     }
 
+    // &begin[CustomerPhoneValidator_validate]
     public void validate(Object obj, Errors errors) {
         //use regular phone
         CustomerPhone cPhone = (CustomerPhone) obj;
@@ -103,5 +105,6 @@ public class CustomerPhoneValidator implements Validator {
             }
         }
     }
-
+// &end[CustomerPhoneValidator_validate]
 }
+// &end[CustomerPhoneValidator]

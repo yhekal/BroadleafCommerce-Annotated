@@ -649,7 +649,7 @@ public class FormBuilderServiceImpl implements FormBuilderService {
 
         if (CollectionUtils.isEmpty(headerFields)) {
             String message = "There are no listgrid header fields configured for the class " + ceilingType + " and property '" +
-                    StringUtil.sanitize(field.getName()) + "'.";
+                    StringUtil.sanitize(field.getName()) + "'."; // &line[sanitize]
             if (selectize && (type == ListGrid.Type.ADORNED || type == ListGrid.Type.ADORNED_WITH_FORM)) {
                 message += " Please configure 'selectizeVisibleField' in your @AdminPresentationAdornedTargetCollection configuration";
             } else if (type == ListGrid.Type.ADORNED || type == ListGrid.Type.ADORNED_WITH_FORM) {
@@ -1405,8 +1405,8 @@ public class FormBuilderServiceImpl implements FormBuilderService {
     }
 
     protected String buildMsgForDefValException(String type, BasicFieldMetadata fmd, String defaultValue) {
-        return StringUtil.sanitize(fmd.getTargetClass()) + " : " + StringUtil.sanitize(fmd.getName()) + " - Failed to parse "
-                + StringUtil.sanitize(type) + " from DefaultValue [ " + StringUtil.sanitize(defaultValue) + " ]";
+        return StringUtil.sanitize(fmd.getTargetClass()) + " : " + StringUtil.sanitize(fmd.getName()) + " - Failed to parse " // &line[sanitize]
+                + StringUtil.sanitize(type) + " from DefaultValue [ " + StringUtil.sanitize(defaultValue) + " ]"; // &line[sanitize]
     }
 
     @Override
@@ -1655,7 +1655,7 @@ public class FormBuilderServiceImpl implements FormBuilderService {
                     for (Entity row : rows) {
                         Property prop = row.findProperty(displayProp);
                         if (prop == null) {
-                            LOG.warn("Could not find displayProp [" + StringUtil.sanitize(displayProp) + "] on entity [" +
+                            LOG.warn("Could not find displayProp [" + StringUtil.sanitize(displayProp) + "] on entity [" + // &line[sanitize]
                                     ef.getCeilingEntityClassname() + "]");
                         } else {
                             String displayValue = prop.getDisplayValue();

@@ -32,6 +32,7 @@ public class OrderInfoFormValidator implements Validator {
         return clazz.equals(OrderInfoForm.class);
     }
 
+    // &begin[validate]
     public void validate(Object obj, Errors errors) {
         OrderInfoForm orderInfoForm = (OrderInfoForm) obj;
 
@@ -45,5 +46,6 @@ public class OrderInfoFormValidator implements Validator {
             }
         }
     }
+    // &end[validate]
 
 }

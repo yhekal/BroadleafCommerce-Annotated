@@ -67,7 +67,7 @@ public class ProductOptionValidationServiceImpl implements ProductOptionValidati
         String attributeName = productOption.getAttributeName();
 
         if (isRequiredAttributeNotProvided(productOption, value)) {
-            String message = "Required attribute, " + StringUtil.sanitize(attributeName) + ", not provided";
+            String message = "Required attribute, " + StringUtil.sanitize(attributeName) + ", not provided"; // &line[sanitize]
 
             LOG.error(message);
             throw new RequiredAttributeNotProvidedException(message, attributeName);
@@ -81,7 +81,7 @@ public class ProductOptionValidationServiceImpl implements ProductOptionValidati
             if (requiresValidation(productOption, value) && !validateRegex(validationString, value)) {
                 String errorMessage = productOption.getErrorMessage();
                 if (StringUtils.isEmpty(errorMessage)) {
-                    errorMessage = "Value [" + StringUtil.sanitize(value) + "] does not match regex string [" + validationString + "]";
+                    errorMessage = "Value [" + StringUtil.sanitize(value) + "] does not match regex string [" + validationString + "]"; // &line[sanitize]
                 }
 
                 LOG.error(errorMessage);

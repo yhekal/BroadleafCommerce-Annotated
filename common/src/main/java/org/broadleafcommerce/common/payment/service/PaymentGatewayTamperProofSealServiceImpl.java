@@ -36,6 +36,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class PaymentGatewayTamperProofSealServiceImpl implements PaymentGatewayTamperProofSealService {
 
     @Override
+            // &begin[createTamperProofSeal]
     public String createTamperProofSeal(
             String secretKey,
             String customerId,
@@ -43,22 +44,24 @@ public class PaymentGatewayTamperProofSealServiceImpl implements PaymentGatewayT
     ) throws NoSuchAlgorithmException, InvalidKeyException {
 
         //Create a URL-Safe Base64 encoder as some of these may get passed back as URL GET parameters
-        Base64 encoder = new Base64(true);
-        Mac sha1Mac = Mac.getInstance("HmacSHA1");
-        SecretKeySpec publicKeySpec = new SecretKeySpec(secretKey.getBytes(), "HmacSHA1");
-        sha1Mac.init(publicKeySpec);
+        Base64 encoder = new Base64(true); // &line[Base64]
+        Mac sha1Mac = Mac.getInstance("HmacSHA1"); // &line[sha1Mac]
+        SecretKeySpec publicKeySpec = new SecretKeySpec(secretKey.getBytes(), "HmacSHA1"); // &line[SecretKeySpec]
+        sha1Mac.init(publicKeySpec); // &line[sha1Mac_init]
         String customerOrderString = customerId + orderId;
         byte[] publicBytes = sha1Mac.doFinal(customerOrderString.getBytes());
         String publicDigest = encoder.encodeToString(publicBytes);
 
         return publicDigest.replaceAll("\\r|\\n", "");
     }
+    // &end[createTamperProofSeal]
 
     @Override
+            // &begin[verifySeal]
     public Boolean verifySeal(String seal, String secretKey, String customerId, String orderId)
             throws InvalidKeyException, NoSuchAlgorithmException {
         Boolean valid = false;
-        String constructedSeal = createTamperProofSeal(secretKey, customerId, orderId);
+        String constructedSeal = createTamperProofSeal(secretKey, customerId, orderId); // &line[createTamperProofSeal]
 
         if (seal != null && seal.equals(constructedSeal)) {
             valid = true;
@@ -66,5 +69,6 @@ public class PaymentGatewayTamperProofSealServiceImpl implements PaymentGatewayT
 
         return valid;
     }
+    // &end[verifySeal]
 
 }

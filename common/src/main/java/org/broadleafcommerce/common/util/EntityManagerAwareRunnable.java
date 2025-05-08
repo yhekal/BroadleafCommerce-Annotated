@@ -46,8 +46,8 @@ public abstract class EntityManagerAwareRunnable implements Runnable {
     public static final String DEFAULT_ENTITY_MANAGER_NAME = "blPU";
     private static final Log LOG = LogFactory.getLog(EntityManagerAwareRunnable.class);
 
-    private final Semaphore semaphore;
-    private EntityManager em;
+    private final Semaphore semaphore; // &line[Semaphore]
+    private EntityManager em; // &line[EntityManager]
 
     /**
      * Constructs an abstract {@link Runnable} implementation that can be run in another thread.  Guarantees that an {@link EntityManager} is bound
@@ -65,8 +65,9 @@ public abstract class EntityManagerAwareRunnable implements Runnable {
      *
      * @param sem
      */
+
     public EntityManagerAwareRunnable(Semaphore sem) {
-        this.semaphore = sem;
+        this.semaphore = sem; // &line[Semaphore]
     }
 
     /**
@@ -87,9 +88,9 @@ public abstract class EntityManagerAwareRunnable implements Runnable {
                 if (TransactionSynchronizationManager.hasResource(emf)) {
                     // Do not modify the EntityManager. Just set the participate flag.
                     participate = true;
-                    em = ((EntityManagerHolder) TransactionSynchronizationManager.getResource(emf)).getEntityManager();
+                    em = ((EntityManagerHolder) TransactionSynchronizationManager.getResource(emf)).getEntityManager(); // &line[getEntityManager]
                 } else {
-                    em = emf.createEntityManager();
+                    em = emf.createEntityManager(); // &line[createEntityManager]
                     EntityManagerHolder emHolder = new EntityManagerHolder(em);
                     TransactionSynchronizationManager.bindResource(emf, emHolder);
                 }
@@ -108,7 +109,7 @@ public abstract class EntityManagerAwareRunnable implements Runnable {
                 if (!participate) {
                     EntityManagerHolder emHolder = (EntityManagerHolder)
                             TransactionSynchronizationManager.unbindResource(emf);
-                    EntityManagerFactoryUtils.closeEntityManager(emHolder.getEntityManager());
+                    EntityManagerFactoryUtils.closeEntityManager(emHolder.getEntityManager());  // &line[closeEntityManager]
                 }
             }
         } finally {
@@ -145,7 +146,7 @@ public abstract class EntityManagerAwareRunnable implements Runnable {
         return ApplicationContextHolder.getApplicationContext();
     }
 
-    protected final EntityManager getEntityManager() {
+    protected final EntityManager getEntityManager() {  // &line[getEntityManager]
         return em;
     }
 

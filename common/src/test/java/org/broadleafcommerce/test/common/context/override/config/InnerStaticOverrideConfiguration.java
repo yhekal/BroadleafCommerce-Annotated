@@ -33,13 +33,17 @@ public class InnerStaticOverrideConfiguration {
     public static class InnerConfiguration {
 
         @Bean
-        public PasswordEncoder blPasswordEncoder() {
+// &begin[blPasswordEncoder]
+        public PasswordEncoder blPasswordEncoder() {]
             return NoOpPasswordEncoder.getInstance();
         }
+        // &end[blPasswordEncoder
     }
 
     @Bean
+// &begin[blPasswordEncoder]
     public PasswordEncoder blPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(); // &line[BCryptPasswordEncoder]
     }
+    // &end[blPasswordEncoder]
 }

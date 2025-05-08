@@ -34,6 +34,9 @@ import jakarta.persistence.TemporalType;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "BLC_ADMIN_PASSWORD_TOKEN")
+
+
+
 public class ForgotPasswordSecurityTokenImpl implements ForgotPasswordSecurityToken {
     private static final long serialVersionUID = 1L;
 
@@ -54,14 +57,17 @@ public class ForgotPasswordSecurityTokenImpl implements ForgotPasswordSecurityTo
 
     @Column(name = "TOKEN_USED_FLAG", nullable = false)
     protected boolean tokenUsedFlag;
-
+    // &begin[getToken]
     public String getToken() {
         return token;
     }
+    // &end[getToken]
 
+// &begin[setToken]
     public void setToken(String token) {
         this.token = token;
     }
+    // &end[setToken]
 
     public Date getCreateDate() {
         return createDate;
@@ -78,15 +84,16 @@ public class ForgotPasswordSecurityTokenImpl implements ForgotPasswordSecurityTo
     public void setTokenUsedDate(Date tokenUsedDate) {
         this.tokenUsedDate = tokenUsedDate;
     }
-
+    // &begin[getAdminUserId]
     public Long getAdminUserId() {
         return adminUserId;
     }
-
+    // &end[getAdminUserId]
+    // &begin[setAdminUserId]
     public void setAdminUserId(Long adminUserId) {
         this.adminUserId = adminUserId;
     }
-
+    // &end[setAdminUserId]
     public boolean isTokenUsedFlag() {
         return tokenUsedFlag;
     }
@@ -109,7 +116,10 @@ public class ForgotPasswordSecurityTokenImpl implements ForgotPasswordSecurityTo
     }
 
     @Override
+    // &begin[hashCode]
     public int hashCode() {
         return token != null ? token.hashCode() : 0;
     }
+    // &end[hashCode]
 }
+

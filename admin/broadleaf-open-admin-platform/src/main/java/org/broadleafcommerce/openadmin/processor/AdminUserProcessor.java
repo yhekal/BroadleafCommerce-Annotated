@@ -54,13 +54,13 @@ public class AdminUserProcessor implements AdminUserExpression {
 
     @Override
     public AdminUser getUser() {
-        SecurityContext ctx = SecurityContextHolder.getContext();
+        SecurityContext ctx = SecurityContextHolder.getContext(); // &line[SessionManagement_getContext_L]
         if (ctx != null) {
-            Authentication auth = ctx.getAuthentication();
+            Authentication auth = ctx.getAuthentication(); // &line[SessionManagement_getAuthentication_L]
             if (auth != null && !auth.getName().equals(ANONYMOUS_USER_NAME)) {
-                UserDetails temp = (UserDetails) auth.getPrincipal();
+                UserDetails temp = (UserDetails) auth.getPrincipal(); // &line[Authentication_getPrincipal_L]
 
-                return securityService.readAdminUserByUserName(temp.getUsername());
+                return securityService.readAdminUserByUserName(temp.getUsername()); // &line[SessionManagement_getUsername_L]
             }
         }
         return null;

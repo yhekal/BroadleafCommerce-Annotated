@@ -32,14 +32,20 @@ public class RegistrationValidator implements Validator {
 
     private static final String DEFAULT_VALID_PASSWORD_REGEX = "[^\\s]{6,}";
 
+    // &begin[getValidNameRegex]
     public static String getValidNameRegex() {
         return BLCSystemProperty.resolveSystemProperty("name.valid.regex", DEFAULT_VALID_NAME_REGEX);
     }
+    // &end[getValidNameRegex]
 
+    // &begin[getValidPasswordRegex]
     public static String getValidPasswordRegex() {
         return BLCSystemProperty.resolveSystemProperty("password.valid.regex", DEFAULT_VALID_PASSWORD_REGEX);
     }
+    // &end[getValidPasswordRegex]
 
+
+    // &begin[validate]
     public void validate(Customer customer, String password, String passwordConfirm, Errors errors) {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "password.required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "passwordConfirm", "passwordConfirm.required");
@@ -75,6 +81,7 @@ public class RegistrationValidator implements Validator {
             }
         }
     }
+    // &end[validate]
 
     @Override
     public boolean supports(Class<?> clazz) {

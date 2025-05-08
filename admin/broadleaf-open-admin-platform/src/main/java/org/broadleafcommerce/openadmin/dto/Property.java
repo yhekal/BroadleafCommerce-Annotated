@@ -92,7 +92,7 @@ public class Property implements Serializable {
     public void setValue(String value) {
         this.value = value;
         if (unHtmlEncodedValue == null && value != null) {
-            setUnHtmlEncodedValue(StringEscapeUtils.unescapeHtml4(value));
+            setUnHtmlEncodedValue(StringEscapeUtils.unescapeHtml4(value)); // &begin[unescapeHtml4]
         }
 
         if (rawValue == null && value != null) {
@@ -126,7 +126,7 @@ public class Property implements Serializable {
 
     public String getUnHtmlEncodedValue() {
         if (unHtmlEncodedValue == null) {
-            return StringEscapeUtils.unescapeHtml4(getValue());
+            return StringEscapeUtils.unescapeHtml4(getValue()); // &begin[unescapeHtml4]
         }
         return unHtmlEncodedValue;
     }
@@ -202,6 +202,7 @@ public class Property implements Serializable {
     }
 
     @Override
+    // &begin[hashCode]
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -209,6 +210,7 @@ public class Property implements Serializable {
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
     }
+    // &end[hashCode]
 
     @Override
     public boolean equals(Object obj) {

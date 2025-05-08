@@ -130,8 +130,8 @@ public class UncacheableDataProcessor extends AbstractBroadleafTagReplacementPro
         addProductInventoryData(attrMap, context);
 
         try {
-            attrMap.put("csrfToken", eps.getCSRFToken());
-            attrMap.put("csrfTokenParameter", eps.getCsrfTokenParameter());
+            attrMap.put("csrfToken", eps.getCSRFToken()); // &line[getCSRFToken]
+            attrMap.put("csrfTokenParameter", eps.getCsrfTokenParameter()); // &line[getCsrfTokenParameter]
         } catch (ServiceException e) {
             throw new RuntimeException("Could not get a CSRF token for this session", e);
         }

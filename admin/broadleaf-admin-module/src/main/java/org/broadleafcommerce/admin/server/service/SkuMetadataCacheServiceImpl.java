@@ -84,7 +84,7 @@ public class SkuMetadataCacheServiceImpl implements SkuMetadataCacheService {
 
     @Override
     public void invalidateFromCache(String cacheKey) {
-        LOG.debug("Invalidating Sku metadata cache for: " + StringUtil.sanitize(cacheKey));
+        LOG.debug("Invalidating Sku metadata cache for: " + StringUtil.sanitize(cacheKey)); // &line[sanitize]
         METADATA_CACHE.remove(cacheKey);
     }
 

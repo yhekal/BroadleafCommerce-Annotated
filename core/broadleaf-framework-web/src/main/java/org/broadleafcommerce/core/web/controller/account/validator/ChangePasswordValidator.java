@@ -30,6 +30,7 @@ import org.springframework.validation.Validator;
 import jakarta.annotation.Resource;
 
 @Component("blChangePasswordValidator")
+// &begin[ChangePasswordValidator]
 public class ChangePasswordValidator implements Validator {
 
     private static final String DEFAULT_VALID_PASSWORD_REGEX = "[^\\s]{6,}";
@@ -44,6 +45,7 @@ public class ChangePasswordValidator implements Validator {
         return BLCSystemProperty.resolveSystemProperty("password.valid.regex", DEFAULT_VALID_PASSWORD_REGEX);
     }
 
+    // &begin[ChangePasswordValidator_validate]
     public void validate(PasswordChange passwordChange, Errors errors) {
 
         String currentPassword = passwordChange.getCurrentPassword();
@@ -73,6 +75,7 @@ public class ChangePasswordValidator implements Validator {
         }
 
     }
+    // &end[ChangePasswordValidator_validate]
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -84,3 +87,4 @@ public class ChangePasswordValidator implements Validator {
     }
 
 }
+// &end[ChangePasswordValidator]

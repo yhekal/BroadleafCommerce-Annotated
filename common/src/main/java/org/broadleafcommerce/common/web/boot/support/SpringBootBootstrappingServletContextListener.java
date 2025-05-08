@@ -126,12 +126,12 @@ public class SpringBootBootstrappingServletContextListener implements ServletCon
 
     protected WebApplicationInitializer createInitializer(final Class<WebApplicationInitializer> initializerClass) throws PrivilegedActionException {
         if (System.getSecurityManager() != null) {
-            return AccessController.doPrivileged(new PrivilegedAction<WebApplicationInitializer>() {
+            return AccessController.doPrivileged(new PrivilegedAction<WebApplicationInitializer>() { // &line[AccessControl_doPrivileged_L]
                 @Override
                 public WebApplicationInitializer run() {
                     return BeanUtils.instantiateClass(initializerClass);
                 }
-            }, AccessController.getContext());
+            }, AccessController.getContext()); // &line[AccessControl_getContext_L]
         } else {
             return BeanUtils.instantiate(initializerClass);
         }

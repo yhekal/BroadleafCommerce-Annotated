@@ -64,8 +64,8 @@ public class ProductOptionValueProcessor extends AbstractBroadleafAttributeModif
         ProductOptionValueDTO dto = new ProductOptionValueDTO();
         dto.setOptionId(productOptionValue.getProductOption().getId());
         dto.setValueId(productOptionValue.getId());
-        dto.setValueName(StringEscapeUtils.escapeXml11(productOptionValue.getAttributeValue()));
-        dto.setRawValue(StringEscapeUtils.escapeXml11(productOptionValue.getRawAttributeValue()));
+        dto.setValueName(StringEscapeUtils.escapeXml11(productOptionValue.getAttributeValue())); // &line[escapeXml11]
+        dto.setRawValue(StringEscapeUtils.escapeXml11(productOptionValue.getRawAttributeValue())); // &line[escapeXml11]
         if (productOptionValue.getPriceAdjustment() != null) {
             dto.setPriceAdjustment(productOptionValue.getPriceAdjustment().getAmount());
         }

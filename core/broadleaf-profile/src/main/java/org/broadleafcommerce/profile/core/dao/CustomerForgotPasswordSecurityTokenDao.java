@@ -26,10 +26,10 @@ import java.util.List;
  */
 public interface CustomerForgotPasswordSecurityTokenDao {
 
-    CustomerForgotPasswordSecurityToken readToken(String token);
+    CustomerForgotPasswordSecurityToken readToken(String token); // &line[readToken]
 
     List<CustomerForgotPasswordSecurityToken> readUnusedTokensByCustomerId(Long customerId);
 
-    CustomerForgotPasswordSecurityToken saveToken(CustomerForgotPasswordSecurityToken token);
+    CustomerForgotPasswordSecurityToken saveToken(CustomerForgotPasswordSecurityToken token); // &line[saveToken]
 
 }

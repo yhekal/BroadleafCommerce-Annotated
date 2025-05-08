@@ -82,9 +82,9 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         // We only validate CSRF tokens on POST
         if (request.getMethod().equals("POST") && !excludedRequestFound) {
-            String requestToken = request.getParameter(exploitProtectionService.getCsrfTokenParameter());
+            String requestToken = request.getParameter(exploitProtectionService.getCsrfTokenParameter()); // &line[getCsrfTokenParameter]
             try {
-                exploitProtectionService.compareToken(requestToken);
+                exploitProtectionService.compareToken(requestToken); // &line[compareToken]
             } catch (SecurityServiceException e) {
                 response.sendError(403);
                 return;

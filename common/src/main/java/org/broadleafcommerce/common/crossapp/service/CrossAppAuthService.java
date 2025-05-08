@@ -49,12 +49,12 @@ public interface CrossAppAuthService {
      * @param response
      * @throws IllegalArgumentException
      */
-    void useSiteAuthToken(Long adminUserId, String token, HttpServletRequest request, HttpServletResponse response) throws IllegalArgumentException;
+    void useSiteAuthToken(Long adminUserId, String token, HttpServletRequest request, HttpServletResponse response) throws IllegalArgumentException; // &line[useSiteAuthToken]
 
     /**
      * @return whether or not the user is currently authenticated from the admin
      */
-    boolean isAuthedFromAdmin();
+    boolean isAuthedFromAdmin(); // &line[isAuthedFromAdmin]
 
     /**
      * @return the id of the currently authenticated admin user. Returns null if there is no currently authenticated user
@@ -64,11 +64,11 @@ public interface CrossAppAuthService {
     /**
      * @return whether or not the user is currently authenticated from the admin and also has the CSR role
      */
-    boolean hasCsrPermission();
+    boolean hasCsrPermission(); // &line[hasCsrPermission]
 
     /**
      * @return whether or not the user is currently authenticated from the admin and also has the CSR Quote role
      */
-    boolean hasQuotePermission();
+    boolean hasQuotePermission(); // &line[hasQuotePermission]
 
 }

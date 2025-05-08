@@ -56,7 +56,7 @@ public class LocaleDaoImpl implements LocaleDao {
         List<Locale> localeList = (List<Locale>) query.getResultList();
         if (localeList.size() >= 1) {
             if (localeList.size() > 1) {
-                LOG.warn("Locale code " + StringUtil.sanitize(localeCode) + " exists for more than one locale");
+                LOG.warn("Locale code " + StringUtil.sanitize(localeCode) + " exists for more than one locale"); // &line[sanitize]
             }
             return localeList.get(0);
         }

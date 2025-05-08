@@ -174,13 +174,17 @@ public class PersistencePackage implements Serializable, StateDescriptor {
         this.entity = entity;
     }
 
+    // &begin[getCSRFToken]
     public String getCsrfToken() {
         return csrfToken;
     }
+    // &end[getCSRFToken]
 
+    // &begin[setCsrfToken]
     public void setCsrfToken(String csrfToken) {
         this.csrfToken = csrfToken;
     }
+    // &end[setCsrfToken]
 
     public String getFetchTypeFullyQualifiedClassname() {
         return fetchTypeFullyQualifiedClassname;

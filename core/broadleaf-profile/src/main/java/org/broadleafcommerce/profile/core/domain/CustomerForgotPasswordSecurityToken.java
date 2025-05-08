@@ -30,14 +30,14 @@ public interface CustomerForgotPasswordSecurityToken extends Serializable {
      *
      * @return
      */
-    String getToken();
+    String getToken();  // &line[getToken]
 
     /**
      * Sets the security token.
      *
      * @return
      */
-    void setToken(String token);
+    void setToken(String token); // &line[setToken]
 
     /**
      * Date the token was created

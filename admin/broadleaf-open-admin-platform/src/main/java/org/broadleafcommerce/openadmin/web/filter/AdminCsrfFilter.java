@@ -61,12 +61,12 @@ public class AdminCsrfFilter extends CsrfFilter {
             if (e.getCause() instanceof ServiceException) {
                 HttpServletRequest baseHttpRequest = (HttpServletRequest) baseRequest;
                 //if authentication is null and CSRF token is invalid, must be session time out
-                if (SecurityContextHolder.getContext().getAuthentication() == null) {
+                if (SecurityContextHolder.getContext().getAuthentication() == null) { // &line[SessionManagement_getAuthentication_L]
                     baseHttpRequest.setAttribute("sessionTimeout", true);
-                    failureHandler.onAuthenticationFailure(
+                    failureHandler.onAuthenticationFailure( // &line[Authentication_onAuthenticationFailure_L]
                             (HttpServletRequest) baseRequest,
                             (HttpServletResponse) baseResponse,
-                            new SessionAuthenticationException("Session Time Out")
+                            new SessionAuthenticationException("Session Time Out") // &line[Authentication_SessionAuthenticationException_L]
                     );
                 } else {
                     throw e;

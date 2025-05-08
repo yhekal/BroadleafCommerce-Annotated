@@ -39,9 +39,9 @@ public class PomEvaluator {
     private static Category BROADLEAF_COMMERCIAL = new Category("Broadleaf Framework Commercial", LicenseType.APACHE2, FrameworkType.ECOMMERCE);
     private static Category APACHE_FOUNDATION = new Category("Apache 2.0", LicenseType.APACHE2, FrameworkType.GENERAL);
     private static Category JAVAX = new Category("javax", LicenseType.JAVA_EXTENSION, FrameworkType.OTHER);
-    private static Category SLF4J = new Category("slfj", LicenseType.MIT, FrameworkType.LOGGING);
-    private static Category LOG4J = new Category("log4j", LicenseType.APACHE2, FrameworkType.LOGGING);
-    private static Category LOG4J2 = new Category("log4j2", LicenseType.APACHE2, FrameworkType.LOGGING);
+    private static Category SLF4J = new Category("slfj", LicenseType.MIT, FrameworkType.LOGGING); // &line[SLF4J]
+    private static Category LOG4J = new Category("log4j", LicenseType.APACHE2, FrameworkType.LOGGING); // &line[LOG4J]
+    private static Category LOG4J2 = new Category("log4j2", LicenseType.APACHE2, FrameworkType.LOGGING); // &line[log4j2]
     private static Category OTHER = new Category("Other", LicenseType.OTHER, FrameworkType.OTHER);
     private static Category YAHOO = new Category("Yahoo", LicenseType.YAHOO_YUI, FrameworkType.UI);
 
@@ -84,9 +84,9 @@ public class PomEvaluator {
         knownLibraries.put("jstl", JAVAX);
 
         // Logging
-        knownLibraries.put("org.slf4j", SLF4J);
-        knownLibraries.put("log4j", LOG4J);
-        knownLibraries.put("org.apache.logging.log4j", LOG4J2);
+        knownLibraries.put("org.slf4j", SLF4J); // &line[SLF4J]
+        knownLibraries.put("log4j", LOG4J); // &line[LOG4J]
+        knownLibraries.put("org.apache.logging.log4j", LOG4J2); // &line[LOG4J2]
 
         // Apache
         knownLibraries.put("commons-validator", APACHE_FOUNDATION);

@@ -35,6 +35,7 @@ public class GiftCardInfoFormValidator implements Validator {
         return clazz.equals(GiftCardInfoForm.class);
     }
 
+    // &begin[validate]
     @Override
     public void validate(Object target, Errors errors) {
         GiftCardInfoForm giftCardInfoForm = (GiftCardInfoForm) target;
@@ -47,6 +48,7 @@ public class GiftCardInfoFormValidator implements Validator {
         //    }
         //}
     }
+    // &end[validate]
 
 }
 

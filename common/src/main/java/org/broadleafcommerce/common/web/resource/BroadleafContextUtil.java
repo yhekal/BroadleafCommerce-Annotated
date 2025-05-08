@@ -120,10 +120,10 @@ public class BroadleafContextUtil {
             ServletRequestAttributes requestAttributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
             if (requestAttributes != null) {
                 HttpServletRequest req = requestAttributes.getRequest();
-                HttpSession session = req.getSession(false);
-                SecurityContext ctx = readSecurityContextFromSession(session);
+                HttpSession session = req.getSession(false); // &line[getSession]
+                SecurityContext ctx = readSecurityContextFromSession(session); // &line[readSecurityContextFromSession]
                 if (ctx != null) {
-                    SecurityContextHolder.setContext(ctx);
+                    SecurityContextHolder.setContext(ctx); // &line[SessionManagement_setContext_L]
                 }
                 brc.setRequest(req);
             }
@@ -165,12 +165,13 @@ public class BroadleafContextUtil {
     }
 
     // **NOTE** This method is lifted from HttpSessionSecurityContextRepository
+// &begin[readSecurityContextFromSession]
     protected SecurityContext readSecurityContextFromSession(HttpSession httpSession) {
         if (httpSession == null) {
             return null;
         }
 
-        Object ctxFromSession = httpSession.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
+        Object ctxFromSession = httpSession.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);  // &line[SessionManagement_SPRING_SECURITY_CONTEXT_KEY_L]
         if (ctxFromSession == null) {
             return null;
         }
@@ -181,5 +182,6 @@ public class BroadleafContextUtil {
 
         return (SecurityContext) ctxFromSession;
     }
+    // &end[readSecurityContextFromSession]
 
 }

@@ -71,6 +71,7 @@ public class BeanValidationEntityValidatorServiceImpl extends EntityValidatorSer
     protected boolean useDefaultEntityValidations = true;
 
     @Override
+            // &begin[validate]
     public void validate(Entity entity, Serializable instance, Map<String, FieldMetadata> mergedProperties,
                          RecordHelper recordHelper, boolean validateUnsubmittedProperties) {
         if (isUseDefaultEntityValidations()) {
@@ -82,14 +83,19 @@ public class BeanValidationEntityValidatorServiceImpl extends EntityValidatorSer
             entity.addValidationError(violation.getPropertyPath().toString(), violation.getMessage());
         }
     }
+    // &end[validate]
 
+// &begin[getValidator]
     public Validator getValidator() {
         return validator;
     }
+    // &end[getValidator]
 
+// &begin[setValidator]
     public void setValidator(Validator validator) {
         this.validator = validator;
     }
+    // &end[setValidator]
 
     public boolean isUseDefaultEntityValidations() {
         return useDefaultEntityValidations;

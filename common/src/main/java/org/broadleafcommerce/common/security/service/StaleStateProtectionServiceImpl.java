@@ -55,6 +55,7 @@ public class StaleStateProtectionServiceImpl implements StaleStateProtectionServ
     protected boolean staleStateProtectionEnabled = false;
 
     @Override
+            // &begin[compareToken]
     public void compareToken(String passedToken) {
         if (staleStateProtectionEnabled) {
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -68,16 +69,18 @@ public class StaleStateProtectionServiceImpl implements StaleStateProtectionServ
             }
         }
     }
+    // &end[compareToken]
 
     @Override
+            // &begin[getStateVersionToken]
     public String getStateVersionToken() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         if (BLCRequestUtils.isOKtoUseSession(new ServletWebRequest(request))) {
-            HttpSession session = request.getSession();
+            HttpSession session = request.getSession(); // &line[getSession]
             String token = (String) session.getAttribute(STATEVERSIONTOKEN);
             if (StringUtils.isEmpty(token)) {
                 try {
-                    token = RandomGenerator.generateRandomId("SHA1PRNG", 32);
+                    token = RandomGenerator.generateRandomId("SHA1PRNG", 32); // &line[generateRandomId_SHA1PRNG]
                 } catch (NoSuchAlgorithmException e) {
                     LOG.error("Unable to generate random number", e);
                     throw new RuntimeException("Unable to generate random number", e);
@@ -88,17 +91,21 @@ public class StaleStateProtectionServiceImpl implements StaleStateProtectionServ
         }
         return null;
     }
+    // &end[getStateVersionToken]
 
     @Override
+            // &begin[invalidateState]
     public void invalidateState() {
         invalidateState(false);
     }
+    // &end[invalidateState]
 
     @Override
+            // &begin[invalidateState]
     public void invalidateState(boolean notify) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         if (BLCRequestUtils.isOKtoUseSession(new ServletWebRequest(request))) {
-            HttpSession session = request.getSession();
+            HttpSession session = request.getSession(); // &line[getSession]
             session.removeAttribute(STATEVERSIONTOKEN);
             if (notify) {
                 getStateVersionToken();
@@ -106,6 +113,7 @@ public class StaleStateProtectionServiceImpl implements StaleStateProtectionServ
             }
         }
     }
+    // &end[invalidateState]
 
     @Override
     public boolean sendRedirectOnStateChange(HttpServletResponse response, String... stateChangeParams) throws IOException {
@@ -135,7 +143,7 @@ public class StaleStateProtectionServiceImpl implements StaleStateProtectionServ
                 try {
                     UrlUtil.validateUrl(encoded, request);
                 } catch (IOException e) {
-                    LOG.error("SECURITY FAILURE Bad redirect location: " + StringUtil.sanitize(encoded), e);
+                    LOG.error("SECURITY FAILURE Bad redirect location: " + StringUtil.sanitize(encoded), e); // &line[sanitize]
                     response.sendError(403);
                 }
                 response.sendRedirect(encoded);

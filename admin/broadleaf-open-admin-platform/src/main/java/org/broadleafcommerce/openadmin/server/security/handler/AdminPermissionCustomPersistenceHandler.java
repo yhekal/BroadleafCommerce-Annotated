@@ -94,6 +94,7 @@ public class AdminPermissionCustomPersistenceHandler extends CustomPersistenceHa
         }
     }
 
+    // &begin[checkPermissionName]
     protected Entity checkPermissionName(PersistencePackage persistencePackage) throws ServiceException {
         Entity entity = persistencePackage.getEntity();
         Property prop = entity.findProperty("name");
@@ -112,6 +113,7 @@ public class AdminPermissionCustomPersistenceHandler extends CustomPersistenceHa
         prop.setValue(name);
         return entity;
     }
+    // &end[checkPermissionName]
 
     @Override
     public Entity update(PersistencePackage persistencePackage, DynamicEntityDao dynamicEntityDao, RecordHelper helper) throws ServiceException {

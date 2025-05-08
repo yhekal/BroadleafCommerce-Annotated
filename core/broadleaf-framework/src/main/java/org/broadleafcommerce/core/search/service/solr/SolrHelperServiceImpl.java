@@ -442,7 +442,7 @@ public class SolrHelperServiceImpl implements SolrHelperService {
         if (propertyValueInternal instanceof String) {
             String enabled = environment.getProperty("exploitProtection.xssEnabled", "false");
             if (Boolean.parseBoolean(enabled)) {
-                return StringEscapeUtils.unescapeHtml4((String) propertyValueInternal);
+                return StringEscapeUtils.unescapeHtml4((String) propertyValueInternal); // &line[unescapeHtml4]
             }
         }
         return propertyValueInternal;
@@ -860,7 +860,7 @@ public class SolrHelperServiceImpl implements SolrHelperService {
     protected ORDER getSortOrder(String[] sortFieldsSegments, String sortQuery) {
         ORDER order = ORDER.asc;
         if (sortFieldsSegments.length < 2) {
-            StringBuilder msg = new StringBuilder().append("Solr sortquery received was " + StringUtil.sanitize(sortQuery)
+            StringBuilder msg = new StringBuilder().append("Solr sortquery received was " + StringUtil.sanitize(sortQuery) // &line[sanitize]
                     + ", but no sorting tokens could be extracted.");
             msg.append("\nDefaulting to ASCending");
             LOG.warn(msg.toString());
@@ -977,7 +977,7 @@ public class SolrHelperServiceImpl implements SolrHelperService {
         boolean isPropertyReadable = PropertyUtils.isReadable(object, components[currentPosition]);
         if (!isPropertyReadable) {
             LOG.debug(String.format("Could not find %s on %s, assuming this exists elsewhere in the class hierarchy",
-                    StringUtil.sanitize(components[currentPosition]), object.getClass().getName()));
+                    StringUtil.sanitize(components[currentPosition]), object.getClass().getName())); // &line[sanitize]
             return null;
         }
 

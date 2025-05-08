@@ -24,12 +24,12 @@ import java.util.List;
 
 public interface RoleDao {
 
-    List<CustomerRole> readCustomerRolesByCustomerId(Long customerId);
+    List<CustomerRole> readCustomerRolesByCustomerId(Long customerId); // &line[readCustomerRolesByCustomerId]
 
-    Role readRoleByName(String name);
+    Role readRoleByName(String name); // &line[readRoleByName]
 
-    void addRoleToCustomer(CustomerRole customerRole);
+    void addRoleToCustomer(CustomerRole customerRole); // &line[addRoleToCustomer]
 
-    void removeCustomerRolesByCustomerId(Long customerId);
+    void removeCustomerRolesByCustomerId(Long customerId); // &line[removeCustomerRolesByCustomerId]
 
 }

@@ -271,7 +271,7 @@ public class CatalogSolrIndexUpdateCommandHandlerImpl extends AbstractSolrIndexU
             final SandBox sandbox
     ) throws ServiceException {
         try {
-            final Semaphore sem = new Semaphore(0);
+            final Semaphore sem = new Semaphore(0); // &line[Semaphore]
             try {
                 final Catalog catalog = findCatalog(catalogId);
                 final Site site = findSite(siteId);
@@ -283,7 +283,7 @@ public class CatalogSolrIndexUpdateCommandHandlerImpl extends AbstractSolrIndexU
                 //We'll make the batch size 10 times the page size so that we can break up the results into pages for 
                 //fewer round trips to the DB, especially since we're only reading IDs here.
                 final int batchSize = pageSize * 10;
-                final AtomicReference<Long> lastId = new AtomicReference<>();
+                final AtomicReference<Long> lastId = new AtomicReference<>(); // &line[AtomicReference]
 
                 try {
                     while (true) {
@@ -487,7 +487,7 @@ public class CatalogSolrIndexUpdateCommandHandlerImpl extends AbstractSolrIndexU
     protected EntityManagerAwareRunnable createBackgroundRunnable(
             final ReindexStateHolder holder,
             final List<Long> ids,
-            final Semaphore sem,
+            final Semaphore sem, // &line[Semaphore]
             final Long catalogId,
             final Long siteId,
             final SandBox sandBox

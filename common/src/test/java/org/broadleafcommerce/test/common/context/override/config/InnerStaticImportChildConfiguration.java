@@ -29,7 +29,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class InnerStaticImportChildConfiguration {
 
     @Bean
+// &begin[blPasswordEncoder]
     public PasswordEncoder blPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder();// &line[BCryptPasswordEncoder]
     }
+    // &end[blPasswordEncoder]
 }

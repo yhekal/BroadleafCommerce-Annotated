@@ -43,6 +43,7 @@ public class ForgotPasswordSecurityTokenDaoImpl implements ForgotPasswordSecurit
     protected EntityConfiguration entityConfiguration;
 
     @Override
+// &begin[readToken]
     public ForgotPasswordSecurityToken readToken(String token) {
         return (ForgotPasswordSecurityToken) em.find(
                 entityConfiguration.lookupEntityClass(
@@ -51,8 +52,10 @@ public class ForgotPasswordSecurityTokenDaoImpl implements ForgotPasswordSecurit
                 token
         );
     }
+    // &end[readToken]
 
     @Override
+            // &begin[readUnusedTokensByAdminUserId]
     public List<ForgotPasswordSecurityToken> readUnusedTokensByAdminUserId(Long adminUserId) {
         TypedQuery<ForgotPasswordSecurityToken> query = new TypedQueryBuilder<>(
                 ForgotPasswordSecurityTokenImpl.class,
@@ -64,10 +67,13 @@ public class ForgotPasswordSecurityTokenDaoImpl implements ForgotPasswordSecurit
                 .toQuery(em);
         return query.getResultList();
     }
+    // &end[readUnusedTokensByAdminUserId]
 
     @Override
+// &begin[saveToken]
     public ForgotPasswordSecurityToken saveToken(ForgotPasswordSecurityToken token) {
         return em.merge(token);
     }
+    // &end[saveToken]
 
 }

@@ -40,29 +40,37 @@ public class RoleDaoImpl implements RoleDao {
     protected EntityConfiguration entityConfiguration;
 
     @SuppressWarnings("unchecked")
+            // &begin[readCustomerRolesByCustomerId]
     public List<CustomerRole> readCustomerRolesByCustomerId(Long customerId) {
         Query query = em.createNamedQuery("BC_READ_CUSTOMER_ROLES_BY_CUSTOMER_ID");
         query.setParameter("customerId", customerId);
         query.setHint(QueryHints.HINT_CACHEABLE, true);
         return query.getResultList();
     }
+    // &end[readCustomerRolesByCustomerId]
 
+// &begin[readRoleByName]
     public Role readRoleByName(String name) {
         Query query = em.createNamedQuery("BC_READ_ROLE_BY_NAME");
         query.setParameter("name", name);
         query.setHint(QueryHints.HINT_CACHEABLE, true);
         return (Role) query.getSingleResult();
     }
+    // &end[readRoleByName]
 
+    // &begin[addRoleToCustomer]
     public void addRoleToCustomer(CustomerRole customerRole) {
         em.persist(customerRole);
     }
+    // &end[addRoleToCustomer]
 
+    // &begin[removeCustomerRolesByCustomerId]
     public void removeCustomerRolesByCustomerId(Long customerId) {
         List<CustomerRole> roles = readCustomerRolesByCustomerId(customerId);
         for (CustomerRole r : roles) {
             em.remove(r);
         }
     }
+    // &end[removeCustomerRolesByCustomerId]
 
 }

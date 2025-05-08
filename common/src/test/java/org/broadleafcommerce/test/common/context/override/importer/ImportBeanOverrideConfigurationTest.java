@@ -57,6 +57,6 @@ public class ImportBeanOverrideConfigurationTest {
 
     @Test
     public void testBeanOverride() {
-        Assert.assertEquals(BCryptPasswordEncoder.class, passwordEncoder.getClass());
+        Assert.assertEquals(BCryptPasswordEncoder.class, passwordEncoder.getClass()); // &line[BCryptPasswordEncoder]
     }
 }

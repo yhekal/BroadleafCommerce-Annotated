@@ -85,9 +85,11 @@ public class BroadleafLoginController extends BroadleafAbstractController {
      * @param model
      * @return the return view
      */
+    // &begin[forgotPassword]
     public String forgotPassword(HttpServletRequest request, HttpServletResponse response, Model model) {
         return getForgotPasswordView();
     }
+    // &end[forgotPassword]
 
     /**
      * Looks up the passed in username and sends an email to the address on file with a
@@ -100,6 +102,7 @@ public class BroadleafLoginController extends BroadleafAbstractController {
      * @param model
      * @return the return view
      */
+    // &begin[processForgotPassword]
     public String processForgotPassword(String username, HttpServletRequest request, Model model) {
         GenericResponse errorResponse = customerService.sendForgotPasswordNotification(
                 username, getResetPasswordUrl(request)
@@ -110,18 +113,22 @@ public class BroadleafLoginController extends BroadleafAbstractController {
             return getForgotPasswordView();
         } else {
             if (BLCRequestUtils.isOKtoUseSession(new ServletWebRequest(request))) {
-                request.getSession(true).setAttribute(CHANGE_PASSWORD_USERNAME_REQUEST_ATTR, username);
+                request.getSession(true).setAttribute(CHANGE_PASSWORD_USERNAME_REQUEST_ATTR, username); // &line[getSession]
             }
             return getForgotPasswordSuccessView();
         }
     }
+    // &end[processForgotPassword]
 
+    // &begin[forcedPasswordChange]
     public String forcedPasswordChange(HttpServletRequest request, HttpServletResponse response, Model model) {
         return getForcedPasswordChangeView();
     }
+    // &end[forcedPasswordChange]
 
+    // &begin[processForcedPasswordChange]
     public String processForcedPasswordChange(String username, HttpServletRequest request, Model model) {
-        final String resetPasswordUrl = getResetPasswordUrl(request);
+        final String resetPasswordUrl = getResetPasswordUrl(request); // &line[getResetPasswordUrl]
         final GenericResponse errorResponse = customerService.sendForcedPasswordChangeNotification(
                 username, resetPasswordUrl
         );
@@ -132,12 +139,13 @@ public class BroadleafLoginController extends BroadleafAbstractController {
             return getForcedPasswordChangeView();
         } else {
             if (BLCRequestUtils.isOKtoUseSession(new ServletWebRequest(request))) {
-                request.getSession(true).setAttribute(CHANGE_PASSWORD_USERNAME_REQUEST_ATTR, username);
+                request.getSession(true).setAttribute(CHANGE_PASSWORD_USERNAME_REQUEST_ATTR, username); // &line[getSession]
             }
 
             return getForcedPasswordChangeSuccessView();
         }
     }
+    // &end[processForcedPasswordChange]
 
     /**
      * Returns the forgot username view.
@@ -187,11 +195,13 @@ public class BroadleafLoginController extends BroadleafAbstractController {
      * @param model
      * @return the return view
      */
+    // &begin[resetPassword]
     public String resetPassword(HttpServletRequest request, HttpServletResponse response, Model model) {
         ResetPasswordForm resetPasswordForm = initResetPasswordForm(request);
         model.addAttribute("resetPasswordForm", resetPasswordForm);
         return getResetPasswordView();
     }
+    // &end[resetPassword]
 
     /**
      * Processes the reset password token and allows the user to change their password.
@@ -206,6 +216,7 @@ public class BroadleafLoginController extends BroadleafAbstractController {
      * @return the return view
      * @throws ServiceException
      */
+    // &begin[processResetPassword]
     public String processResetPassword(
             ResetPasswordForm resetPasswordForm,
             HttpServletRequest request,
@@ -225,9 +236,9 @@ public class BroadleafLoginController extends BroadleafAbstractController {
 
         GenericResponse errorResponse = customerService.resetPasswordUsingToken(
                 resetPasswordForm.getUsername(),
-                resetPasswordForm.getToken(),
-                resetPasswordForm.getPassword(),
-                resetPasswordForm.getPasswordConfirm()
+                resetPasswordForm.getToken(), // &line[getToken]
+                resetPasswordForm.getPassword(), // &line[getPassword]
+                resetPasswordForm.getPasswordConfirm() // &line[getPasswordConfirm]
         );
         if (errorResponse.getHasErrors()) {
             String errorCode = errorResponse.getErrorCodesList().get(0);
@@ -240,6 +251,7 @@ public class BroadleafLoginController extends BroadleafAbstractController {
             return getResetPasswordSuccessView();
         }
     }
+    // &end[processResetPassword]
 
     /**
      * By default, redirects to the login page with a message.
@@ -262,19 +274,21 @@ public class BroadleafLoginController extends BroadleafAbstractController {
      * @param request
      * @return the return view
      */
+    // &begin[initResetPasswordForm]
     public ResetPasswordForm initResetPasswordForm(HttpServletRequest request) {
         final ResetPasswordForm resetPasswordForm = new ResetPasswordForm();
         final String token = request.getParameter("token");
         String username = null;
 
         if (BLCRequestUtils.isOKtoUseSession(new ServletWebRequest(request))) {
-            username = (String) request.getSession(true).getAttribute(CHANGE_PASSWORD_USERNAME_REQUEST_ATTR);
+            username = (String) request.getSession(true).getAttribute(CHANGE_PASSWORD_USERNAME_REQUEST_ATTR); // &line[getSession]
         }
 
-        resetPasswordForm.setToken(token);
+        resetPasswordForm.setToken(token); // &line[setToken]
         resetPasswordForm.setUsername(username);
         return resetPasswordForm;
     }
+    // &end[initResetPasswordForm]
 
     /**
      * @return the view representing the login page.
@@ -345,6 +359,7 @@ public class BroadleafLoginController extends BroadleafAbstractController {
         return "";  // no port required
     }
 
+    // &begin[getResetPasswordUrl]
     public String getResetPasswordUrl(HttpServletRequest request) {
         String url = request.getScheme() + "://" + request.getServerName()
                 + getResetPasswordPort(request, request.getScheme());
@@ -356,6 +371,7 @@ public class BroadleafLoginController extends BroadleafAbstractController {
         }
         return url;
     }
+    // &end[getResetPasswordUrl]
 
     /**
      * View user is directed to if they try to access the resetPasswordForm with an

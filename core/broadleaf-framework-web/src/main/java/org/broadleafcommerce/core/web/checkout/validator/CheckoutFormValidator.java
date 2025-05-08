@@ -32,6 +32,7 @@ public class CheckoutFormValidator implements Validator {
         return clazz.equals(CheckoutForm.class);
     }
 
+    // &begin[validate]
     public void validate(Object obj, Errors errors) {
         CheckoutForm checkoutForm = (CheckoutForm) obj;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "billingAddress.addressLine1", "addressLine1.required");
@@ -60,6 +61,7 @@ public class CheckoutFormValidator implements Validator {
             }
         }
     }
+    // &end[validate]
 
 }
 

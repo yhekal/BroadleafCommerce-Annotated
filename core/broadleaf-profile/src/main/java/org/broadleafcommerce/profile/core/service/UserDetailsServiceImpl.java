@@ -54,7 +54,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
         Customer customer = customerService.readCustomerByUsername(username, false);
         if (customer == null) {
-            throw new UsernameNotFoundException("The customer was not found");
+            throw new UsernameNotFoundException("The customer was not found"); // &line[SessionManagement_UsernameNotFoundException_L]
         }
         boolean isActive = !customer.isDeactivated();
         if (Status.class.isAssignableFrom(customer.getClass())) {
@@ -80,14 +80,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         for (CustomerRole role : customerRoles) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+            grantedAuthorities.add(new SimpleGrantedAuthority(role.getRoleName())); // &line[Authorization_SimpleGrantedAuthority_L]
             if (role.getRoleName().equals("ROLE_USER")) {
                 roleUserFound = true;
             }
         }
 
         if (!roleUserFound) {
-            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER")); // &line[Authorization_SimpleGrantedAuthority_L]
         }
 
         return grantedAuthorities;

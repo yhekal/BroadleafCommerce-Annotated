@@ -148,17 +148,20 @@ public class DefaultSolrIndexQueueProvider implements SolrIndexQueueProvider {
         return new ZookeeperDistributedQueue<>(QUEUE_PATH + '/' + queueName, getZookeeper(), MAX_QUEUE_SIZE);
     }
 
+    // &begin[createLocalLock]
     protected Lock createLocalLock(String lockName) {
         LOG.warn("Creating Local Lock for lock name "
                 + lockName
                 + ". This will be thread safe within a single JVM but is unsafe for multiple JVMs.  "
                 + "Use SolrCloud and CloudSolrClient to automatically enable a distributed lock.  "
                 + "With CloudSolrClient, Zookeeper will be used as the shared Lock store.");
-        return new ReentrantLock();
+        return new ReentrantLock(); // &line[ReentrantLock]
+// &end[createLocalLock]
     }
-
+    // &begin[createDistributedLock]
     protected Lock createDistributedLock(String lockName) {
         return new ReentrantDistributedZookeeperLock(getZookeeper(), LOCK_PATH, lockName, getEnvironment(), null);
     }
+    // &end[createDistributedLock]
 
 }

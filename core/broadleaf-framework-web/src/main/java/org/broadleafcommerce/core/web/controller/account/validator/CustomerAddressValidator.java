@@ -31,11 +31,12 @@ public class CustomerAddressValidator extends BroadleafCommonAddressValidator im
     public boolean supports(Class clazz) {
         return clazz.equals(CustomerAddressValidator.class);
     }
-
+    // &begin[validate]
     public void validate(Object obj, Errors errors) {
         CustomerAddressForm form = (CustomerAddressForm) obj;
         super.validate(BroadleafFormType.CUSTOMER_ADDRESS_FORM, form.getAddress(), errors);
     }
+    // &end[validate]
 
 }
 

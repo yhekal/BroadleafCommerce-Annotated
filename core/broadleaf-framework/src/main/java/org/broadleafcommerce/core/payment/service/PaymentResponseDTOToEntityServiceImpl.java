@@ -135,10 +135,10 @@ public class PaymentResponseDTOToEntityServiceImpl implements PaymentResponseDTO
             isoCountry = isoService.findISOCountryByAlpha2Code(dto.getAddressCountryCode());
         }
         if (country == null) {
-            LOG.warn("The given country from the response: " + StringUtil.sanitize(dto.getAddressCountryCode())
+            LOG.warn("The given country from the response: " + StringUtil.sanitize(dto.getAddressCountryCode()) // &line[sanitize]
                     + " could not be found as a country abbreviation in BLC_COUNTRY");
         } else if (isoCountry == null) {
-            LOG.error("The given country from the response: " + StringUtil.sanitize(dto.getAddressCountryCode())
+            LOG.error("The given country from the response: " + StringUtil.sanitize(dto.getAddressCountryCode()) // &line[sanitize]
                     + " could not be found as a country alpha-2 code in BLC_ISO_COUNTRY");
         }
 

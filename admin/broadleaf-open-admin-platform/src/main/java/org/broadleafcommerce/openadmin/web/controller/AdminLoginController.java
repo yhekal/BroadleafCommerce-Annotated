@@ -168,7 +168,7 @@ public class AdminLoginController extends BroadleafAbstractController {
             setErrors(errorResponse, request);
             return getForgotPasswordView();
         } else {
-            request.getSession(true).setAttribute("forgot_password_username", username);
+            request.getSession(true).setAttribute("forgot_password_username", username); // &line[getSession]
             return redirectToResetPasswordWithMessage("passwordTokenSent");
         }
     }
@@ -182,9 +182,9 @@ public class AdminLoginController extends BroadleafAbstractController {
     ) {
         GenericResponse errorResponse = adminSecurityService.resetPasswordUsingToken(
                 resetPasswordForm.getUsername(),
-                resetPasswordForm.getToken(),
-                resetPasswordForm.getPassword(),
-                resetPasswordForm.getConfirmPassword()
+                resetPasswordForm.getToken(), // &line[getToken]
+                resetPasswordForm.getPassword(), // &line[getPassword]
+                resetPasswordForm.getConfirmPassword() // &line[getConfirmPassword]
         );
         if (errorResponse.getHasErrors()) {
             setErrors(errorResponse, request);
@@ -216,22 +216,24 @@ public class AdminLoginController extends BroadleafAbstractController {
     @ModelAttribute("resetPasswordForm")
     public ResetPasswordForm initResetPasswordForm(HttpServletRequest request) {
         ResetPasswordForm resetPasswordForm = new ResetPasswordForm();
-        String username = (String) request.getSession(true).getAttribute("forgot_password_username");
+        String username = (String) request.getSession(true).getAttribute("forgot_password_username"); // &line[getSession]
         String token = request.getParameter("token");
-        resetPasswordForm.setToken(token);
+        resetPasswordForm.setToken(token); // &line[setToken]
         resetPasswordForm.setUsername(username);
         return resetPasswordForm;
     }
 
     @RequestMapping(value = "/changePassword", method = RequestMethod.GET)
+            // &begin[changePassword]
     public String changePassword(HttpServletRequest request, HttpServletResponse response, Model model) {
-        SecurityContext c = SecurityContextHolder.getContext();
+        SecurityContext c = SecurityContextHolder.getContext(); // &line[SessionManagement_getContext_L]
         model.addAttribute(
                 "username",
-                ((AdminUserDetails) c.getAuthentication().getPrincipal()).getUsername()
+                ((AdminUserDetails) c.getAuthentication().getPrincipal()).getUsername() // &line[SessionManagement_getAuthentication_L]
         );
         return "login/changePasswordPopup";
     }
+    // &end[changePassword]
 
     @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
     public String processchangePassword(
@@ -240,14 +242,14 @@ public class AdminLoginController extends BroadleafAbstractController {
             Model model,
             @ModelAttribute("resetPasswordForm") ResetPasswordForm resetPasswordForm
     ) {
-        SecurityContext c = SecurityContextHolder.getContext();
-        String username = ((AdminUserDetails) c.getAuthentication().getPrincipal()).getUsername();
+        SecurityContext c = SecurityContextHolder.getContext(); // &line[SessionManagement_getContext_L]
+        String username = ((AdminUserDetails) c.getAuthentication().getPrincipal()).getUsername(); // &line[SessionManagement_getAuthentication_L, Authentication_getPrincipal_L, SessionManagement_getUsername_L]
         GenericResponse errorResponse;
         if (resetPasswordForm.getUsername() != null && resetPasswordForm.getUsername().equals(username)) {
-            errorResponse = adminSecurityService.changePassword(resetPasswordForm.getUsername(),
-                    resetPasswordForm.getOldPassword(),
-                    resetPasswordForm.getPassword(),
-                    resetPasswordForm.getConfirmPassword());
+            errorResponse = adminSecurityService.changePassword(resetPasswordForm.getUsername(),  // &line[changePassword]
+                    resetPasswordForm.getOldPassword(), // &line[getOldPassword]
+                    resetPasswordForm.getPassword(), // &line[getPassword]
+                    resetPasswordForm.getConfirmPassword()); // &line[getConfirmPassword]
         } else {
             errorResponse = new GenericResponse();
             errorResponse.getErrorCodesList().add("invalidUser");
@@ -272,6 +274,7 @@ public class AdminLoginController extends BroadleafAbstractController {
         return url.toString();
     }
 
+    // &begin[redirectToResetPasswordWithMessage]
     protected String redirectToResetPasswordWithMessage(String message) {
         StringBuffer url = new StringBuffer("redirect:")
                 .append(resetPasswordRedirect)
@@ -279,25 +282,27 @@ public class AdminLoginController extends BroadleafAbstractController {
                 .append(message);
         return url.toString();
     }
+    // &end[redirectToResetPasswordWithMessage]
 
     protected void setErrors(GenericResponse response, HttpServletRequest request) {
         String errorCode = response.getErrorCodesList().get(0);
         request.setAttribute("errorCode", errorCode);
     }
-
+    // &begin[getPersistentAdminUser]
     protected AdminUser getPersistentAdminUser() {
-        SecurityContext ctx = SecurityContextHolder.getContext();
+        SecurityContext ctx = SecurityContextHolder.getContext(); // &line[SessionManagement_getContext_L]
         if (ctx != null) {
-            Authentication auth = ctx.getAuthentication();
+            Authentication auth = ctx.getAuthentication(); // &line[SessionManagement_getAuthentication_L]
             if (auth != null && !auth.getName().equals(ANONYMOUS_USER_NAME)) {
-                UserDetails temp = (UserDetails) auth.getPrincipal();
+                UserDetails temp = (UserDetails) auth.getPrincipal(); // &line[Authentication_getPrincipal_L]
 
-                return adminSecurityService.readAdminUserByUserName(temp.getUsername());
+                return adminSecurityService.readAdminUserByUserName(temp.getUsername()); // &line[SessionManagement_getUsername_L, readAdminUserByUserName]
             }
         }
 
         return null;
     }
+    // &end[getPersistentAdminUser]
 
     public AdminSecurityService getAdminSecurityService() {
         return adminSecurityService;

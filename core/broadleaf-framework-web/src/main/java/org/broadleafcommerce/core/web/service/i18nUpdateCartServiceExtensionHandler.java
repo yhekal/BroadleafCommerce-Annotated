@@ -82,8 +82,8 @@ public class i18nUpdateCartServiceExtensionHandler extends AbstractUpdateCartSer
             BroadleafRequestContext brc = BroadleafRequestContext.getBroadleafRequestContext();
             if (!brc.getLocale().getLocaleCode().matches(cart.getLocale().getLocaleCode())) {
                 if (LOG.isDebugEnabled()) {
-                    String message = "The cart Locale [" + StringUtil.sanitize(cart.getLocale().getLocaleCode()) +
-                            "] does not match the current locale [" + StringUtil.sanitize(brc.getLocale().getLocaleCode()) + "]";
+                    String message = "The cart Locale [" + StringUtil.sanitize(cart.getLocale().getLocaleCode()) + // &line[sanitize]
+                            "] does not match the current locale [" + StringUtil.sanitize(brc.getLocale().getLocaleCode()) + "]"; // &line[sanitize]
                     LOG.debug(message);
                 }
 

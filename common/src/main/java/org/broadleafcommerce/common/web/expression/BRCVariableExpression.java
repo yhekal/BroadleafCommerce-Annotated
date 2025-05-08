@@ -101,7 +101,7 @@ public class BRCVariableExpression implements BroadleafVariableExpression {
         WebRequest webRequest = brc.getWebRequest();
 
         if (BLCRequestUtils.isOKtoUseSession(webRequest)) {
-            HttpSession session = brc.getRequest().getSession();
+            HttpSession session = brc.getRequest().getSession(); // &line[getSession]
             TimeZone timeZone = (TimeZone) session.getAttribute(CLIENT_TIMEZONE);
 
             if (timeZone != null) {

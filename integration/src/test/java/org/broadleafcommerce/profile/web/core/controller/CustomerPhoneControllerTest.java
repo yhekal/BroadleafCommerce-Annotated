@@ -164,6 +164,7 @@ public class CustomerPhoneControllerTest extends TestNGSiteIntegrationSetup {
 
     private MockHttpServletRequest getNewServletInstance() {
         MockHttpServletRequest request = new MockHttpServletRequest();
+        // &line[getSession]
         request.getSession().setAttribute("customer_session", userId); //set customer on session
 
         return request;

@@ -76,15 +76,15 @@ public class FormProcessor extends AbstractBroadleafModelModifierProcessor {
         // We do this instead of checking for a POST because post is default if nothing is specified
         if (!"GET".equalsIgnoreCase(formAttributes.get("method"))) {
             try {
-                String csrfToken = eps.getCSRFToken();
+                String csrfToken = eps.getCSRFToken();  // &line[getCSRFToken]
                 String stateVersionToken = null;
                 if (spps.isEnabled()) {
-                    stateVersionToken = spps.getStateVersionToken();
+                    stateVersionToken = spps.getStateVersionToken(); // &line[getStateVersionToken]
                 }
 
                 //detect multipart form
                 if ("multipart/form-data".equalsIgnoreCase(formAttributes.get("enctype"))) {
-                    String csrfQueryParameter = "?" + eps.getCsrfTokenParameter() + "=" + csrfToken;
+                    String csrfQueryParameter = "?" + eps.getCsrfTokenParameter() + "=" + csrfToken; // &line[getCsrfTokenParameter]
                     if (stateVersionToken != null) {
                         csrfQueryParameter += "&" + spps.getStateVersionTokenParameter() + "=" + stateVersionToken;
                     }
@@ -98,7 +98,7 @@ public class FormProcessor extends AbstractBroadleafModelModifierProcessor {
 
                     Map<String, String> csrfAttributes = new HashMap<>();
                     csrfAttributes.put("type", "hidden");
-                    csrfAttributes.put("name", eps.getCsrfTokenParameter());
+                    csrfAttributes.put("name", eps.getCsrfTokenParameter()); // &line[getCsrfTokenParameter]
                     csrfAttributes.put("value", csrfToken);
                     BroadleafTemplateElement csrfTag = context.createStandaloneElement(
                             "input", csrfAttributes, true

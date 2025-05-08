@@ -118,7 +118,7 @@ public class ReentrantDistributedZookeeperLock implements DistributedLock {
     /*
      * Zookeeper ACLs
      */
-    private final List<ACL> acls;
+    private final List<ACL> acls; // &line[ACL]
 
     /*
      * Optional Sping Environment object to assist in determining if the lock can be obtained.  This is
@@ -172,9 +172,11 @@ public class ReentrantDistributedZookeeperLock implements DistributedLock {
      * @param lockName
      * @param acls
      */
-    public ReentrantDistributedZookeeperLock(ZooKeeper zk, String lockPath, String lockName, List<ACL> acls) {
+    // &begin[ReentrantDistributedZookeeperLock]
+    public ReentrantDistributedZookeeperLock(ZooKeeper zk, String lockPath, String lockName, List<ACL> acls) { // &line[ACL]
         this(zk, lockPath, lockName, null, true, acls);
     }
+    // &end[ReentrantDistributedZookeeperLock]
 
     /**
      * This constructor takes in the {@link ZooKeeper} (non-nullable),
@@ -190,15 +192,17 @@ public class ReentrantDistributedZookeeperLock implements DistributedLock {
      * @param lockName
      * @param acls
      */
+    // &begin[ReentrantDistributedZookeeperLock]
     public ReentrantDistributedZookeeperLock(
             ZooKeeper zk,
             String lockPath,
             String lockName,
             boolean useDefaultBasePath,
-            List<ACL> acls
+            List<ACL> acls // &line[ACL]
     ) {
         this(zk, lockPath, lockName, null, useDefaultBasePath, acls);
     }
+    // &end[ReentrantDistributedZookeeperLock]
 
     /**
      * This constructor takes in the {@link Zookeeper} (non-nullable),
@@ -217,15 +221,17 @@ public class ReentrantDistributedZookeeperLock implements DistributedLock {
      * @param env
      * @param acls
      */
+    // &begin[ReentrantDistributedZookeeperLock]
     public ReentrantDistributedZookeeperLock(
             ZooKeeper zk,
             String lockPath,
             String lockName,
             Environment env,
-            List<ACL> acls
+            List<ACL> acls  // &line[ACL]
     ) {
         this(zk, lockPath, lockName, env, true, acls);
     }
+    // &end[ReentrantDistributedZookeeperLock]
 
     /**
      * This constructor takes in the {@link ZooKeeper} (non-nullable),
@@ -245,13 +251,14 @@ public class ReentrantDistributedZookeeperLock implements DistributedLock {
      * @param useDefaultBasePath
      * @param acls
      */
+    // &begin[ReentrantDistributedZookeeperLock]
     public ReentrantDistributedZookeeperLock(
             ZooKeeper zk,
             String lockPath,
             String lockName,
             Environment env,
             boolean useDefaultBasePath,
-            List<ACL> acls
+            List<ACL> acls // &line[ACL]
     ) {
         Assert.notNull(zk, "Zookeeper cannot be null.");
         Assert.notNull(lockName, "The lockName cannot be null.");
@@ -288,8 +295,10 @@ public class ReentrantDistributedZookeeperLock implements DistributedLock {
 
         initialize();
     }
+    // &end[ReentrantDistributedZookeeperLock]
 
     @Override
+            // &begin[lock]
     public void lock() {
         try {
             lockInternally(-1L);
@@ -298,8 +307,10 @@ public class ReentrantDistributedZookeeperLock implements DistributedLock {
             throw new DistributedLockException("Thread was interruptted trying to obtain distributed lock from Zookeeper.", e);
         }
     }
+    // &end[lock]
 
     @Override
+            // &begin[unlock]
     public void unlock() {
         try {
             synchronized (LOCK_MONITOR) {
@@ -345,6 +356,7 @@ public class ReentrantDistributedZookeeperLock implements DistributedLock {
                     "The lock has not been released and manual intervention may be required.  Lock path is: " + currentlockPath, e);
         }
     }
+    // &end[unlock]
 
     @Override
     public void lockInterruptibly() throws InterruptedException {
@@ -702,8 +714,10 @@ public class ReentrantDistributedZookeeperLock implements DistributedLock {
      *
      * @return
      */
+// &begin[getAcls]
     protected List<ACL> getAcls() {
         return acls;
     }
+    // &end[getAcls]
 
 }

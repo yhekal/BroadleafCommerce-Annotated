@@ -27,7 +27,7 @@ import java.util.List;
  */
 public interface AdminExporterService {
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()") // &line[Authorization_PreAuthorize_L]
     List<AdminExporterDTO> getExporters(String type);
 
 }

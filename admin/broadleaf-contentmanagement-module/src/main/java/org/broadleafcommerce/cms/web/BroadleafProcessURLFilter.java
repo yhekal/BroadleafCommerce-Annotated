@@ -310,8 +310,8 @@ public class BroadleafProcessURLFilter extends OncePerRequestFilter {
             if (request.getParameter("blSandboxDateTimeRibbonProduction") == null) {
                 sandboxId = lookupSandboxId(request);
             } else {
-                request.getSession().removeAttribute(SANDBOX_DATE_TIME_VAR);
-                request.getSession().removeAttribute(SANDBOX_ID_VAR);
+                request.getSession().removeAttribute(SANDBOX_DATE_TIME_VAR); // &line[getSession]
+                request.getSession().removeAttribute(SANDBOX_ID_VAR); // &line[getSession]
             }
             if (sandboxId != null) {
                 currentSandbox = sandBoxService.retrieveSandBoxById(sandboxId);
@@ -366,7 +366,7 @@ public class BroadleafProcessURLFilter extends OncePerRequestFilter {
 
         // Third, check the session
         if (locale == null) {
-            HttpSession session = request.getSession(true);
+            HttpSession session = request.getSession(true);  // &line[getSession]
             if (session != null) {
                 locale = (Locale) session.getAttribute(LOCALE_VAR);
             }
@@ -384,7 +384,7 @@ public class BroadleafProcessURLFilter extends OncePerRequestFilter {
         }
 
         request.setAttribute(LOCALE_VAR, locale);
-        request.getSession().setAttribute(LOCALE_VAR, locale);
+        request.getSession().setAttribute(LOCALE_VAR, locale);// &line[getSession]
 
         Map<String, Object> ruleMap = (Map<String, Object>) request.getAttribute("blRuleMap");
         if (ruleMap == null) {
@@ -413,7 +413,7 @@ public class BroadleafProcessURLFilter extends OncePerRequestFilter {
 
         if (sandboxId == null) {
             // check the session
-            HttpSession session = request.getSession(false);
+            HttpSession session = request.getSession(false); // &line[getSession]
             if (session != null) {
                 sandboxId = (Long) session.getAttribute(SANDBOX_ID_VAR);
                 if (LOG.isTraceEnabled()) {
@@ -423,7 +423,7 @@ public class BroadleafProcessURLFilter extends OncePerRequestFilter {
                 }
             }
         } else {
-            HttpSession session = request.getSession();
+            HttpSession session = request.getSession(); // &line[getSession]
             session.setAttribute(SANDBOX_ID_VAR, sandboxId);
         }
         return sandboxId;
@@ -450,7 +450,7 @@ public class BroadleafProcessURLFilter extends OncePerRequestFilter {
         }
 
         if (overrideTime == null) {
-            HttpSession session = request.getSession(false);
+            HttpSession session = request.getSession(false); // &line[getSession]
             if (session != null) {
                 overrideTime = (Date) session.getAttribute(SANDBOX_DATE_TIME_VAR);
             }
@@ -458,7 +458,7 @@ public class BroadleafProcessURLFilter extends OncePerRequestFilter {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Setting date-time for sandbox mode to " + overrideTime + " for sandboxDateTimeParam = " + sandboxDateTimeParam);
             }
-            HttpSession session = request.getSession();
+            HttpSession session = request.getSession(); // &line[getSession]
             session.setAttribute(SANDBOX_DATE_TIME_VAR, overrideTime);
         }
 

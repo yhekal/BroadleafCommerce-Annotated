@@ -35,6 +35,7 @@ import jakarta.persistence.TemporalType;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "BLC_CUSTOMER_PASSWORD_TOKEN")
+// &begin[CustomerForgotPasswordSecurityToken]
 public class CustomerForgotPasswordSecurityTokenImpl implements CustomerForgotPasswordSecurityToken {
 
     @Serial
@@ -58,13 +59,17 @@ public class CustomerForgotPasswordSecurityTokenImpl implements CustomerForgotPa
     @Column(name = "TOKEN_USED_FLAG", nullable = false)
     protected boolean tokenUsedFlag;
 
+    // &begin[getToken]
     public String getToken() {
         return token;
     }
+    // &end[getToken]
 
+// &begin[setToken]
     public void setToken(String token) {
         this.token = token;
     }
+    // &end[setToken]
 
     public Date getCreateDate() {
         return createDate;
@@ -116,8 +121,11 @@ public class CustomerForgotPasswordSecurityTokenImpl implements CustomerForgotPa
     }
 
     @Override
+            // &begin[hashCode]
     public int hashCode() {
         return token != null ? token.hashCode() : 0;
     }
+    // &end[hashCode]
 
 }
+// &end[CustomerForgotPasswordSecurityToken]

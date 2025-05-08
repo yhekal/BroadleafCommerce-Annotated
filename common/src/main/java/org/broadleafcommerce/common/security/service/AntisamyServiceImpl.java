@@ -26,7 +26,7 @@ public class AntisamyServiceImpl implements AntisamyService {
     private static final String DEFAULT_ANTI_SAMY_POLICY_FILE_LOCATION = "antisamy-myspace.xml";
     private static AntisamyServiceImpl instance = new AntisamyServiceImpl();
     //this is thread safe for the usage of scan()
-    private final AntiSamy as = new AntiSamy();
+    private final AntiSamy as = new AntiSamy(); // &line[AntiSamy]
     protected String antiSamyPolicyFileLocation = DEFAULT_ANTI_SAMY_POLICY_FILE_LOCATION;
     //this is thread safe
     private Policy antiSamyPolicy = getAntiSamyPolicy(antiSamyPolicyFileLocation);
@@ -35,6 +35,7 @@ public class AntisamyServiceImpl implements AntisamyService {
         return instance;
     }
 
+    // &begin[getAntiSamyPolicy]
     private static Policy getAntiSamyPolicy(final String policyFileLocation) {
         try {
             return Policy.getInstance(new ClassPathResource(policyFileLocation).getInputStream());
@@ -42,26 +43,35 @@ public class AntisamyServiceImpl implements AntisamyService {
             throw new RuntimeException("Unable to create URL", e);
         }
     }
+    // &end[getAntiSamyPolicy]
 
     @Override
+            // &begin[getAntiSamyPolicyFileLocation]
     public String getAntiSamyPolicyFileLocation() {
         return antiSamyPolicyFileLocation;
     }
+    // &end[getAntiSamyPolicyFileLocation]
 
     @Override
+            // &begin[setAntiSamyPolicyFileLocation]
     public void setAntiSamyPolicyFileLocation(String antiSamyPolicyFileLocation) {
         this.antiSamyPolicyFileLocation = antiSamyPolicyFileLocation;
         this.antiSamyPolicy = getAntiSamyPolicy(antiSamyPolicyFileLocation);
     }
+    // &end[setAntiSamyPolicyFileLocation]
 
     @Override
+// &begin[getAntiSamy]
     public AntiSamy getAntiSamy() {
         return as;
     }
+    // &end[getAntiSamy]
 
     @Override
+            // &begin[getAntiSamyPolicy]
     public Policy getAntiSamyPolicy() {
         return antiSamyPolicy;
     }
+    // &end[getAntiSamyPolicy]
 
 }

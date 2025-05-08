@@ -241,7 +241,7 @@ public class BroadleafSandBoxResolverImpl implements BroadleafSandBoxResolver {
                 overrideTime = readDateFromRequest(request);
             } else if (sandboxDateTimeParam != null) {
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("Setting date/time using " + StringUtil.sanitize(sandboxDateTimeParam));
+                    LOG.debug("Setting date/time using " + StringUtil.sanitize(sandboxDateTimeParam)); // &line[sanitize]
                 }
                 TimeZone clientTimeZone = TimeZone.getTimeZone(sandboxDateTimeParam.substring(12));
 
@@ -252,7 +252,7 @@ public class BroadleafSandBoxResolverImpl implements BroadleafSandBoxResolver {
                 BroadleafRequestContext brc = BroadleafRequestContext.getBroadleafRequestContext();
 
                 if (BLCRequestUtils.isOKtoUseSession(brc.getWebRequest())) {
-                    HttpSession session = brc.getRequest().getSession();
+                    HttpSession session = brc.getRequest().getSession(); // &line[getSession]
 
                     session.setAttribute(CLIENT_TIMEZONE, clientTimeZone);
                 }
@@ -267,7 +267,7 @@ public class BroadleafSandBoxResolverImpl implements BroadleafSandBoxResolver {
             } else {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Setting date-time for sandbox mode to " + overrideTime + " for sandboxDateTimeParam = "
-                            + StringUtil.sanitize(sandboxDateTimeParam));
+                            + StringUtil.sanitize(sandboxDateTimeParam)); // &line[sanitize]
                 }
                 request.setAttribute(SANDBOX_DATE_TIME_VAR, overrideTime, WebRequest.SCOPE_SESSION);
             }
@@ -298,7 +298,7 @@ public class BroadleafSandBoxResolverImpl implements BroadleafSandBoxResolver {
         String dateString = date + " " + hours + ":" + minutes + " " + ampm;
 
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Setting date/time using " + StringUtil.sanitize(dateString));
+            LOG.debug("Setting date/time using " + StringUtil.sanitize(dateString)); // &line[sanitize]
         }
 
         Date parsedDate = CONTENT_DATE_PARSE_FORMAT.parse(dateString);

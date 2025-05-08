@@ -141,7 +141,7 @@ public class CustomerStateRequestProcessor extends AbstractBroadleafWebRequestPr
                 customer.setAnonymous(true);
             }
         } else {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); // &line[SessionManagement_getAuthentication_L]
             if ((authentication != null) && !(authentication instanceof AnonymousAuthenticationToken)) {
                 String userName = authentication.getName();
                 customer = (Customer) BroadleafRequestCustomerResolverImpl.getRequestCustomerResolver().getCustomer(request);
@@ -180,7 +180,7 @@ public class CustomerStateRequestProcessor extends AbstractBroadleafWebRequestPr
                                     userName
                             );
                         }
-                    } else if (authentication instanceof UsernamePasswordAuthenticationToken) {
+                    } else if (authentication instanceof UsernamePasswordAuthenticationToken) { // &line[Authentication_UsernamePasswordAuthenticationToken_L]
                         customer.setLoggedIn(true);
                         boolean publishLoggedInEvent = true;
                         if (CustomerLoggedInEvent.class.getName().equals(lastPublishedEventClass)) {

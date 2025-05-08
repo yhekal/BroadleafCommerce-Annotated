@@ -309,7 +309,7 @@ public class MVELToDataWrapperTranslator {
         } catch (final NumberFormatException e) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug(String.format("Trying to parse a non-long value to a long: %s, %s",
-                        StringUtil.sanitize(prev.getValue()), StringUtil.sanitize(temp.getValue())));
+                        StringUtil.sanitize(prev.getValue()), StringUtil.sanitize(temp.getValue()))); // &line[sanitize]
             }
 
             isBetweenOperator = false;
@@ -333,7 +333,7 @@ public class MVELToDataWrapperTranslator {
         } catch (final NumberFormatException e) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug(String.format("Trying to parse a non-long value to a long: %s, %s",
-                        StringUtil.sanitize(prev.getValue()), StringUtil.sanitize(temp.getValue())));
+                        StringUtil.sanitize(prev.getValue()), StringUtil.sanitize(temp.getValue()))); // &line[sanitize]
             }
 
             isBetweenOperator = false;

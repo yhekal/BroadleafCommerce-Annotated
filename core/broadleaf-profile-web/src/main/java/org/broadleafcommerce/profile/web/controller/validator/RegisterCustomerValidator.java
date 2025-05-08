@@ -33,6 +33,7 @@ import jakarta.annotation.Resource;
  * @author bpolster
  */
 @Component("blRegisterCustomerValidator")
+// &begin[validatePasswordExpression]
 public class RegisterCustomerValidator implements Validator {
 
     private String validatePasswordExpression = "[^\\s]{6,}";
@@ -52,6 +53,7 @@ public class RegisterCustomerValidator implements Validator {
         validate(obj, errors, false);
     }
 
+    // &begin[validatePasswordExpression_validate]
     public void validate(Object obj, Errors errors, boolean useEmailForUsername) {
         RegisterCustomerForm form = (RegisterCustomerForm) obj;
 
@@ -89,6 +91,7 @@ public class RegisterCustomerValidator implements Validator {
             }
         }
     }
+    // &end[validatePasswordExpression_validate]
 
     public String getValidatePasswordExpression() {
         return BLCSystemProperty.resolveSystemProperty("validate.password", validatePasswordExpression);
@@ -99,3 +102,4 @@ public class RegisterCustomerValidator implements Validator {
     }
 
 }
+// &end[validatePasswordExpression]
